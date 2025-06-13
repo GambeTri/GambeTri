@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Historial Mano a Mano - Fútbol Ecuatoriano</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { text-align: center; }
+    #tabla-container { margin-bottom: 40px; }
+    #selector-container { margin: 20px 0; text-align: center; }
+    canvas { display: block; margin: auto; }
+  </style>
+</head>
+<body>
+  <h1>Historial Mano a Mano - Fútbol Ecuatoriano</h1>
+
+  <div id="tabla-container">
+    <table id="tabla-datos" class="display" style="width:100%">
+      <thead>
+        <tr>
+          <th>Equipo A</th>
+          <th>Victorias A</th>
+          <th>Empates</th>
+          <th>Victorias B</th>
+          <th>Equipo B</th>
+          <th>Total Partidos</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>LDU</td><td>66</td><td>53</td><td>47</td><td>Quito</td><td>166</td></tr>
+        <tr><td>LDU</td><td>84</td><td>60</td><td>90</td><td>Barcelona</td><td>234</td></tr>
+        <tr><td>LDU</td><td>81</td><td>78</td><td>80</td><td>Nacional</td><td>239</td></tr>
+        <tr><td>Emelec</td><td>73</td><td>83</td><td>75</td><td>Barcelona</td><td>231</td></tr>
+        <tr><td>Emelec</td><td>88</td><td>45</td><td>99</td><td>Nacional</td><td>232</td></tr>
+        <tr><td>Barcelona</td><td>99</td><td>67</td><td>100</td><td>Nacional</td><td>266</td></tr>
+        <tr><td>Nacional</td><td>36</td><td>44</td><td>32</td><td>Aucas</td><td>112</td></tr>
+        <tr><td>LDU</td><td>25</td><td>16</td><td>10</td><td>IDV</td><td>51</td></tr>
+        <tr><td>Macará</td><td>18</td><td>15</td><td>12</td><td>Técnico</td><td>45</td></tr>
+        <tr><td>Cuenca</td><td>50</td><td>57</td><td>69</td><td>LDU</td><td>176</td></tr>
+        <tr><td>LDU</td><td>29</td><td>16</td><td>16</td><td>Delfín</td><td>61</td></tr>
+        <tr><td>LDU</td><td>51</td><td>29</td><td>31</td><td>Católica</td><td>111</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="selector-container">
+    <label for="selector">Selecciona un enfrentamiento: </label>
+    <select id="selector"></select>
+  </div>
+
+  <canvas id="grafico" width="800" height="400"></canvas>
+
+  <script>
+    let tabla = document.querySelector("#tabla-datos tbody");
+    let selector = document.querySelector("#selector");
+    let filas = tabla.querySelectorAll("tr");
+
+    const opciones = [];
+    const resultados = {};
+
+    filas.forEach((fila, i) => {
+      const celdas = fila.querySelectorAll("td");
+      const equipoA = celdas[0].innerText;
+      const equipoB = celdas[4].innerText;
+      const clave = `${equipoA} vs ${equipoB}`;
+
+      opciones.push(clave);
+      resultados[clave] = {
+        victoriasA: parseInt(celdas[1].innerText),
+        empates: parseInt(celdas[2].innerText),
+        victoriasB: parseInt(celdas[3].innerText),
+        equipoA: equipoA,
+        equipoB: equipoB
+      };
+    });
+
+    opciones.forEach(opt => {
+      const option = document.createElement("option");
+      option.value = opt;
+      option.textContent = opt;
+      selector.appendChild(option);
+    });
+
+    const ctx = document.getElementById('grafico').getContext('2d');
+    let chart;
+
+    function actualizarGrafico(clave) {
+      const data = resultados[clave];
+
+      const config = {
+        type: 'bar',
+        data: {
+          labels: ['Victorias ' + data.equipoA, 'Empates', 'Victorias ' + data.equipoB],
+          datasets: [{
+            label: clave,
+            data: [data.victoriasA, data.empates, data.victoriasB],
+            backgroundColor: [
+              'rgba(75, 192, 192, 0.7)',
+              'rgba(255, 206, 86, 0.7)',
+              'rgba(255, 99, 132, 0.7)'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            title: {
+              display: true,
+              text: 'Resultados de ' + clave
+            }
+          },
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      };
+
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, config);
+    }
+
+    selector.addEventListener("change", (e) => {
+      actualizarGrafico(e.target.value);
+    });
+
+    $(document).ready(function() {
+      $('#tabla-datos').DataTable();
+      actualizarGrafico(selector.value);
+    });
+  </script>
+</body>
+</html>
