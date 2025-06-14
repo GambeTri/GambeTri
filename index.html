@@ -23,6 +23,9 @@
     .inicio h2 { font-size: 2.5em; color: #1a1a1a; margin-bottom: 10px; }
     .inicio p { font-size: 1.2em; color: #444; max-width: 700px; margin: 0 auto 20px; text-align: center; }
     .inicio img { display: block; max-width: 90%; height: auto; margin: 20px auto; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
+    .top-pos { background-color: #d4edda; }
+    .mid-pos { background-color: #fff3cd; }
+    .low-pos { background-color: #f8d7da; }
   </style>
 </head>
 <body>
@@ -61,9 +64,7 @@
     <h2>Tabla de Posiciones</h2>
     <table>
       <thead>
-        <tr>
-          <th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th>
-        </tr>
+        <tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr>
       </thead>
       <tbody id="tabla-posiciones"></tbody>
     </table>
@@ -84,24 +85,66 @@
       document.getElementById(id).classList.add('active');
     }
 
-    const partidosData = {"LDU-Quito":[66,53,47,"LDU","Empate","Quito"],"LDU-Barcelona":[84,60,90,"LDU","Empate","Barcelona"],"LDU-Nacional":[81,78,80,"LDU","Empate","Nacional"],"Barcelona-Emelec":[73,83,75,"Emelec","Empate","Barcelona"],"Barcelona-Nacional":[99,67,100,"Barcelona","Empate","Nacional"],"LDU-IDV":[25,16,10,"LDU","Empate","IDV"],"Cuenca-LDU":[50,57,69,"Cuenca","Empate","LDU"],"Macará-Técnico":[18,15,12,"Macará","Empate","Técnico"],"LDU-Delfín":[29,16,16,"LDU","Empate","Delfín"],"LDU-Católica":[51,29,31,"LDU","Empate","Católica"]};
-    const coloresEquipos = {"LDU":"#FFFFFF","Quito":"#DD0000","Barcelona":"#FFFF00","Nacional":"#FF0000","Emelec":"#0000FF","IDV":"#FF69B4","Cuenca":"#FF0000","Macará":"#00BFFF","Técnico":"#FF6347","Delfín":"#00CED1","Católica":"#191970","Empate":"#808080"};
+    const partidosData = {
+      "LDU-Quito": [66, 53, 47, "LDU", "Empate", "Quito"],
+      "LDU-Barcelona": [84, 60, 90, "LDU", "Empate", "Barcelona"],
+      "LDU-Nacional": [81, 78, 80, "LDU", "Empate", "Nacional"],
+      "Barcelona-Emelec": [73, 83, 75, "Emelec", "Empate", "Barcelona"],
+      "Barcelona-Nacional": [99, 67, 100, "Barcelona", "Empate", "Nacional"],
+      "LDU-IDV": [25, 16, 10, "LDU", "Empate", "IDV"],
+      "Cuenca-LDU": [50, 57, 69, "Cuenca", "Empate", "LDU"],
+      "Macará-Técnico": [18, 15, 12, "Macará", "Empate", "Técnico"],
+      "LDU-Delfín": [29, 16, 16, "LDU", "Empate", "Delfín"],
+      "LDU-Católica": [51, 29, 31, "LDU", "Empate", "Católica"]
+    };
+
+    const coloresEquipos = {
+      "LDU": "#FFFFFF", "Quito": "#DD0000", "Barcelona": "#FFFF00", "Nacional": "#FF0000",
+      "Emelec": "#0000FF", "IDV": "#FF69B4", "Cuenca": "#FF0000", "Macará": "#00BFFF",
+      "Técnico": "#FF6347", "Delfín": "#00CED1", "Católica": "#191970", "Empate": "#808080"
+    };
+
     const ctx = document.getElementById('graficoEnfrentamiento').getContext('2d');
     let chart;
+
     function actualizarGrafico(equipo) {
       const datos = partidosData[equipo];
       if (!datos) return;
       const data = {
         labels: [datos[3], datos[4], datos[5]],
-        datasets: [{ label: "Partidos", data: [datos[0], datos[1], datos[2]], backgroundColor: [coloresEquipos[datos[3]], coloresEquipos[datos[4]], coloresEquipos[datos[5]]]}]
+        datasets: [{
+          label: "Partidos",
+          data: [datos[0], datos[1], datos[2]],
+          backgroundColor: [
+            coloresEquipos[datos[3]],
+            coloresEquipos[datos[4]],
+            coloresEquipos[datos[5]]
+          ]
+        }]
       };
+
       if (chart) chart.destroy();
-      chart = new Chart(ctx, { type: 'bar', data: data, options: { responsive: true, plugins: { legend: { display: false } } } });
+      chart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+          responsive: true,
+          animation: {
+            duration: 1000,
+            easing: 'easeOutBounce'
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
     }
-    document.getElementById('selector-enfrentamiento').addEventListener('change', e => actualizarGrafico(e.target.value));
+
+    document.getElementById('selector-enfrentamiento')
+      .addEventListener('change', e => actualizarGrafico(e.target.value));
     actualizarGrafico('LDU-Quito');
 
-    const tabla = [
+    const tablaBase = [
       ["I. del Valle",15,31,9,4,2,29,14,15],
       ["Barcelona SC",14,29,9,2,3,20,15,5],
       ["Aucas",15,25,7,4,4,22,16,6],
@@ -119,10 +162,15 @@
       ["Mushuc Runa",15,15,4,3,8,21,26,-5],
       ["T. Universitario",15,10,2,4,9,14,25,-11]
     ];
+
     const cuerpo = document.getElementById("tabla-posiciones");
-    tabla.forEach((e, i) => {
+    cuerpo.innerHTML = "";
+    tablaBase.forEach((e, i) => {
       const fila = document.createElement("tr");
       fila.innerHTML = `<td>${i+1}</td><td>${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td><td>${e[3]}</td><td>${e[4]}</td><td>${e[5]}</td><td>${e[6]}</td><td>${e[7]}</td><td>${e[8]}</td>`;
+      if (i < 6) fila.classList.add("top-pos");
+      else if (i < 12) fila.classList.add("mid-pos");
+      else fila.classList.add("low-pos");
       cuerpo.appendChild(fila);
     });
   </script>
