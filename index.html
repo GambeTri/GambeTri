@@ -1,202 +1,159 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GambeTri - Fútbol Ecuatoriano</title>
+  <title>GambeTri</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #e9e9e9;
       margin: 0;
-      padding: 0;
+      background-color: #f2f2f2;
       color: #333;
     }
     header {
-      background-color: #151515;
+      background-color: #1b1b1b;
       color: white;
-      padding: 20px;
+      padding: 1rem;
       text-align: center;
     }
     nav {
-      background-color: #2d2d2d;
       display: flex;
       justify-content: center;
-      gap: 15px;
-      padding: 10px;
+      background-color: #333;
     }
     nav button {
-      background-color: #444;
+      background: none;
       color: white;
       border: none;
-      padding: 10px 20px;
+      padding: 1rem;
       cursor: pointer;
+      font-size: 1rem;
     }
     nav button:hover {
-      background-color: #666;
+      background-color: #555;
     }
     .section {
       display: none;
-      padding: 20px;
+      padding: 2rem;
     }
-    .visible {
+    .active {
       display: block;
     }
-    select, table {
-      margin-top: 20px;
+    select {
+      padding: 0.5rem;
+      margin-bottom: 1rem;
     }
     canvas {
-      background-color: #f2f2f2;
-      padding: 10px;
+      background-color: #eee;
+      padding: 1rem;
       border-radius: 8px;
     }
-    .inicio {
-      text-align: center;
-      padding: 30px;
-    }
-    .inicio h2 {
-      font-size: 2em;
-      color: #222;
-    }
-    .inicio p {
-      font-size: 1.2em;
-      color: #444;
-    }
-    .inicio img {
-      max-width: 100%;
-      height: auto;
-      margin-top: 20px;
-      border-radius: 10px;
-    }
     table {
-      border-collapse: collapse;
       width: 100%;
-      margin-top: 20px;
+      border-collapse: collapse;
+      margin-top: 1rem;
     }
     th, td {
-      border: 1px solid #aaa;
-      padding: 8px;
+      border: 1px solid #ccc;
+      padding: 0.5rem;
       text-align: center;
     }
     th {
       background-color: #333;
       color: white;
     }
-    .grupo {
-      background-color: #ddd;
+    .match-table {
+      width: 100%;
+      margin-top: 1rem;
+      border-collapse: collapse;
+    }
+    .match-table td {
+      padding: 0.5rem;
+      text-align: center;
+    }
+    .match-date {
       font-weight: bold;
+      margin-top: 1rem;
+    }
+    .inicio h2 {
+      font-size: 2.5em;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+    }
+    .inicio p {
+      font-size: 1.2em;
+      color: #444;
+      max-width: 700px;
+      margin: 0 auto 20px;
+      text-align: center;
+    }
+    .inicio img {
+      display: block;
+      max-width: 90%;
+      height: auto;
+      margin: 20px auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
   </style>
 </head>
-
 <body>
   <header>
     <h1>GambeTri</h1>
-    <p>Donde vive la historia y actualidad del fútbol ecuatoriano</p>
+    <p>El portal de estadísticas del fútbol ecuatoriano</p>
   </header>
-
   <nav>
-    <button onclick="mostrarSeccion('inicio')">Inicio</button>
-    <button onclick="mostrarSeccion('manoAMano')">Mano a Mano</button>
-    <button onclick="mostrarSeccion('partidos')">Próximos Partidos</button>
-    <button onclick="mostrarSeccion('tabla')">Tabla de Posiciones</button>
+    <button onclick="showSection('inicio')">Inicio</button>
+    <button onclick="showSection('mano-a-mano')">Historial Mano a Mano</button>
+    <button onclick="showSection('posiciones')">Tabla de Posiciones</button>
+    <button onclick="showSection('partidos')">Próximos Partidos</button>
   </nav>
 
-  <div id="inicio" class="section visible inicio">
+  <section id="inicio" class="section active inicio">
     <h2>Bienvenido a GambeTri</h2>
-    <p>Explora las estadísticas, historia y actualidad del fútbol ecuatoriano. Aquí encontrarás los mano a mano históricos entre clubes, los próximos partidos de la liga, la tabla actualizada de posiciones, goleadores, datos curiosos ¡y mucho más!</p>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Estadio_Capwell_2021.jpg/800px-Estadio_Capwell_2021.jpg" alt="Estadio de fútbol ecuatoriano" />
-  </div>
+    <p>Explora las estadísticas, historia y actualidad del fútbol ecuatoriano...</p>
+    <img src="https://mifutbolecuador.futbol/wp-content/uploads/2025/02/liga-pro-2025-equipos.png?w=700" alt="Liga Pro 2025" />
+  </section>
 
-  <div id="manoAMano" class="section">
+  <section id="mano-a-mano" class="section">
     <h2>Historial Mano a Mano</h2>
-    <select id="selectorEnfrentamiento" onchange="mostrarGrafico()">
-      <option value="">Selecciona un enfrentamiento</option>
-      <option value="ldu_barcelona">LDU vs Barcelona SC</option>
-      <option value="emelec_nacional">Emelec vs El Nacional</option>
+    <select id="selector-enfrentamiento">
+      <option value="LDU-Quito">LDU vs Quito</option>
+      <!-- ...otros equipos -->
     </select>
-    <canvas id="grafico" width="400" height="300"></canvas>
-  </div>
+    <canvas id="graficoEnfrentamiento" width="400" height="250"></canvas>
+  </section>
 
-  <div id="partidos" class="section">
-    <h2>Próximos Partidos</h2>
-    <table>
-      <tr><th>Hora</th><th>Local</th><th>Goles Local</th><th>-</th><th>Goles Visitante</th><th>Visitante</th></tr>
-      <tr><td>14:00</td><td>I. del Valle</td><td></td><td>-</td><td></td><td>Libertad</td></tr>
-      <tr><td>16:30</td><td>Barcelona SC</td><td></td><td>-</td><td></td><td>Manta</td></tr>
-      <tr><td>19:00</td><td>Vinotinto</td><td>0</td><td>-</td><td>2</td><td>Liga de Quito</td></tr>
-    </table>
-  </div>
-
-  <div id="tabla" class="section">
+  <section id="posiciones" class="section">
     <h2>Tabla de Posiciones</h2>
     <table>
-      <tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr>
-      <tr class="grupo"><td colspan="10">1er Hexagonal</td></tr>
-      <tr><td>1</td><td>I. del Valle</td><td>15</td><td>31</td><td>9</td><td>4</td><td>2</td><td>29</td><td>14</td><td>15</td></tr>
-      <tr><td>2</td><td>Barcelona SC</td><td>14</td><td>29</td><td>9</td><td>2</td><td>3</td><td>20</td><td>15</td><td>5</td></tr>
-      <tr><td>3</td><td>Aucas</td><td>15</td><td>25</td><td>7</td><td>4</td><td>4</td><td>22</td><td>16</td><td>6</td></tr>
-      <tr><td>4</td><td>Liga de Quito</td><td>14</td><td>23</td><td>6</td><td>5</td><td>3</td><td>22</td><td>14</td><td>8</td></tr>
-      <tr><td>5</td><td>D. Cuenca</td><td>15</td><td>23</td><td>7</td><td>2</td><td>6</td><td>14</td><td>13</td><td>1</td></tr>
-      <tr><td>6</td><td>Orense</td><td>15</td><td>23</td><td>7</td><td>2</td><td>6</td><td>18</td><td>20</td><td>-2</td></tr>
-      <tr class="grupo"><td colspan="10">2do Hexagonal</td></tr>
-      <tr><td>7</td><td>Vinotinto FC</td><td>15</td><td>22</td><td>6</td><td>4</td><td>5</td><td>24</td><td>19</td><td>5</td></tr>
-      <tr><td>8</td><td>U. Católica</td><td>15</td><td>20</td><td>5</td><td>5</td><td>5</td><td>24</td><td>19</td><td>5</td></tr>
-      <tr><td>9</td><td>El Nacional</td><td>15</td><td>19</td><td>5</td><td>4</td><td>6</td><td>21</td><td>21</td><td>0</td></tr>
-      <tr><td>10</td><td>Libertad</td><td>15</td><td>19</td><td>5</td><td>4</td><td>6</td><td>19</td><td>20</td><td>-1</td></tr>
-      <tr><td>11</td><td>Delfín</td><td>15</td><td>18</td><td>4</td><td>6</td><td>5</td><td>12</td><td>20</td><td>-8</td></tr>
-      <tr><td>12</td><td>Manta</td><td>15</td><td>16</td><td>3</td><td>7</td><td>5</td><td>21</td><td>27</td><td>-6</td></tr>
-      <tr class="grupo"><td colspan="10">Cuadrangular de Descenso</td></tr>
-      <tr><td>13</td><td>Emelec</td><td>15</td><td>16</td><td>4</td><td>4</td><td>7</td><td>9</td><td>18</td><td>-9</td></tr>
-      <tr><td>14</td><td>Macará</td><td>15</td><td>15</td><td>3</td><td>6</td><td>6</td><td>12</td><td>15</td><td>-3</td></tr>
-      <tr><td>15</td><td>Mushuc Runa</td><td>15</td><td>15</td><td>4</td><td>3</td><td>8</td><td>21</td><td>26</td><td>-5</td></tr>
-      <tr><td>16</td><td>T. Universitario</td><td>15</td><td>10</td><td>2</td><td>4</td><td>9</td><td>14</td><td>25</td><td>-11</td></tr>
+      <thead>
+        <tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr>
+      </thead>
+      <tbody id="tabla-posiciones"></tbody>
     </table>
-  </div>
+  </section>
+
+  <section id="partidos" class="section">
+    <h2>Próximos Partidos</h2>
+    <div class="match-date">Sábado 14 de junio 2025</div>
+    <table class="match-table">
+      <tr><td>14:00</td><td>I. del Valle</td><td></td><td>-</td><td></td><td>Libertad</td></tr>
+      <tr><td>16:30</td><td>Barcelona SC</td><td></td><td>-</td><td></td><td>Manta</td></tr>
+      <tr><td>19:00</td><td>Vinotinto FC</td><td></td><td>-</td><td></td><td>Liga de Quito</td></tr>
+    </table>
+  </section>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    function mostrarSeccion(id) {
-      const secciones = document.querySelectorAll('.section');
-      secciones.forEach(sec => sec.classList.remove('visible'));
-      document.getElementById(id).classList.add('visible');
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
     }
-
-    function mostrarGrafico() {
-      const selector = document.getElementById('selectorEnfrentamiento');
-      const valor = selector.value;
-      const ctx = document.getElementById('grafico').getContext('2d');
-
-      if (window.miGrafico) window.miGrafico.destroy();
-
-      const data = {
-        ldu_barcelona: { labels: ['LDU', 'Empates', 'Barcelona'], data: [20, 12, 18], colors: ['white', 'gray', 'yellow'] },
-        emelec_nacional: { labels: ['Emelec', 'Empates', 'El Nacional'], data: [25, 10, 15], colors: ['blue', 'gray', 'red'] }
-      };
-
-      if (!data[valor]) return;
-
-      const info = data[valor];
-
-      window.miGrafico = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: info.labels,
-          datasets: [{
-            label: 'Resultados Históricos',
-            data: info.data,
-            backgroundColor: info.colors
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false }
-          }
-        }
-      });
-    }
+  </script>
+  <script>
+    // script de calculo acumulativo se inserta aquí (ver versión descargada)
   </script>
 </body>
 </html>
