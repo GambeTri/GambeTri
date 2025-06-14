@@ -1,137 +1,197 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Historial Mano a Mano - Fútbol Ecuatoriano</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GambeTri - Fútbol Ecuatoriano</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    h1 { text-align: center; }
-    #tabla-container { margin-bottom: 40px; }
-    #selector-container { margin: 20px 0; text-align: center; }
-    canvas { display: block; margin: auto; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #222;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+    header p {
+      font-style: italic;
+      color: #ccc;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #333;
+    }
+    nav button {
+      background-color: #444;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    nav button:hover {
+      background-color: #666;
+    }
+    .section {
+      display: none;
+      padding: 20px;
+    }
+    .active {
+      display: block;
+    }
+    .chart-container {
+      background-color: #2c2c2c;
+      padding: 20px;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
-  <h1>Historial Mano a Mano - Fútbol Ecuatoriano</h1>
+  <header>
+    <h1>GambeTri</h1>
+    <p>El archivo digital del fútbol ecuatoriano</p>
+  </header>
+  <nav>
+    <button onclick="mostrarSeccion('manoAMano')">Historial Mano a Mano</button>
+    <button onclick="mostrarSeccion('partidos')">Próximos Partidos</button>
+    <button onclick="mostrarSeccion('tabla')">Tabla de Posiciones</button>
+    <button onclick="mostrarSeccion('historico')">Tabla Histórica</button>
+  </nav>
 
-  <div id="tabla-container">
-    <table id="tabla-datos" class="display" style="width:100%">
-      <thead>
-        <tr>
-          <th>Equipo A</th>
-          <th>Victorias A</th>
-          <th>Empates</th>
-          <th>Victorias B</th>
-          <th>Equipo B</th>
-          <th>Total Partidos</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>LDU</td><td>66</td><td>53</td><td>47</td><td>Quito</td><td>166</td></tr>
-        <tr><td>LDU</td><td>84</td><td>60</td><td>90</td><td>Barcelona</td><td>234</td></tr>
-        <tr><td>LDU</td><td>81</td><td>78</td><td>80</td><td>Nacional</td><td>239</td></tr>
-        <tr><td>Emelec</td><td>73</td><td>83</td><td>75</td><td>Barcelona</td><td>231</td></tr>
-        <tr><td>Emelec</td><td>88</td><td>45</td><td>99</td><td>Nacional</td><td>232</td></tr>
-        <tr><td>Barcelona</td><td>99</td><td>67</td><td>100</td><td>Nacional</td><td>266</td></tr>
-        <tr><td>Nacional</td><td>36</td><td>44</td><td>32</td><td>Aucas</td><td>112</td></tr>
-        <tr><td>LDU</td><td>25</td><td>16</td><td>10</td><td>IDV</td><td>51</td></tr>
-        <tr><td>Macará</td><td>18</td><td>15</td><td>12</td><td>Técnico</td><td>45</td></tr>
-        <tr><td>Cuenca</td><td>50</td><td>57</td><td>69</td><td>LDU</td><td>176</td></tr>
-        <tr><td>LDU</td><td>29</td><td>16</td><td>16</td><td>Delfín</td><td>61</td></tr>
-        <tr><td>LDU</td><td>51</td><td>29</td><td>31</td><td>Católica</td><td>111</td></tr>
-      </tbody>
-    </table>
+  <div id="manoAMano" class="section active">
+    <h2>Historial Mano a Mano</h2>
+    <div class="chart-container">
+      <label for="dueloSelect">Selecciona un duelo:</label>
+      <select id="dueloSelect" onchange="actualizarGrafico()">
+        <option value="LDU vs Barcelona">LDU vs Barcelona</option>
+        <option value="LDU vs Nacional">LDU vs Nacional</option>
+        <option value="Emelec vs Barcelona">Emelec vs Barcelona</option>
+        <option value="Emelec vs Nacional">Emelec vs Nacional</option>
+        <option value="Barcelona vs Nacional">Barcelona vs Nacional</option>
+        <option value="Nacional vs Aucas">Nacional vs Aucas</option>
+        <option value="LDU vs IDV">LDU vs IDV</option>
+        <option value="Macará vs Técnico">Macará vs Técnico</option>
+        <option value="Cuenca vs LDU">Cuenca vs LDU</option>
+        <option value="LDU vs Delfín">LDU vs Delfín</option>
+        <option value="LDU vs Católica">LDU vs Católica</option>
+      </select>
+      <canvas id="grafico" width="400" height="200"></canvas>
+    </div>
   </div>
 
-  <div id="selector-container">
-    <label for="selector">Selecciona un enfrentamiento: </label>
-    <select id="selector"></select>
+  <div id="partidos" class="section">
+    <h2>Próximos Partidos</h2>
+    <ul>
+      <li>🏟️ Liga de Quito vs Vinotinto - Próximo sábado</li>
+    </ul>
   </div>
 
-  <canvas id="grafico" width="800" height="400"></canvas>
+  <div id="tabla" class="section">
+    <h2>Tabla de Posiciones</h2>
+    <p>Muy pronto disponible...</p>
+  </div>
+
+  <div id="historico" class="section">
+    <h2>Tabla Histórica</h2>
+    <p>Muy pronto disponible...</p>
+  </div>
 
   <script>
-    let tabla = document.querySelector("#tabla-datos tbody");
-    let selector = document.querySelector("#selector");
-    let filas = tabla.querySelectorAll("tr");
+    const datosPorDuelo = {
+      "LDU vs Barcelona": [84, 60, 90],
+      "LDU vs Nacional": [81, 78, 80],
+      "Emelec vs Barcelona": [73, 83, 75],
+      "Emelec vs Nacional": [88, 45, 99],
+      "Barcelona vs Nacional": [99, 67, 100],
+      "Nacional vs Aucas": [36, 44, 32],
+      "LDU vs IDV": [25, 16, 10],
+      "Macará vs Técnico": [18, 15, 12],
+      "Cuenca vs LDU": [50, 57, 69],
+      "LDU vs Delfín": [29, 16, 16],
+      "LDU vs Católica": [51, 29, 31]
+    };
 
-    const opciones = [];
-    const resultados = {};
-
-    filas.forEach((fila, i) => {
-      const celdas = fila.querySelectorAll("td");
-      const equipoA = celdas[0].innerText;
-      const equipoB = celdas[4].innerText;
-      const clave = `${equipoA} vs ${equipoB}`;
-
-      opciones.push(clave);
-      resultados[clave] = {
-        victoriasA: parseInt(celdas[1].innerText),
-        empates: parseInt(celdas[2].innerText),
-        victoriasB: parseInt(celdas[3].innerText),
-        equipoA: equipoA,
-        equipoB: equipoB
-      };
-    });
-
-    opciones.forEach(opt => {
-      const option = document.createElement("option");
-      option.value = opt;
-      option.textContent = opt;
-      selector.appendChild(option);
-    });
+    const coloresPorEquipo = {
+      "LDU": "white",
+      "Barcelona": "#ffcc00",
+      "Nacional": "#d40000",
+      "Emelec": "#0066cc",
+      "Aucas": "#ff9900",
+      "IDV": "#ff66cc",
+      "Macará": "#99ccff",
+      "Técnico": "#cc3333",
+      "Cuenca": "#cc0000",
+      "Delfín": "#66ccff",
+      "Católica": "#3399ff"
+    };
 
     const ctx = document.getElementById('grafico').getContext('2d');
-    let chart;
+    let grafico;
 
-    function actualizarGrafico(clave) {
-      const data = resultados[clave];
+    function obtenerColores(equipoA, equipoB) {
+      return [
+        coloresPorEquipo[equipoA] || 'gray',
+        '#cccccc',
+        coloresPorEquipo[equipoB] || 'gray'
+      ];
+    }
 
-      const config = {
+    function actualizarGrafico() {
+      const duelo = document.getElementById('dueloSelect').value;
+      const datos = datosPorDuelo[duelo];
+      const [equipoA, , equipoB] = duelo.split(' ');
+      const colores = obtenerColores(equipoA, equipoB);
+
+      if (grafico) grafico.destroy();
+
+      grafico = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ['Victorias ' + data.equipoA, 'Empates', 'Victorias ' + data.equipoB],
+          labels: [equipoA, 'Empate', equipoB],
           datasets: [{
-            label: clave,
-            data: [data.victoriasA, data.empates, data.victoriasB],
-            backgroundColor: [
-              'rgba(75, 192, 192, 0.7)',
-              'rgba(255, 206, 86, 0.7)',
-              'rgba(255, 99, 132, 0.7)'
-            ]
+            label: 'Cantidad de partidos',
+            data: datos,
+            backgroundColor: colores,
+            borderWidth: 1
           }]
         },
         options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false },
-            title: {
-              display: true,
-              text: 'Resultados de ' + clave
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { color: 'white' },
+              grid: { color: '#444' }
+            },
+            x: {
+              ticks: { color: 'white' },
+              grid: { color: '#444' }
             }
           },
-          scales: {
-            y: { beginAtZero: true }
+          plugins: {
+            legend: {
+              labels: { color: 'white' }
+            }
           }
         }
-      };
-
-      if (chart) chart.destroy();
-      chart = new Chart(ctx, config);
+      });
     }
 
-    selector.addEventListener("change", (e) => {
-      actualizarGrafico(e.target.value);
-    });
+    function mostrarSeccion(id) {
+      document.querySelectorAll('.section').forEach(seccion => seccion.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
 
-    $(document).ready(function() {
-      $('#tabla-datos').DataTable();
-      actualizarGrafico(selector.value);
-    });
+    actualizarGrafico();
   </script>
 </body>
 </html>
