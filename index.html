@@ -41,6 +41,24 @@
     <p>Explora estadísticas, historia y actualidad del fútbol ecuatoriano.</p>
     <img src="logo-ultimo.png" alt="Logo GambeTri" style="max-width: 90%; margin: auto; display: block;" />
   </section>
+
+  <section id="mano-a-mano" class="section">
+    <h2>Historial Mano a Mano</h2>
+    <select id="selector-enfrentamiento">
+      <option value="LDU-Quito">LDU vs Quito</option>
+      <option value="LDU-Barcelona">LDU vs Barcelona</option>
+      <option value="LDU-Nacional">LDU vs Nacional</option>
+      <option value="Barcelona-Emelec">Barcelona vs Emelec</option>
+      <option value="Barcelona-Nacional">Barcelona vs Nacional</option>
+      <option value="LDU-IDV">LDU vs IDV</option>
+      <option value="Cuenca-LDU">Cuenca vs LDU</option>
+      <option value="Macará-Técnico">Macará vs Técnico</option>
+      <option value="LDU-Delfín">LDU vs Delfín</option>
+      <option value="LDU-Católica">LDU vs Católica</option>
+    </select>
+    <canvas id="graficoEnfrentamiento" width="400" height="250"></canvas>
+  </section>
+
   <section id="resultados" class="section">
     <h2>Resultados Oficiales</h2>
     <table class="match-table" id="tabla-oficial">
@@ -72,23 +90,6 @@
       <tr><td>19:00</td><td>Orense</td><td contenteditable></td><td>-</td><td contenteditable></td><td>Macará</td></tr>
     </table>
     <div id="tabla-calculada"></div>
-  </section>
-
-  <section id="mano-a-mano" class="section">
-    <h2>Historial Mano a Mano</h2>
-    <select id="selector-enfrentamiento">
-      <option value="LDU-Quito">LDU vs Quito</option>
-      <option value="LDU-Barcelona">LDU vs Barcelona</option>
-      <option value="LDU-Nacional">LDU vs Nacional</option>
-      <option value="Barcelona-Emelec">Barcelona vs Emelec</option>
-      <option value="Barcelona-Nacional">Barcelona vs Nacional</option>
-      <option value="LDU-IDV">LDU vs IDV</option>
-      <option value="Cuenca-LDU">Cuenca vs LDU</option>
-      <option value="Macará-Técnico">Macará vs Técnico</option>
-      <option value="LDU-Delfín">LDU vs Delfín</option>
-      <option value="LDU-Católica">LDU vs Católica</option>
-    </select>
-    <canvas id="graficoEnfrentamiento" width="400" height="250"></canvas>
   </section>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -163,11 +164,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const partidosData = {
     "LDU-Quito": [66, 53, 47, "LDU", "Empate", "Quito"],
     "LDU-Barcelona": [84, 60, 90, "LDU", "Empate", "Barcelona"],
-    "LDU-Nacional": [81, 78, 80, "LDU", "Empate", "Nacional"]
+    "LDU-Nacional": [81, 78, 80, "LDU", "Empate", "Nacional"],
+    "Barcelona-Emelec": [73, 83, 75, "Emelec", "Empate", "Barcelona"],
+    "Barcelona-Nacional": [99, 67, 100, "Barcelona", "Empate", "Nacional"],
+    "LDU-IDV": [25, 16, 10, "LDU", "Empate", "IDV"],
+    "Cuenca-LDU": [50, 57, 69, "Cuenca", "Empate", "LDU"],
+    "Macará-Técnico": [18, 15, 12, "Macará", "Empate", "Técnico"],
+    "LDU-Delfín": [29, 16, 16, "LDU", "Empate", "Delfín"],
+    "LDU-Católica": [51, 29, 31, "LDU", "Empate", "Católica"]
   };
+
   const colores = {
-    "LDU": "#FFFFFF", "Quito": "#DD0000", "Barcelona": "#FFFF00", "Nacional": "#FF0000", "Empate": "#808080"
+    "LDU": "#FFFFFF", "Quito": "#DD0000", "Barcelona": "#FFFF00", "Nacional": "#FF0000",
+    "Emelec": "#0000FF", "IDV": "#FF69B4", "Cuenca": "#FF0000", "Macará": "#00BFFF",
+    "Técnico": "#FF6347", "Delfín": "#00CED1", "Católica": "#191970", "Empate": "#808080"
   };
+
   const ctx = document.getElementById('graficoEnfrentamiento')?.getContext('2d');
   let chart;
   function actualizarGrafico(key) {
