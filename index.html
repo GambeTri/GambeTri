@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GambeTri</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 0; background-color: #f2f2f2; color: #333; }
@@ -18,14 +18,59 @@
     th { background-color: #333; color: white; }
     .match-table td { padding: 0.5rem; text-align: center; }
     .match-date { font-weight: bold; margin-top: 1rem; }
-    .inicio img { display: block; max-width: 90%; height: auto; margin: 20px auto; border-radius: 10px; }
+
+    .inicio {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      margin: 0 auto;
+      min-height: 80vh;
+    }
+    .inicio h2 {
+      font-size: 2.5em;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+    }
+    .inicio p {
+      font-size: 1.2em;
+      color: #444;
+      max-width: 700px;
+      margin: 0 auto 20px;
+      text-align: center;
+    }
+    .inicio img {
+      display: block;
+      max-width: 90%;
+      height: auto;
+      margin: 20px auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    td.equipo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: flex-start;
+    }
+    td.equipo img {
+      flex-shrink: 0;
+    }
+
     .top-pos { background-color: #d4edda; }
     .mid-pos { background-color: #fff3cd; }
     .low-pos { background-color: #f8d7da; }
   </style>
 </head>
+
 <body>
-  <header><h1>GambeTri</h1><p>Estadísticas del fútbol ecuatoriano</p></header>
+  <header>
+    <h1>GambeTri</h1>
+    <p>Estadísticas del fútbol ecuatoriano</p>
+  </header>
   <nav>
     <button onclick="showSection('inicio')">Inicio</button>
     <button onclick="showSection('mano-a-mano')">Historial</button>
@@ -33,10 +78,10 @@
     <button onclick="showSection('partidos')">Partidos</button>
   </nav>
 
-  <section id="inicio" class="section active">
-    <h2>Bienvenido</h2>
-    <p>Datos, historia y actualidad del fútbol ecuatoriano.</p>
-    <img src="logo-ultimo.png" alt="Inicio" />
+  <section id="inicio" class="section active inicio">
+    <h2>Bienvenido a GambeTri</h2>
+    <p>Explora estadísticas, historia y actualidad del fútbol ecuatoriano</p>
+    <img src="logo-ultimo.png" alt="Imagen de inicio" />
   </section>
 
   <section id="partidos" class="section">
@@ -44,8 +89,8 @@
     <div class="match-date">Sábado 14 de junio</div>
     <table class="match-table">
       <tr><td>14:00</td><td>I. del Valle</td><td>1</td><td>-</td><td>1</td><td>Libertad</td></tr>
-      <tr><td>16:30</td><td>Barcelona SC</td><td></td><td>-</td><td></td><td>Manta</td></tr>
-      <tr><td>19:00</td><td>Vinotinto FC</td><td></td><td>-</td><td></td><td>Liga de Quito</td></tr>
+      <tr><td>16:30</td><td>Barcelona SC</td><td>1</td><td>-</td><td>2</td><td>Manta</td></tr>
+      <tr><td>19:00</td><td>Vinotinto FC</td><td>1</td><td>-</td><td>2</td><td>Liga de Quito</td></tr>
     </table>
   </section>
 
@@ -138,7 +183,7 @@ const cuerpo = document.getElementById("tabla-posiciones");
 tablaBase.forEach((e, i) => {
   const fila = document.createElement("tr");
   const escudo = obtenerEscudo(e[0]);
-  fila.innerHTML = `<td>${i+1}</td><td>${escudo} ${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td><td>${e[3]}</td><td>${e[4]}</td><td>${e[5]}</td><td>${e[6]}</td><td>${e[7]}</td><td>${e[8]}</td>`;
+  fila.innerHTML = `<td>${i+1}</td><td class="equipo">${escudo} ${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td><td>${e[3]}</td><td>${e[4]}</td><td>${e[5]}</td><td>${e[6]}</td><td>${e[7]}</td><td>${e[8]}</td>`;
   if (i < 6) fila.classList.add("top-pos");
   else if (i < 12) fila.classList.add("mid-pos");
   else fila.classList.add("low-pos");
@@ -148,7 +193,9 @@ tablaBase.forEach((e, i) => {
 document.querySelectorAll(".match-table tr").forEach(row => {
   const tds = row.querySelectorAll("td");
   if (tds.length >= 6) {
+    tds[1].classList.add('equipo');
     tds[1].innerHTML = obtenerEscudo(tds[1].textContent.trim()) + ' ' + tds[1].innerHTML;
+    tds[5].classList.add('equipo');
     tds[5].innerHTML = obtenerEscudo(tds[5].textContent.trim()) + ' ' + tds[5].innerHTML;
   }
 });
