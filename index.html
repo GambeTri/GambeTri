@@ -120,11 +120,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function calcularTabla(selector, destino) {
     const base = JSON.parse(JSON.stringify(tablaBase));
     document.querySelectorAll(selector + ' tr').forEach(fila => {
-      const celdas = fila.querySelectorAll('td');
-      const local = celdas[1]?.textContent.trim();
-      const gl = parseInt(celdas[2]?.textContent);
-      const gv = parseInt(celdas[4]?.textContent);
-      const visitante = celdas[5]?.textContent.trim();
+      const c = fila.querySelectorAll('td');
+      const local = c[1]?.textContent.trim();
+      const gl = parseInt(c[2]?.textContent);
+      const gv = parseInt(c[4]?.textContent);
+      const visitante = c[5]?.textContent.trim();
       if (!local || !visitante || isNaN(gl) || isNaN(gv)) return;
 
       const eqL = base.find(e => e[0] === local);
@@ -146,17 +146,12 @@ document.addEventListener('DOMContentLoaded', () => {
     base.sort((a, b) => b[2] - a[2] || b[8] - a[8]);
 
     document.getElementById(destino).innerHTML = `
-      <table>
-        <thead><tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr></thead>
-        <tbody>
-        ${base.map((e, i) => `
-          <tr class="${i<6?'top-pos':i<12?'mid-pos':'low-pos'}">
-            <td>${i+1}</td><td>${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td><td>${e[3]}</td>
-            <td>${e[4]}</td><td>${e[5]}</td><td>${e[6]}</td><td>${e[7]}</td><td>${e[8]}</td>
-          </tr>`).join('')}
-        </tbody>
-      </table>
-    `;
+      <table><thead><tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr></thead>
+      <tbody>${base.map((e, i) => `
+        <tr class="${i<6?'top-pos':i<12?'mid-pos':'low-pos'}">
+          <td>${i+1}</td><td>${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td>
+          <td>${e[3]}</td><td>${e[4]}</td><td>${e[5]}</td><td>${e[6]}</td><td>${e[7]}</td><td>${e[8]}</td>
+        </tr>`).join('')}</tbody></table>`;
   }
 
   calcularTabla('#tabla-oficial', 'tabla-posiciones-oficial');
@@ -168,21 +163,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const partidosData = {
     "LDU-Quito": [66, 53, 47, "LDU", "Empate", "Quito"],
     "LDU-Barcelona": [84, 60, 90, "LDU", "Empate", "Barcelona"],
-    "LDU-Nacional": [81, 78, 80, "LDU", "Empate", "Nacional"],
-    "Barcelona-Emelec": [73, 83, 75, "Emelec", "Empate", "Barcelona"],
-    "Barcelona-Nacional": [99, 67, 100, "Barcelona", "Empate", "Nacional"],
-    "LDU-IDV": [25, 16, 10, "LDU", "Empate", "IDV"],
-    "Cuenca-LDU": [50, 57, 69, "Cuenca", "Empate", "LDU"],
-    "Macará-Técnico": [18, 15, 12, "Macará", "Empate", "Técnico"],
-    "LDU-Delfín": [29, 16, 16, "LDU", "Empate", "Delfín"],
-    "LDU-Católica": [51, 29, 31, "LDU", "Empate", "Católica"]
+    "LDU-Nacional": [81, 78, 80, "LDU", "Empate", "Nacional"]
   };
   const colores = {
-    "LDU": "#FFFFFF", "Quito": "#DD0000", "Barcelona": "#FFFF00", "Nacional": "#FF0000",
-    "Emelec": "#0000FF", "IDV": "#FF69B4", "Cuenca": "#FF0000", "Macará": "#00BFFF",
-    "Técnico": "#FF6347", "Delfín": "#00CED1", "Católica": "#191970", "Empate": "#808080"
+    "LDU": "#FFFFFF", "Quito": "#DD0000", "Barcelona": "#FFFF00", "Nacional": "#FF0000", "Empate": "#808080"
   };
-
   const ctx = document.getElementById('graficoEnfrentamiento')?.getContext('2d');
   let chart;
   function actualizarGrafico(key) {
@@ -197,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }]
     };
     if (chart) chart.destroy();
-    chart = new Chart(ctx, { type: 'bar', data: data, options: { plugins: { legend: { display: false } } } });
+    chart = new Chart(ctx, { type: 'bar', data: data, options: { plugins: { legend: { display: false }}} });
   }
 
   const sel = document.getElementById('selector-enfrentamiento');
