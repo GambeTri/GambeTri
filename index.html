@@ -7,22 +7,17 @@
   <style>
     body { font-family: Arial, sans-serif; margin: 0; background-color: #f2f2f2; color: #333; }
     header { background-color: #1b1b1b; color: white; padding: 1rem; text-align: center; }
-    nav { display: flex; justify-content: center; background-color: #333; }
-    nav button { background: none; color: white; border: none; padding: 1rem; cursor: pointer; font-size: 1rem; }
+    nav { display: flex; justify-content: center; background-color: #333; flex-wrap: wrap; }
+    nav button {
+      background: none; color: white; border: none;
+      padding: 1rem; cursor: pointer; font-size: 1rem;
+    }
     nav button:hover { background-color: #555; }
     .section { display: none; padding: 2rem; }
     .active { display: block; }
-    select { padding: 0.5rem; margin-bottom: 1rem; }
-    canvas { background-color: #eee; padding: 1rem; border-radius: 8px; }
     table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
     th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: center; }
     th { background-color: #333; color: white; }
-    .match-table { width: 100%; margin-top: 1rem; border-collapse: collapse; }
-    .match-table td { padding: 0.5rem; text-align: center; }
-    .match-date { font-weight: bold; margin-top: 1rem; }
-    .inicio h2 { font-size: 2.5em; color: #1a1a1a; margin-bottom: 10px; }
-    .inicio p { font-size: 1.2em; color: #444; max-width: 700px; margin: 0 auto 20px; text-align: center; }
-    .inicio img { display: block; max-width: 90%; height: auto; margin: 20px auto; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
     .top-pos { background-color: #d4edda; }
     .mid-pos { background-color: #fff3cd; }
     .low-pos { background-color: #f8d7da; }
@@ -35,45 +30,48 @@
   </header>
   <nav>
     <button onclick="showSection('inicio')">Inicio</button>
-    <button onclick="showSection('mano-a-mano')">Historial Mano a Mano</button>
+    <button onclick="showSection('mano-a-mano')">Mano a Mano</button>
+    <button onclick="showSection('resultados')">Resultados Oficiales</button>
     <button onclick="showSection('posiciones')">Tabla de Posiciones</button>
-    <button onclick="showSection('partidos')">Próximos Partidos</button>
+    <button onclick="showSection('calculadora')">Calculadora</button>
   </nav>
 
-  <section id="inicio" class="section active inicio">
+  <section id="inicio" class="section active">
     <h2>Bienvenido a GambeTri</h2>
-    <p>Explora las estadísticas, historia y actualidad del fútbol ecuatoriano...</p>
-    <img src="logo-ultimo.png" alt="Imagen de inicio" />
+    <p>Explora estadísticas, historia y actualidad del fútbol ecuatoriano.</p>
+    <img src="logo-ultimo.png" alt="Logo GambeTri" style="max-width: 90%; margin: auto; display: block;" />
   </section>
-
-  <section id="partidos" class="section">
-    <h2>Próximos Partidos</h2>
-    <div class="match-date">Sábado 14 de junio 2025</div>
-    <table class="match-table">
-      <tr><td>14:00</td><td>I. del Valle</td><td contenteditable>1</td><td>-</td><td contenteditable>1</td><td>Libertad</td></tr>
-      <tr><td>16:30</td><td>Barcelona SC</td><td contenteditable>1</td><td>-</td><td contenteditable>2</td><td>Manta</td></tr>
-      <tr><td>19:00</td><td>Vinotinto FC</td><td contenteditable>1</td><td>-</td><td contenteditable>2</td><td>Liga de Quito</td></tr>
-    </table>
-    <div class="match-date">Domingo 15 de junio 2025</div>
-    <table class="match-table">
-      <tr><td>13:00</td><td>T. Universitario</td><td contenteditable></td><td>-</td><td contenteditable></td><td>Aucas</td></tr>
-      <tr><td>15:30</td><td>D. Cuenca</td><td contenteditable></td><td>-</td><td contenteditable></td><td>El Nacional</td></tr>
-      <tr><td>18:00</td><td>Delfín</td><td contenteditable></td><td>-</td><td contenteditable></td><td>Mushuc Runa</td></tr>
-    </table>
-    <div class="match-date">Lunes 16 de junio 2025</div>
-    <table class="match-table">
-      <tr><td>19:00</td><td>Orense</td><td contenteditable></td><td>-</td><td contenteditable></td><td>Macará</td></tr>
+  <section id="resultados" class="section">
+    <h2>Resultados Oficiales</h2>
+    <table class="match-table" id="tabla-oficial">
+      <tr><td>14:00</td><td>I. del Valle</td><td>1</td><td>-</td><td>1</td><td>Libertad</td></tr>
+      <tr><td>16:30</td><td>Barcelona SC</td><td>1</td><td>-</td><td>2</td><td>Manta</td></tr>
+      <tr><td>19:00</td><td>Vinotinto FC</td><td>1</td><td>-</td><td>2</td><td>Liga de Quito</td></tr>
+      <tr><td>13:00</td><td>T. Universitario</td><td>0</td><td>-</td><td>2</td><td>Aucas</td></tr>
+      <tr><td>15:30</td><td>D. Cuenca</td><td>1</td><td>-</td><td>1</td><td>El Nacional</td></tr>
+      <tr><td>18:00</td><td>Delfín</td><td>3</td><td>-</td><td>0</td><td>Mushuc Runa</td></tr>
+      <tr><td>19:00</td><td>Orense</td><td>1</td><td>-</td><td>1</td><td>Macará</td></tr>
     </table>
   </section>
 
   <section id="posiciones" class="section">
-    <h2>Tabla de Posiciones</h2>
-    <table>
-      <thead>
-        <tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr>
-      </thead>
-      <tbody id="tabla-posiciones"></tbody>
+    <h2>Tabla de Posiciones Oficial</h2>
+    <div id="tabla-posiciones-oficial"></div>
+  </section>
+
+  <section id="calculadora" class="section">
+    <h2>Calculadora de Resultados</h2>
+    <p>Puedes simular resultados y ver cómo se actualiza la tabla:</p>
+    <table class="match-table" id="tabla-calculadora">
+      <tr><td>14:00</td><td>I. del Valle</td><td contenteditable>1</td><td>-</td><td contenteditable>1</td><td>Libertad</td></tr>
+      <tr><td>16:30</td><td>Barcelona SC</td><td contenteditable>1</td><td>-</td><td contenteditable>2</td><td>Manta</td></tr>
+      <tr><td>19:00</td><td>Vinotinto FC</td><td contenteditable>1</td><td>-</td><td contenteditable>2</td><td>Liga de Quito</td></tr>
+      <tr><td>13:00</td><td>T. Universitario</td><td contenteditable></td><td>-</td><td contenteditable></td><td>Aucas</td></tr>
+      <tr><td>15:30</td><td>D. Cuenca</td><td contenteditable></td><td>-</td><td contenteditable></td><td>El Nacional</td></tr>
+      <tr><td>18:00</td><td>Delfín</td><td contenteditable></td><td>-</td><td contenteditable></td><td>Mushuc Runa</td></tr>
+      <tr><td>19:00</td><td>Orense</td><td contenteditable></td><td>-</td><td contenteditable></td><td>Macará</td></tr>
     </table>
+    <div id="tabla-calculada"></div>
   </section>
 
   <section id="mano-a-mano" class="section">
@@ -92,119 +90,122 @@
     </select>
     <canvas id="graficoEnfrentamiento" width="400" height="250"></canvas>
   </section>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    function showSection(id) {
-      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
+  const tablaBase = [
+    ["I. del Valle",15,31,9,4,2,29,14,15],
+    ["Barcelona SC",14,29,9,2,3,20,15,5],
+    ["Aucas",15,25,7,4,4,22,16,6],
+    ["Liga de Quito",14,23,6,5,3,22,14,8],
+    ["D. Cuenca",15,23,7,2,6,14,13,1],
+    ["Orense",15,23,7,2,6,18,20,-2],
+    ["Vinotinto FC",15,22,6,4,5,24,19,5],
+    ["U. Católica",15,20,5,5,5,24,19,5],
+    ["El Nacional",15,19,5,4,6,21,21,0],
+    ["Libertad",15,19,5,4,6,19,20,-1],
+    ["Delfín",15,18,4,6,5,12,20,-8],
+    ["Manta",15,16,3,7,5,21,27,-6],
+    ["Emelec",15,16,4,4,7,9,18,-9],
+    ["Macará",15,15,3,6,6,12,15,-3],
+    ["Mushuc Runa",15,15,4,3,8,21,26,-5],
+    ["T. Universitario",15,10,2,4,9,14,25,-11]
+  ];
 
-    let tablaBase = [
-      ["I. del Valle",15,31,9,4,2,29,14,15],
-      ["Barcelona SC",14,29,9,2,3,20,15,5],
-      ["Aucas",15,25,7,4,4,22,16,6],
-      ["Liga de Quito",14,23,6,5,3,22,14,8],
-      ["D. Cuenca",15,23,7,2,6,14,13,1],
-      ["Orense",15,23,7,2,6,18,20,-2],
-      ["Vinotinto FC",15,22,6,4,5,24,19,5],
-      ["U. Católica",15,20,5,5,5,24,19,5],
-      ["El Nacional",15,19,5,4,6,21,21,0],
-      ["Libertad",15,19,5,4,6,19,20,-1],
-      ["Delfín",15,18,4,6,5,12,20,-8],
-      ["Manta",15,16,3,7,5,21,27,-6],
-      ["Emelec",15,16,4,4,7,9,18,-9],
-      ["Macará",15,15,3,6,6,12,15,-3],
-      ["Mushuc Runa",15,15,4,3,8,21,26,-5],
-      ["T. Universitario",15,10,2,4,9,14,25,-11]
-    ];
+  function calcularTabla(selector, destino) {
+    const base = JSON.parse(JSON.stringify(tablaBase));
+    document.querySelectorAll(selector + ' tr').forEach(fila => {
+      const celdas = fila.querySelectorAll('td');
+      const local = celdas[1]?.textContent.trim();
+      const gl = parseInt(celdas[2]?.textContent);
+      const gv = parseInt(celdas[4]?.textContent);
+      const visitante = celdas[5]?.textContent.trim();
+      if (!local || !visitante || isNaN(gl) || isNaN(gv)) return;
 
-    function actualizarTabla() {
-      const base = JSON.parse(JSON.stringify(tablaBase));
-      document.querySelectorAll(".match-table tr").forEach(fila => {
-        const tds = fila.querySelectorAll("td");
-        const local = tds[1]?.textContent?.trim();
-        const gl = parseInt(tds[2]?.textContent);
-        const gv = parseInt(tds[4]?.textContent);
-        const visitante = tds[5]?.textContent?.trim();
-        if (!local || !visitante || isNaN(gl) || isNaN(gv)) return;
+      const eqL = base.find(e => e[0] === local);
+      const eqV = base.find(e => e[0] === visitante);
+      if (!eqL || !eqV) return;
 
-        const equipoLocal = base.find(e => e[0] === local);
-        const equipoVisitante = base.find(e => e[0] === visitante);
-        if (!equipoLocal || !equipoVisitante) return;
+      eqL[1]++; eqV[1]++;
+      eqL[6] += gl; eqL[7] += gv;
+      eqV[6] += gv; eqV[7] += gl;
 
-        equipoLocal[1]++; equipoVisitante[1]++;
-        equipoLocal[6] += gl; equipoLocal[7] += gv;
-        equipoVisitante[6] += gv; equipoVisitante[7] += gl;
+      if (gl > gv) { eqL[3]++; eqL[2] += 3; eqV[5]++; }
+      else if (gl < gv) { eqV[3]++; eqV[2] += 3; eqL[5]++; }
+      else { eqL[4]++; eqV[4]++; eqL[2]++; eqV[2]++; }
 
-        if (gl > gv) { equipoLocal[3]++; equipoLocal[2] += 3; equipoVisitante[5]++; }
-        else if (gl < gv) { equipoVisitante[3]++; equipoVisitante[2] += 3; equipoLocal[5]++; }
-        else { equipoLocal[4]++; equipoVisitante[4]++; equipoLocal[2]++; equipoVisitante[2]++; }
-
-        equipoLocal[8] = equipoLocal[6] - equipoLocal[7];
-        equipoVisitante[8] = equipoVisitante[6] - equipoVisitante[7];
-      });
-
-      base.sort((a, b) => b[2] - a[2] || b[8] - a[8]);
-
-      const cuerpo = document.getElementById("tabla-posiciones");
-      cuerpo.innerHTML = "";
-      base.forEach((e, i) => {
-        const fila = document.createElement("tr");
-        fila.innerHTML = `<td>${i+1}</td><td>${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td><td>${e[3]}</td><td>${e[4]}</td><td>${e[5]}</td><td>${e[6]}</td><td>${e[7]}</td><td>${e[8]}</td>`;
-        if (i < 6) fila.classList.add("top-pos");
-        else if (i < 12) fila.classList.add("mid-pos");
-        else fila.classList.add("low-pos");
-        cuerpo.appendChild(fila);
-      });
-    }
-
-    document.querySelectorAll('.match-table td[contenteditable]').forEach(td => {
-      td.addEventListener('input', actualizarTabla);
+      eqL[8] = eqL[6] - eqL[7];
+      eqV[8] = eqV[6] - eqV[7];
     });
 
-    actualizarTabla();
+    base.sort((a, b) => b[2] - a[2] || b[8] - a[8]);
 
-    const partidosData = {
-      "LDU-Quito": [66, 53, 47, "LDU", "Empate", "Quito"],
-      "LDU-Barcelona": [84, 60, 90, "LDU", "Empate", "Barcelona"],
-      "LDU-Nacional": [81, 78, 80, "LDU", "Empate", "Nacional"],
-      "Barcelona-Emelec": [73, 83, 75, "Emelec", "Empate", "Barcelona"],
-      "Barcelona-Nacional": [99, 67, 100, "Barcelona", "Empate", "Nacional"],
-      "LDU-IDV": [25, 16, 10, "LDU", "Empate", "IDV"],
-      "Cuenca-LDU": [50, 57, 69, "Cuenca", "Empate", "LDU"],
-      "Macará-Técnico": [18, 15, 12, "Macará", "Empate", "Técnico"],
-      "LDU-Delfín": [29, 16, 16, "LDU", "Empate", "Delfín"],
-      "LDU-Católica": [51, 29, 31, "LDU", "Empate", "Católica"]
+    document.getElementById(destino).innerHTML = `
+      <table>
+        <thead><tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr></thead>
+        <tbody>
+        ${base.map((e, i) => `
+          <tr class="${i<6?'top-pos':i<12?'mid-pos':'low-pos'}">
+            <td>${i+1}</td><td>${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td><td>${e[3]}</td>
+            <td>${e[4]}</td><td>${e[5]}</td><td>${e[6]}</td><td>${e[7]}</td><td>${e[8]}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    `;
+  }
+
+  calcularTabla('#tabla-oficial', 'tabla-posiciones-oficial');
+  calcularTabla('#tabla-calculadora', 'tabla-calculada');
+  document.querySelectorAll('#tabla-calculadora td[contenteditable]').forEach(td =>
+    td.addEventListener('input', () => calcularTabla('#tabla-calculadora', 'tabla-calculada'))
+  );
+
+  const partidosData = {
+    "LDU-Quito": [66, 53, 47, "LDU", "Empate", "Quito"],
+    "LDU-Barcelona": [84, 60, 90, "LDU", "Empate", "Barcelona"],
+    "LDU-Nacional": [81, 78, 80, "LDU", "Empate", "Nacional"],
+    "Barcelona-Emelec": [73, 83, 75, "Emelec", "Empate", "Barcelona"],
+    "Barcelona-Nacional": [99, 67, 100, "Barcelona", "Empate", "Nacional"],
+    "LDU-IDV": [25, 16, 10, "LDU", "Empate", "IDV"],
+    "Cuenca-LDU": [50, 57, 69, "Cuenca", "Empate", "LDU"],
+    "Macará-Técnico": [18, 15, 12, "Macará", "Empate", "Técnico"],
+    "LDU-Delfín": [29, 16, 16, "LDU", "Empate", "Delfín"],
+    "LDU-Católica": [51, 29, 31, "LDU", "Empate", "Católica"]
+  };
+  const colores = {
+    "LDU": "#FFFFFF", "Quito": "#DD0000", "Barcelona": "#FFFF00", "Nacional": "#FF0000",
+    "Emelec": "#0000FF", "IDV": "#FF69B4", "Cuenca": "#FF0000", "Macará": "#00BFFF",
+    "Técnico": "#FF6347", "Delfín": "#00CED1", "Católica": "#191970", "Empate": "#808080"
+  };
+
+  const ctx = document.getElementById('graficoEnfrentamiento')?.getContext('2d');
+  let chart;
+  function actualizarGrafico(key) {
+    const d = partidosData[key];
+    if (!d || !ctx) return;
+    const data = {
+      labels: [d[3], d[4], d[5]],
+      datasets: [{
+        label: 'Historial',
+        data: [d[0], d[1], d[2]],
+        backgroundColor: [colores[d[3]], colores[d[4]], colores[d[5]]]
+      }]
     };
+    if (chart) chart.destroy();
+    chart = new Chart(ctx, { type: 'bar', data: data, options: { plugins: { legend: { display: false } } } });
+  }
 
-    const coloresEquipos = {
-      "LDU": "#FFFFFF", "Quito": "#DD0000", "Barcelona": "#FFFF00", "Nacional": "#FF0000",
-      "Emelec": "#0000FF", "IDV": "#FF69B4", "Cuenca": "#FF0000", "Macará": "#00BFFF",
-      "Técnico": "#FF6347", "Delfín": "#00CED1", "Católica": "#191970", "Empate": "#808080"
-    };
-
-    const ctx = document.getElementById('graficoEnfrentamiento').getContext('2d');
-    let chart;
-
-    function actualizarGrafico(equipo) {
-      const datos = partidosData[equipo];
-      if (!datos) return;
-      const data = {
-        labels: [datos[3], datos[4], datos[5]],
-        datasets: [{
-          label: "Partidos",
-          data: [datos[0], datos[1], datos[2]],
-          backgroundColor: [coloresEquipos[datos[3]], coloresEquipos[datos[4]], coloresEquipos[datos[5]]]
-        }]
-      };
-      if (chart) chart.destroy();
-      chart = new Chart(ctx, { type: 'bar', data: data, options: { responsive: true, plugins: { legend: { display: false }}} });
-    }
-
-    document.getElementById('selector-enfrentamiento')
-      .addEventListener('change', e => actualizarGrafico(e.target.value));
-    actualizarGrafico('LDU-Quito');
-  </script>
+  const sel = document.getElementById('selector-enfrentamiento');
+  if (sel) {
+    sel.addEventListener('change', e => actualizarGrafico(e.target.value));
+    actualizarGrafico(sel.value);
+  }
+});
+</script>
 </body>
 </html>
