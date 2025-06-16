@@ -29,6 +29,10 @@
     .escudo-equipo { height: 25px; width: 25px; object-fit: contain; display: block; margin: 0 auto; }
     .nombre-equipo { display: block; margin-top: 5px; }
     .celda-equipo { min-width: 120px; padding: 8px 5px; }
+    /* Ajustes específicos para escudos pequeños */
+    .escudo-equipo.ldu { height: 30px !important; width: 30px !important; }
+    .escudo-equipo.macara { height: 28px !important; width: 28px !important; }
+    .escudo-equipo.tecnico { height: 27px !important; width: 27px !important; }
 </style>
 </head>
 <body>
@@ -53,19 +57,19 @@
 <table class="match-table">
 <tr><td>14:00</td><td class="celda-equipo"><img src="idv.png" class="escudo-equipo"><span class="nombre-equipo">I. del Valle</span></td><td>1</td><td>-</td><td>1</td><td class="celda-equipo"><img src="libertad.png" class="escudo-equipo"><span class="nombre-equipo">Libertad</span></td></tr>
 <tr><td>16:30</td><td class="celda-equipo"><img src="barcelona.png" class="escudo-equipo"><span class="nombre-equipo">Barcelona SC</span></td><td>1</td><td>-</td><td>2</td><td class="celda-equipo"><img src="manta.png" class="escudo-equipo"><span class="nombre-equipo">Manta</span></td></tr>
-<tr><td>19:00</td><td class="celda-equipo"><img src="vinotinto.png" class="escudo-equipo"><span class="nombre-equipo">Vinotinto FC</span></td><td>1</td><td>-</td><td>2</td><td class="celda-equipo"><img src="ldu.png" class="escudo-equipo"><span class="nombre-equipo">Liga de Quito</span></td></tr>
+<tr><td>19:00</td><td class="celda-equipo"><img src="vinotinto.png" class="escudo-equipo"><span class="nombre-equipo">Vinotinto FC</span></td><td>1</td><td>-</td><td>2</td><td class="celda-equipo"><img src="ldu.png" class="escudo-equipo ldu"><span class="nombre-equipo">Liga de Quito</span></td></tr>
 </table>
 
 <div class="match-date">Domingo 15 de junio 2025</div>
 <table class="match-table">
-<tr><td>13:00</td><td class="celda-equipo"><img src="tecnico.png" class="escudo-equipo"><span class="nombre-equipo">T. Universitario</span></td><td></td><td>-</td><td></td><td class="celda-equipo"><img src="aucas.png" class="escudo-equipo"><span class="nombre-equipo">Aucas</span></td></tr>
+<tr><td>13:00</td><td class="celda-equipo"><img src="tecnico.png" class="escudo-equipo tecnico"><span class="nombre-equipo">T. Universitario</span></td><td></td><td>-</td><td></td><td class="celda-equipo"><img src="aucas.png" class="escudo-equipo"><span class="nombre-equipo">Aucas</span></td></tr>
 <tr><td>15:30</td><td class="celda-equipo"><img src="cuenca.png" class="escudo-equipo"><span class="nombre-equipo">D. Cuenca</span></td><td></td><td>-</td><td></td><td class="celda-equipo"><img src="nacional.png" class="escudo-equipo"><span class="nombre-equipo">El Nacional</span></td></tr>
 <tr><td>18:00</td><td class="celda-equipo"><img src="delfin.png" class="escudo-equipo"><span class="nombre-equipo">Delfín</span></td><td></td><td>-</td><td></td><td class="celda-equipo"><img src="mushuc.png" class="escudo-equipo"><span class="nombre-equipo">Mushuc Runa</span></td></tr>
 </table>
 
 <div class="match-date">Lunes 16 de junio 2025</div>
 <table class="match-table">
-<tr><td>19:00</td><td class="celda-equipo"><img src="orense.png" class="escudo-equipo"><span class="nombre-equipo">Orense</span></td><td></td><td>-</td><td></td><td class="celda-equipo"><img src="macara.png" class="escudo-equipo"><span class="nombre-equipo">Macará</span></td></tr>
+<tr><td>19:00</td><td class="celda-equipo"><img src="orense.png" class="escudo-equipo"><span class="nombre-equipo">Orense</span></td><td></td><td>-</td><td></td><td class="celda-equipo"><img src="macara.png" class="escudo-equipo macara"><span class="nombre-equipo">Macará</span></td></tr>
 </table>
 </section>
 <section class="section" id="posiciones">
@@ -140,9 +144,9 @@ const escudosEquipos = {
   "T. Universitario": "tecnico.png"
 };
 
-// Función para actualizar la tabla según los resultados de los partidos
+// Función para actualizar la tabla
 function actualizarTabla() {
-  // Reiniciamos los datos a los valores iniciales
+  // Reiniciamos los datos
   tablaBase = [
     ["I. del Valle",15,31,9,4,2,29,14,15],
     ["Barcelona SC",14,29,9,2,3,20,15,5],
@@ -162,7 +166,7 @@ function actualizarTabla() {
     ["T. Universitario",15,10,2,4,9,14,25,-11]
   ];
 
-  // Procesamos los resultados de los partidos
+  // Procesamos resultados
   document.querySelectorAll(".match-table tr").forEach(fila => {
     const tds = fila.querySelectorAll("td");
     const local = tds[1]?.querySelector('.nombre-equipo')?.textContent?.trim();
@@ -177,39 +181,36 @@ function actualizarTabla() {
     
     if (!eL || !eV) return;
     
-    // Actualizamos estadísticas
-    eL[1]++; eV[1]++; // Partidos jugados
-    eL[6] += gl; eL[7] += gv; // Goles a favor y en contra local
-    eV[6] += gv; eV[7] += gl; // Goles a favor y en contra visitante
+    eL[1]++; eV[1]++;
+    eL[6] += gl; eL[7] += gv;
+    eV[6] += gv; eV[7] += gl;
     
-    if (gl > gv) { // Victoria local
-      eL[3]++; eL[2] += 3; eV[5]++;
-    } 
-    else if (gv > gl) { // Victoria visitante
-      eV[3]++; eV[2] += 3; eL[5]++;
-    } 
-    else { // Empate
-      eL[4]++; eV[4]++; eL[2]++; eV[2]++;
-    }
+    if (gl > gv) { eL[3]++; eL[2] += 3; eV[5]++; } 
+    else if (gv > gl) { eV[3]++; eV[2] += 3; eL[5]++; } 
+    else { eL[4]++; eV[4]++; eL[2]++; eV[2]++; }
     
-    // Diferencia de goles
     eL[8] = eL[6] - eL[7];
     eV[8] = eV[6] - eV[7];
   });
 
-  // Ordenamos la tabla
+  // Ordenamos
   tablaBase.sort((a, b) => b[2] - a[2] || b[8] - a[8]);
 
-  // Actualizamos la tabla en el HTML
+  // Actualizamos HTML
   const cuerpo = document.getElementById("tabla-posiciones");
   cuerpo.innerHTML = "";
   
   tablaBase.forEach((e, i) => {
+    const claseEscudo = 
+      e[0] === "Liga de Quito" ? "ldu" :
+      e[0] === "Macará" ? "macara" :
+      e[0] === "T. Universitario" ? "tecnico" : "";
+
     const fila = document.createElement("tr");
     fila.innerHTML = `
       <td>${i + 1}</td>
       <td class="celda-equipo">
-        <img src="${escudosEquipos[e[0]]}" class="escudo-equipo">
+        <img src="${escudosEquipos[e[0]]}" class="escudo-equipo ${claseEscudo}">
         <span class="nombre-equipo">${e[0]}</span>
       </td>
       <td>${e[1]}</td>
@@ -230,7 +231,7 @@ function actualizarTabla() {
   });
 }
 
-// Configuración del gráfico de enfrentamientos
+// Configuración del gráfico
 const partidosData = {
   "LDU-Quito": [66, 53, 47, "LDU", "Empate", "Quito"],
   "LDU-Barcelona": [84, 60, 90, "LDU", "Empate", "Barcelona"],
@@ -297,7 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
   actualizarTabla();
   actualizarGrafico('LDU-Quito');
   
-  // Actualizar la tabla cuando se cambie algún resultado
+  // Actualizar al modificar resultados
   document.querySelectorAll('.match-table td:nth-child(3), .match-table td:nth-child(5)').forEach(td => {
     td.addEventListener('input', actualizarTabla);
   });
