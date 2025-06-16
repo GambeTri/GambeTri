@@ -173,14 +173,36 @@
 </section>
 
 <section class="section" id="posiciones">
-<h2>Tabla de Posiciones</h2>
-<table>
-<thead>
-<tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr>
-</thead>
-<tbody id="tabla-posiciones"></tbody>
-</table>
-</section>
+  <h2>Tabla de Posiciones</h2>
+  <table>
+    <thead>
+      <tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr>
+    </thead>
+    <tbody id="tabla-posiciones"></tbody>
+  </table>
+
+  <!-- PEGA ESTO JUSTO AQUÍ (antes del </section>) -->
+  <div class="leyenda-posiciones" style="margin-top: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+    <h3 style="margin-top: 0;">¿Qué significan los colores?</h3>
+    <ul style="list-style-type: none; padding: 0; margin-bottom: 0;">
+      <li style="margin-bottom: 8px;">
+        <span style="display: inline-block; width: 20px; height: 20px; background-color: #d4edda; border: 1px solid #999; margin-right: 10px; vertical-align: middle;"></span>
+        <strong>Top 6 (Verde):</strong> Clasifican a hexagonal final (Libertadores y Sudamericana).
+      </li>
+      <li style="margin-bottom: 8px;">
+        <span style="display: inline-block; width: 20px; height: 20px; background-color: #fff3cd; border: 1px solid #999; margin-right: 10px; vertical-align: middle;"></span>
+        <strong>Puestos 7-12 (Amarillo):</strong> Posibilidad de Copa Sudamericana.
+      </li>
+      <li>
+        <span style="display: inline-block; width: 20px; height: 20px; background-color: #f8d7da; border: 1px solid #999; margin-right: 10px; vertical-align: middle;"></span>
+        <strong>Puestos 13-16 (Rojo):</strong> Zona de descenso directo.
+      </li>
+    </ul>
+    <p style="font-size: 12px; color: #666; margin-top: 10px; margin-bottom: 0;">
+      * ............
+    </p>
+  </div>
+</section>  <!-- Este es el </section> de cierre (no lo borres) -->
 
 <section class="section" id="mano-a-mano">
 <h2>Historial Mano a Mano</h2>
