@@ -348,11 +348,6 @@
   <div id="tabla-simulada" style="margin-top: 20px;"></div>
 </section>
 
-<!-- CONTADOR DE VISITAS MEJORADO (pega esto ANTES del </body>) -->
-<div id="contador-box" style="position: fixed; bottom: 10px; right: 10px; background: #1b1b1b; color: white; padding: 5px 10px; border-radius: 5px; font-size: 14px; z-index: 1000;">
-  Visitas: <span id="contador-visitas">0</span>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 function showSection(id) {
@@ -630,19 +625,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll('.match-table td:nth-child(3), .match-table td:nth-child(5)').forEach(td => {
     td.addEventListener('input', actualizarTabla);
   });
-});
-
-// ===== CONTADOR DE VISITAS MEJORADO (pega esto AL FINAL DEL <script>) =====
-document.addEventListener("DOMContentLoaded", () => {
-  // Solución para GitHub Pages y Chrome
-  if (window.location.href.indexOf('github.io') > -1) {
-    document.getElementById('contador-box').style.display = 'none'; // Ocultar en GitHub
-  } else {
-    let visitas = localStorage.getItem('visitas') || 0;
-    visitas++;
-    localStorage.setItem('visitas', visitas);
-    document.getElementById('contador-visitas').textContent = visitas;
-  }
 });
 </script>
 </body>
