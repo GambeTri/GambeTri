@@ -18,7 +18,7 @@
     th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: center; }
     th { background-color: #333; color: white; }
     .match-table { width: 100%; margin-top: 1rem; border-collapse: collapse; }
-    .match-table td { padding: 0.5rem; text-align: center; }
+    .match-table td { padding: 0.5rem; text-align: center; vertical-align: middle; }
     .match-date { font-weight: bold; margin-top: 1rem; }
     .inicio h2 { font-size: 2.5em; color: #1a1a1a; margin-bottom: 10px; }
     .inicio p { font-size: 1.2em; color: #444; max-width: 700px; margin: 0 auto 20px; text-align: center; }
@@ -26,6 +26,9 @@
     .top-pos { background-color: #d4edda; }
     .mid-pos { background-color: #fff3cd; }
     .low-pos { background-color: #f8d7da; }
+    .escudo-equipo { height: 25px; width: 25px; object-fit: contain; display: block; margin: 0 auto; }
+    .nombre-equipo { display: block; margin-top: 5px; }
+    .celda-equipo { min-width: 120px; padding: 8px 5px; }
 </style>
 </head>
 <body>
@@ -45,24 +48,24 @@
 <img alt="Imagen de inicio" src="logo-ultimo.png"/>
 </section>
 <section class="section" id="partidos">
-<h2>Fecha 16</h2>
+<h2>Fecha 16 - Junio 2025</h2>
 <div class="match-date">Sábado 14 de junio 2025</div>
 <table class="match-table">
-<tr><td>14:00</td><td>I. del Valle</td><td>1</td><td>-</td><td>1</td><td>Libertad</td></tr>
-<tr><td>16:30</td><td>Barcelona SC</td><td>1</td><td>-</td><td>2</td><td>Manta</td></tr>
-<tr><td>19:00</td><td>Vinotinto FC</td><td>1</td><td>-</td><td>2</td><td>Liga de Quito</td></tr>
+<tr><td>14:00</td><td class="celda-equipo"><img src="idv.png" class="escudo-equipo"><span class="nombre-equipo">I. del Valle</span></td><td>1</td><td>-</td><td>1</td><td class="celda-equipo"><img src="libertad.png" class="escudo-equipo"><span class="nombre-equipo">Libertad</span></td></tr>
+<tr><td>16:30</td><td class="celda-equipo"><img src="barcelona.png" class="escudo-equipo"><span class="nombre-equipo">Barcelona SC</span></td><td>1</td><td>-</td><td>2</td><td class="celda-equipo"><img src="manta.png" class="escudo-equipo"><span class="nombre-equipo">Manta</span></td></tr>
+<tr><td>19:00</td><td class="celda-equipo"><img src="vinotinto.png" class="escudo-equipo"><span class="nombre-equipo">Vinotinto FC</span></td><td>1</td><td>-</td><td>2</td><td class="celda-equipo"><img src="ldu.png" class="escudo-equipo"><span class="nombre-equipo">Liga de Quito</span></td></tr>
 </table>
 
 <div class="match-date">Domingo 15 de junio 2025</div>
 <table class="match-table">
-<tr><td>13:00</td><td>T. Universitario</td><td>1</td><td>-</td><td>1</td><td>Aucas</td></tr>
-<tr><td>15:30</td><td>D. Cuenca</td><td>4</td><td>-</td><td>1</td><td>El Nacional</td></tr>
-<tr><td>18:00</td><td>Delfín</td><td></td><td>-</td><td></td><td>Mushuc Runa</td></tr>
+<tr><td>13:00</td><td class="celda-equipo"><img src="tecnico.png" class="escudo-equipo"><span class="nombre-equipo">T. Universitario</span></td><td></td><td>-</td><td></td><td class="celda-equipo"><img src="aucas.png" class="escudo-equipo"><span class="nombre-equipo">Aucas</span></td></tr>
+<tr><td>15:30</td><td class="celda-equipo"><img src="cuenca.png" class="escudo-equipo"><span class="nombre-equipo">D. Cuenca</span></td><td></td><td>-</td><td></td><td class="celda-equipo"><img src="nacional.png" class="escudo-equipo"><span class="nombre-equipo">El Nacional</span></td></tr>
+<tr><td>18:00</td><td class="celda-equipo"><img src="delfin.png" class="escudo-equipo"><span class="nombre-equipo">Delfín</span></td><td></td><td>-</td><td></td><td class="celda-equipo"><img src="mushuc.png" class="escudo-equipo"><span class="nombre-equipo">Mushuc Runa</span></td></tr>
 </table>
 
 <div class="match-date">Lunes 16 de junio 2025</div>
 <table class="match-table">
-<tr><td>19:00</td><td>Orense</td><td></td><td>-</td><td></td><td>Macará</td></tr>
+<tr><td>19:00</td><td class="celda-equipo"><img src="orense.png" class="escudo-equipo"><span class="nombre-equipo">Orense</span></td><td></td><td>-</td><td></td><td class="celda-equipo"><img src="macara.png" class="escudo-equipo"><span class="nombre-equipo">Macará</span></td></tr>
 </table>
 </section>
 <section class="section" id="posiciones">
@@ -117,6 +120,26 @@ let tablaBase = [
   ["T. Universitario",15,10,2,4,9,14,25,-11]
 ];
 
+// Mapeo de escudos
+const escudosEquipos = {
+  "I. del Valle": "idv.png",
+  "Barcelona SC": "barcelona.png",
+  "Liga de Quito": "ldu.png",
+  "Aucas": "aucas.png",
+  "D. Cuenca": "cuenca.png",
+  "Orense": "orense.png",
+  "Vinotinto FC": "vinotinto.png",
+  "U. Católica": "catolica.png",
+  "El Nacional": "nacional.png",
+  "Libertad": "libertad.png",
+  "Delfín": "delfin.png",
+  "Manta": "manta.png",
+  "Emelec": "emelec.png",
+  "Macará": "macara.png",
+  "Mushuc Runa": "mushuc.png",
+  "T. Universitario": "tecnico.png"
+};
+
 // Función para actualizar la tabla según los resultados de los partidos
 function actualizarTabla() {
   // Reiniciamos los datos a los valores iniciales
@@ -142,10 +165,10 @@ function actualizarTabla() {
   // Procesamos los resultados de los partidos
   document.querySelectorAll(".match-table tr").forEach(fila => {
     const tds = fila.querySelectorAll("td");
-    const local = tds[1]?.textContent?.trim();
+    const local = tds[1]?.querySelector('.nombre-equipo')?.textContent?.trim();
     const gl = parseInt(tds[2]?.textContent);
     const gv = parseInt(tds[4]?.textContent);
-    const visitante = tds[5]?.textContent?.trim();
+    const visitante = tds[5]?.querySelector('.nombre-equipo')?.textContent?.trim();
     
     if (!local || !visitante || isNaN(gl) || isNaN(gv)) return;
     
@@ -183,10 +206,26 @@ function actualizarTabla() {
   
   tablaBase.forEach((e, i) => {
     const fila = document.createElement("tr");
-    fila.innerHTML = `<td>${i + 1}</td><td>${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td><td>${e[3]}</td><td>${e[4]}</td><td>${e[5]}</td><td>${e[6]}</td><td>${e[7]}</td><td>${e[8]}</td>`;
+    fila.innerHTML = `
+      <td>${i + 1}</td>
+      <td class="celda-equipo">
+        <img src="${escudosEquipos[e[0]]}" class="escudo-equipo">
+        <span class="nombre-equipo">${e[0]}</span>
+      </td>
+      <td>${e[1]}</td>
+      <td>${e[2]}</td>
+      <td>${e[3]}</td>
+      <td>${e[4]}</td>
+      <td>${e[5]}</td>
+      <td>${e[6]}</td>
+      <td>${e[7]}</td>
+      <td>${e[8]}</td>
+    `;
+    
     if (i < 6) fila.classList.add("top-pos");
     else if (i < 12) fila.classList.add("mid-pos");
     else fila.classList.add("low-pos");
+    
     cuerpo.appendChild(fila);
   });
 }
