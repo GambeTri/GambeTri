@@ -33,6 +33,25 @@
     .escudo-equipo.ldu { height: 45px !important; width: 45px !important; }
     .escudo-equipo.macara { height: 45px !important; width: 45px !important; }
     .escudo-equipo.tecnico { height: 45px !important; width: 45px !important; }
+    /* Estilos para el simulador */
+    #partidos-simulador {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .partido-simulado {
+      background: white;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 10px;
+    }
+    #tabla-simulada table {
+      width: 100%;
+      background: white;
+      margin-top: 15px;
+    }
 </style>
 </head>
 <body>
@@ -45,33 +64,114 @@
 <button onclick="showSection('mano-a-mano')">Historial Mano a Mano</button>
 <button onclick="showSection('posiciones')">Tabla de Posiciones</button>
 <button onclick="showSection('partidos')">Próximos Partidos</button>
+<button onclick="showSection('simulador')">Simulador</button>
 </nav>
 <section class="section active inicio" id="inicio">
 <h2>Bienvenido a GambeTri</h2>
 <p>Explora las estadísticas, historia y actualidad del fútbol ecuatoriano...</p>
 <img alt="Imagen de inicio" src="logo-ultimo.png"/>
 </section>
+
 <section class="section" id="partidos">
-<h2>Fecha 16 - Junio 2025</h2>
-<div class="match-date">Sábado 14 de junio 2025</div>
-<table class="match-table">
-<tr><td>14:00</td><td class="celda-equipo"><img src="idv.png" class="escudo-equipo"><span class="nombre-equipo">I. del Valle</span></td><td>1</td><td>-</td><td>1</td><td class="celda-equipo"><img src="libertad.png" class="escudo-equipo"><span class="nombre-equipo">Libertad</span></td></tr>
-<tr><td>16:30</td><td class="celda-equipo"><img src="barcelona.png" class="escudo-equipo"><span class="nombre-equipo">Barcelona SC</span></td><td>1</td><td>-</td><td>2</td><td class="celda-equipo"><img src="manta.png" class="escudo-equipo"><span class="nombre-equipo">Manta</span></td></tr>
-<tr><td>19:00</td><td class="celda-equipo"><img src="vinotinto.png" class="escudo-equipo"><span class="nombre-equipo">Vinotinto FC</span></td><td>1</td><td>-</td><td>2</td><td class="celda-equipo"><img src="ldu.png" class="escudo-equipo ldu"><span class="nombre-equipo">Liga de Quito</span></td></tr>
-</table>
+  <!-- Fecha 16 -->
+  <h2>Fecha 16 - Junio 2025</h2>
+  <div class="match-date">Sábado 14 de junio</div>
+  <table class="match-table">
+    <tr><td>14:00</td><td class="celda-equipo"><img src="idv.png" class="escudo-equipo"><span class="nombre-equipo">I. del Valle</span></td><td>1</td><td>-</td><td>1</td><td class="celda-equipo"><img src="libertad.png" class="escudo-equipo"><span class="nombre-equipo">Libertad</span></td></tr>
+    <tr><td>16:30</td><td class="celda-equipo"><img src="barcelona.png" class="escudo-equipo"><span class="nombre-equipo">Barcelona SC</span></td><td>1</td><td>-</td><td>2</td><td class="celda-equipo"><img src="manta.png" class="escudo-equipo"><span class="nombre-equipo">Manta</span></td></tr>
+    <tr><td>19:00</td><td class="celda-equipo"><img src="vinotinto.png" class="escudo-equipo"><span class="nombre-equipo">Vinotinto FC</span></td><td>1</td><td>-</td><td>2</td><td class="celda-equipo"><img src="ldu.png" class="escudo-equipo ldu"><span class="nombre-equipo">Liga de Quito</span></td></tr>
+  </table>
 
-<div class="match-date">Domingo 15 de junio 2025</div>
-<table class="match-table">
-<tr><td>13:00</td><td class="celda-equipo"><img src="tecnico.png" class="escudo-equipo tecnico"><span class="nombre-equipo">T. Universitario</span></td><td>1</td><td>-</td><td>1</td><td class="celda-equipo"><img src="aucas.png" class="escudo-equipo"><span class="nombre-equipo">Aucas</span></td></tr>
-<tr><td>15:30</td><td class="celda-equipo"><img src="cuenca.png" class="escudo-equipo"><span class="nombre-equipo">D. Cuenca</span></td><td>4</td><td>-</td><td>1</td><td class="celda-equipo"><img src="nacional.png" class="escudo-equipo"><span class="nombre-equipo">El Nacional</span></td></tr>
-<tr><td>18:00</td><td class="celda-equipo"><img src="delfin.png" class="escudo-equipo"><span class="nombre-equipo">Delfín</span></td><td>3</td><td>-</td><td>1</td><td class="celda-equipo"><img src="mushuc.png" class="escudo-equipo"><span class="nombre-equipo">Mushuc Runa</span></td></tr>
-</table>
+  <div class="match-date">Domingo 15 de junio</div>
+  <table class="match-table">
+    <tr><td>13:00</td><td class="celda-equipo"><img src="tecnico.png" class="escudo-equipo tecnico"><span class="nombre-equipo">T. Universitario</span></td><td>1</td><td>-</td><td>1</td><td class="celda-equipo"><img src="aucas.png" class="escudo-equipo"><span class="nombre-equipo">Aucas</span></td></tr>
+    <tr><td>15:30</td><td class="celda-equipo"><img src="cuenca.png" class="escudo-equipo"><span class="nombre-equipo">D. Cuenca</span></td><td>4</td><td>-</td><td>1</td><td class="celda-equipo"><img src="nacional.png" class="escudo-equipo"><span class="nombre-equipo">El Nacional</span></td></tr>
+    <tr><td>18:00</td><td class="celda-equipo"><img src="delfin.png" class="escudo-equipo"><span class="nombre-equipo">Delfín</span></td><td>3</td><td>-</td><td>1</td><td class="celda-equipo"><img src="mushuc.png" class="escudo-equipo"><span class="nombre-equipo">Mushuc Runa</span></td></tr>
+  </table>
 
-<div class="match-date">Lunes 16 de junio 2025</div>
-<table class="match-table">
-<tr><td>19:00</td><td class="celda-equipo"><img src="orense.png" class="escudo-equipo"><span class="nombre-equipo">Orense</span></td><td></td><td>-</td><td></td><td class="celda-equipo"><img src="macara.png" class="escudo-equipo macara"><span class="nombre-equipo">Macará</span></td></tr>
-</table>
+  <div class="match-date">Lunes 16 de junio</div>
+  <table class="match-table">
+    <tr><td>19:00</td><td class="celda-equipo"><img src="orense.png" class="escudo-equipo"><span class="nombre-equipo">Orense</span></td><td></td><td>-</td><td></td><td class="celda-equipo"><img src="macara.png" class="escudo-equipo macara"><span class="nombre-equipo">Macará</span></td></tr>
+  </table>
+
+  <!-- Fecha 7 Aplazada -->
+  <h2>Fecha 7 Aplazada - Miércoles 18 de junio</h2>
+  <table class="match-table">
+    <tr>
+      <td>19:00</td>
+      <td class="celda-equipo"><img src="macara.png" class="escudo-equipo macara"><span class="nombre-equipo">Macará</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="tecnico.png" class="escudo-equipo tecnico"><span class="nombre-equipo">T. Universitario</span></td>
+    </tr>
+  </table>
+
+  <!-- Fecha 17 -->
+  <h2>Fecha 17 - Junio 2025</h2>
+  <div class="match-date">Viernes 20 de junio</div>
+  <table class="match-table">
+    <tr>
+      <td>19:00</td>
+      <td class="celda-equipo"><img src="libertad.png" class="escudo-equipo"><span class="nombre-equipo">Libertad</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="tecnico.png" class="escudo-equipo tecnico"><span class="nombre-equipo">T. Universitario</span></td>
+    </tr>
+  </table>
+
+  <div class="match-date">Sábado 21 de junio</div>
+  <table class="match-table">
+    <tr>
+      <td>14:00</td>
+      <td class="celda-equipo"><img src="nacional.png" class="escudo-equipo"><span class="nombre-equipo">El Nacional</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="catolica.png" class="escudo-equipo"><span class="nombre-equipo">U. Católica</span></td>
+    </tr>
+    <tr>
+      <td>16:30</td>
+      <td class="celda-equipo"><img src="emelec.png" class="escudo-equipo"><span class="nombre-equipo">Emelec</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="delfin.png" class="escudo-equipo"><span class="nombre-equipo">Delfín</span></td>
+    </tr>
+    <tr>
+      <td>19:00</td>
+      <td class="celda-equipo"><img src="macara.png" class="escudo-equipo macara"><span class="nombre-equipo">Macará</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="vinotinto.png" class="escudo-equipo"><span class="nombre-equipo">Vinotinto FC</span></td>
+    </tr>
+  </table>
+
+  <div class="match-date">Domingo 22 de junio</div>
+  <table class="match-table">
+    <tr>
+      <td>12:00</td>
+      <td class="celda-equipo"><img src="ldu.png" class="escudo-equipo ldu"><span class="nombre-equipo">Liga de Quito</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="idv.png" class="escudo-equipo"><span class="nombre-equipo">I. del Valle</span></td>
+    </tr>
+    <tr>
+      <td>15:00</td>
+      <td class="celda-equipo"><img src="aucas.png" class="escudo-equipo"><span class="nombre-equipo">Aucas</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="cuenca.png" class="escudo-equipo"><span class="nombre-equipo">D. Cuenca</span></td>
+    </tr>
+    <tr>
+      <td>18:00</td>
+      <td class="celda-equipo"><img src="mushuc.png" class="escudo-equipo"><span class="nombre-equipo">Mushuc Runa</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="barcelona.png" class="escudo-equipo"><span class="nombre-equipo">Barcelona SC</span></td>
+    </tr>
+  </table>
+
+  <div class="match-date">Lunes 23 de junio</div>
+  <table class="match-table">
+    <tr>
+      <td>19:00</td>
+      <td class="celda-equipo"><img src="manta.png" class="escudo-equipo"><span class="nombre-equipo">Manta</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="orense.png" class="escudo-equipo"><span class="nombre-equipo">Orense</span></td>
+    </tr>
+  </table>
 </section>
+
 <section class="section" id="posiciones">
 <h2>Tabla de Posiciones</h2>
 <table>
@@ -81,6 +181,7 @@
 <tbody id="tabla-posiciones"></tbody>
 </table>
 </section>
+
 <section class="section" id="mano-a-mano">
 <h2>Historial Mano a Mano</h2>
 <select id="selector-enfrentamiento">
@@ -97,6 +198,156 @@
 </select>
 <canvas height="250" id="graficoEnfrentamiento" width="400"></canvas>
 </section>
+
+<section class="section" id="simulador">
+  <h2>Simulador de Posiciones</h2>
+  <div id="partidos-simulador">
+    <h3>Simula los próximos partidos:</h3>
+    
+    <!-- Partido aplazado -->
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Miércoles 18:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="Macará" selected>Macará</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="T. Universitario" selected>T. Universitario</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Fecha 17 -->
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Viernes 20:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="Libertad" selected>Libertad</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="T. Universitario" selected>T. Universitario</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Sábado 21:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="El Nacional" selected>El Nacional</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="U. Católica" selected>U. Católica</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Sábado 21:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="Emelec" selected>Emelec</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="Delfín" selected>Delfín</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Sábado 21:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="Macará" selected>Macará</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="Vinotinto FC" selected>Vinotinto FC</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Domingo 22:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="Liga de Quito" selected>Liga de Quito</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="I. del Valle" selected>I. del Valle</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Domingo 22:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="Aucas" selected>Aucas</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="D. Cuenca" selected>D. Cuenca</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Domingo 22:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="Mushuc Runa" selected>Mushuc Runa</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="Barcelona SC" selected>Barcelona SC</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Lunes 23:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="Manta" selected>Manta</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="Orense" selected>Orense</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button id="calcular-simulacion" style="margin-top: 15px; padding: 10px 20px; background: #1b1b1b; color: white; border: none; cursor: pointer;">
+    Calcular Proyección
+  </button>
+  <div id="tabla-simulada" style="margin-top: 20px;"></div>
+</section>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 function showSection(id) {
@@ -289,9 +540,81 @@ function actualizarGrafico(equipo) {
   });
 }
 
+// Función para calcular la simulación
+function calcularSimulacion() {
+  const tablaSimulada = JSON.parse(JSON.stringify(tablaBase)); // Copia profunda
+  const partidosSimulados = document.querySelectorAll('.partido-simulado');
+
+  partidosSimulados.forEach(partido => {
+    const local = partido.querySelector('.equipo-local').value;
+    const visitante = partido.querySelector('.equipo-visitante').value;
+    const golesLocal = parseInt(partido.querySelector('.goles-local').value) || 0;
+    const golesVisitante = parseInt(partido.querySelector('.goles-visitante').value) || 0;
+
+    const equipoLocal = tablaSimulada.find(e => e[0] === local);
+    const equipoVisitante = tablaSimulada.find(e => e[0] === visitante);
+
+    if (equipoLocal && equipoVisitante) {
+      equipoLocal[1]++; 
+      equipoVisitante[1]++;
+      equipoLocal[6] += golesLocal; 
+      equipoLocal[7] += golesVisitante;
+      equipoVisitante[6] += golesVisitante; 
+      equipoVisitante[7] += golesLocal;
+
+      if (golesLocal > golesVisitante) {
+        equipoLocal[3]++; 
+        equipoLocal[2] += 3;
+        equipoVisitante[5]++;
+      } else if (golesVisitante > golesLocal) {
+        equipoVisitante[3]++; 
+        equipoVisitante[2] += 3;
+        equipoLocal[5]++;
+      } else {
+        equipoLocal[4]++; 
+        equipoVisitante[4]++;
+        equipoLocal[2]++; 
+        equipoVisitante[2]++;
+      }
+
+      equipoLocal[8] = equipoLocal[6] - equipoLocal[7];
+      equipoVisitante[8] = equipoVisitante[6] - equipoVisitante[7];
+    }
+  });
+
+  // Ordenar y mostrar tabla simulada
+  tablaSimulada.sort((a, b) => b[2] - a[2] || b[8] - a[8]);
+  mostrarTablaSimulada(tablaSimulada);
+}
+
+function mostrarTablaSimulada(datos) {
+  const contenedor = document.getElementById('tabla-simulada');
+  contenedor.innerHTML = '<h3>Tabla Proyectada:</h3><table><thead><tr><th>Pos</th><th>Equipo</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr></thead><tbody></tbody></table>';
+
+  const tbody = contenedor.querySelector('tbody');
+  datos.forEach((equipo, index) => {
+    const fila = document.createElement('tr');
+    fila.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${equipo[0]}</td>
+      <td>${equipo[2]}</td>
+      <td>${equipo[3]}</td>
+      <td>${equipo[4]}</td>
+      <td>${equipo[5]}</td>
+      <td>${equipo[6]}</td>
+      <td>${equipo[7]}</td>
+      <td>${equipo[8]}</td>
+    `;
+    tbody.appendChild(fila);
+  });
+}
+
 // Event listeners
 document.getElementById('selector-enfrentamiento')
   .addEventListener('change', e => actualizarGrafico(e.target.value));
+
+document.getElementById('calcular-simulacion')
+  .addEventListener('click', calcularSimulacion);
 
 // Inicialización
 document.addEventListener("DOMContentLoaded", () => {
