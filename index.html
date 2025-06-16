@@ -626,6 +626,17 @@ document.addEventListener("DOMContentLoaded", () => {
     td.addEventListener('input', actualizarTabla);
   });
 });
+    // Contador de visitas (pegar al final del <script> existente, antes del </script>)
+document.addEventListener("DOMContentLoaded", () => {
+  let visitas = localStorage.getItem('visitas') || 0;
+  visitas++;
+  localStorage.setItem('visitas', visitas);
+  document.getElementById('contador-visitas').textContent = visitas;
+});
 </script>
+    <!-- Contador de visitas - Pegar ANTES del </body> -->
+<div style="position: fixed; bottom: 10px; right: 10px; background: #1b1b1b; color: white; padding: 5px 10px; border-radius: 5px; font-size: 14px; z-index: 1000;">
+  Visitas: <span id="contador-visitas">0</span>
+</div>
 </body>
 </html>
