@@ -174,14 +174,48 @@
 
 <section class="section" id="posiciones">
   <h2>Tabla de Posiciones</h2>
-  <table>
-    <thead>
-      <tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr>
-    </thead>
-    <tbody id="tabla-posiciones"></tbody>
-  </table>
+  
+  <!-- Contenedor flexible para tabla + estadísticas -->
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
+    
+    <!-- Tabla de posiciones (izquierda) -->
+    <div style="flex: 1; min-width: 300px;">
+      <table style="width: 100%;">
+        <thead>
+          <tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr>
+        </thead>
+        <tbody id="tabla-posiciones"></tbody>
+      </table>
+    </div>
 
-  <!-- PEGA ESTO JUSTO AQUÍ (antes del </section>) -->
+    <!-- Estadísticas (derecha) -->
+    <div style="flex: 1; min-width: 280px; background: #f8f9fa; border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+      
+      <!-- Top 5 Goleadores -->
+      <h3 style="margin-top: 0; color: #d32f2f; border-bottom: 2px solid #d32f2f; padding-bottom: 5px;">⚽ Top 5 Goleadores</h3>
+      <table style="width: 100%; font-size: 14px;">
+        <thead>
+          <tr><th>#</th><th>Jugador</th><th>Equipo</th><th>PJ</th><th>Min</th><th>G</th><th>G/P</th></tr>
+        </thead>
+        <tbody id="top-goleadores">
+          <!-- Los datos se cargarán con JavaScript -->
+        </tbody>
+      </table>
+
+      <!-- Top 5 Asistencias -->
+      <h3 style="margin-top: 20px; color: #1976d2; border-bottom: 2px solid #1976d2; padding-bottom: 5px;">🎯 Top 5 Asistencias</h3>
+      <table style="width: 100%; font-size: 14px;">
+        <thead>
+          <tr><th>#</th><th>Jugador</th><th>Equipo</th><th>PJ</th><th>Min</th><th>A</th><th>A/P</th></tr>
+        </thead>
+        <tbody id="top-asistencias">
+          <!-- Los datos se cargarán con JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Leyenda de colores -->
   <div class="leyenda-posiciones" style="margin-top: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
     <h3 style="margin-top: 0;">¿Qué significan los colores?</h3>
     <ul style="list-style-type: none; padding: 0; margin-bottom: 0;">
@@ -202,7 +236,7 @@
       * ............
     </p>
   </div>
-</section>  <!-- Este es el </section> de cierre (no lo borres) -->
+</section>
 
 <section class="section" id="mano-a-mano">
 <h2>Historial Mano a Mano</h2>
@@ -631,6 +665,76 @@ function mostrarTablaSimulada(datos) {
   });
 }
 
+// Datos de jugadores (con tus estadísticas)
+const estadisticasJugadores = {
+  goleadores: [
+    { nombre: "R. Monti", equipo: "Vinotinto FC", goles: 11, pj: 14, minutos: 1120 },
+    { nombre: "D. Valencia", equipo: "Manta", goles: 10, pj: 13, minutos: 1050 },
+    { nombre: "M. Parrales", equipo: "Barcelona SC", goles: 7, pj: 12, minutos: 890 },
+    { nombre: "M. Hoyos", equipo: "I. del Valle", goles: 7, pj: 15, minutos: 1200 },
+    { nombre: "B. Palacios", equipo: "U. Católica", goles: 7, pj: 14, minutos: 1100 }
+  ],
+  asistencias: [
+    { nombre: "P. Mercado", equipo: "I. del Valle", asistencias: 8, pj: 15, minutos: 1250 },
+    { nombre: "J. Mina", equipo: "Aucas", asistencias: 7, pj: 14, minutos: 1150 },
+    { nombre: "C. Alemán", equipo: "Manta", asistencias: 6, pj: 13, minutos: 1000 },
+    { nombre: "D. Pazmiño", equipo: "El Nacional", asistencias: 5, pj: 15, minutos: 1200 },
+    { nombre: "D. Luna", equipo: "D. Cuenca", asistencias: 5, pj: 14, minutos: 1100 }
+  ]
+};
+
+// Función para mostrar estadísticas
+function actualizarTopEstadisticas() {
+  const escudos = {
+    "Vinotinto FC": "vinotinto.png",
+    "Manta": "manta.png",
+    "Barcelona SC": "barcelona.png",
+    "I. del Valle": "idv.png",
+    "U. Católica": "catolica.png",
+    "Aucas": "aucas.png",
+    "El Nacional": "nacional.png",
+    "D. Cuenca": "cuenca.png"
+  };
+
+  // Top 5 Goleadores
+  const topGoles = document.getElementById('top-goleadores');
+  topGoles.innerHTML = estadisticasJugadores.goleadores
+    .sort((a, b) => b.goles - a.goles)
+    .slice(0, 5)
+    .map((jugador, index) => `
+      <tr ${index === 0 ? 'style="background-color: #fff8e1; font-weight: bold;"' : ''}>
+        <td>${index + 1}</td>
+        <td>${jugador.nombre}</td>
+        <td style="text-align: center;">
+          <img src="${escudos[jugador.equipo]}" style="height: 20px; vertical-align: middle;" alt="${jugador.equipo}">
+        </td>
+        <td>${jugador.pj}</td>
+        <td>${jugador.minutos}</td>
+        <td>${jugador.goles}</td>
+        <td>${(jugador.goles / jugador.pj).toFixed(2)}</td>
+      </tr>
+    `).join('');
+
+  // Top 5 Asistencias
+  const topAsistencias = document.getElementById('top-asistencias');
+  topAsistencias.innerHTML = estadisticasJugadores.asistencias
+    .sort((a, b) => b.asistencias - a.asistencias)
+    .slice(0, 5)
+    .map((jugador, index) => `
+      <tr ${index === 0 ? 'style="background-color: #e8f5e9; font-weight: bold;"' : ''}>
+        <td>${index + 1}</td>
+        <td>${jugador.nombre}</td>
+        <td style="text-align: center;">
+          <img src="${escudos[jugador.equipo]}" style="height: 20px; vertical-align: middle;" alt="${jugador.equipo}">
+        </td>
+        <td>${jugador.pj}</td>
+        <td>${jugador.minutos}</td>
+        <td>${jugador.asistencias}</td>
+        <td>${(jugador.asistencias / jugador.pj).toFixed(2)}</td>
+      </tr>
+    `).join('');
+}
+
 // Event listeners
 document.getElementById('selector-enfrentamiento')
   .addEventListener('change', e => actualizarGrafico(e.target.value));
@@ -641,6 +745,7 @@ document.getElementById('calcular-simulacion')
 // Inicialización
 document.addEventListener("DOMContentLoaded", () => {
   actualizarTabla();
+  actualizarTopEstadisticas();
   actualizarGrafico('LDU-Quito');
   
   // Actualizar al modificar resultados
