@@ -52,101 +52,6 @@
       background: white;
       margin-top: 15px;
     }
-    
-    /* Nuevos estilos para fechas compactas */
-    .fecha-container {
-      margin-bottom: 15px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      overflow: hidden;
-    }
-    .fecha-header {
-      background-color: #333;
-      color: white;
-      padding: 10px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .fecha-header:hover {
-      background-color: #444;
-    }
-    .fecha-content {
-      display: none;
-      padding: 10px;
-      background-color: white;
-    }
-    .fecha-content.active {
-      display: block;
-    }
-    .partidos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 10px;
-    }
-    .partido-item {
-      display: flex;
-      align-items: center;
-      padding: 8px;
-      border: 1px solid #eee;
-      border-radius: 5px;
-    }
-    .partido-item:hover {
-      background-color: #f9f9f9;
-    }
-    .partido-equipo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 1;
-    }
-    .partido-resultado {
-      display: flex;
-      align-items: center;
-      margin: 0 10px;
-    }
-    .partido-resultado input {
-      width: 30px;
-      text-align: center;
-      margin: 0 5px;
-    }
-    .partido-hora {
-      margin-right: 10px;
-      min-width: 50px;
-    }
-    .hexagonal-section {
-      margin-top: 30px;
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 8px;
-    }
-    .hexagonal-title {
-      color: #d32f2f;
-      border-bottom: 2px solid #d32f2f;
-      padding-bottom: 5px;
-    }
-    .tabs {
-      display: flex;
-      margin-bottom: 15px;
-    }
-    .tab {
-      padding: 10px 15px;
-      cursor: pointer;
-      background: #ddd;
-      margin-right: 5px;
-      border-radius: 5px 5px 0 0;
-    }
-    .tab.active {
-      background: #333;
-      color: white;
-    }
-    .tab-content {
-      display: none;
-    }
-    .tab-content.active {
-      display: block;
-    }
 </style>
 </head>
 <body>
@@ -168,525 +73,342 @@
 </section>
 
 <section class="section" id="partidos">
-  <!-- Fecha 7 Aplazada -->
-  <div class="fecha-container">
-    <div class="fecha-header" onclick="toggleFecha(this)">
-      <span>Fecha 7 Aplazada - Miércoles 18 de junio</span>
-      <span>▼</span>
-    </div>
-    <div class="fecha-content">
-      <div class="partidos-grid">
-        <div class="partido-item">
-          <span class="partido-hora">19:00</span>
-          <div class="partido-equipo">
-            <img src="ldu.png" class="escudo-equipo ldu">
-            <span class="nombre-equipo">Liga de Quito</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="barcelona.png" class="escudo-equipo">
-            <span class="nombre-equipo">Barcelona SC</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Fecha 16 -->
-  <div class="fecha-container">
-    <div class="fecha-header" onclick="toggleFecha(this)">
-      <span>Fecha 16 - Junio 2025</span>
-      <span>▼</span>
-    </div>
-    <div class="fecha-content">
-      <div class="match-date">Sábado 14 de junio</div>
-      <div class="partidos-grid">
-        <div class="partido-item">
-          <span class="partido-hora">14:00</span>
-          <div class="partido-equipo">
-            <img src="idv.png" class="escudo-equipo">
-            <span class="nombre-equipo">I. del Valle</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="1" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="1" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="libertad.png" class="escudo-equipo">
-            <span class="nombre-equipo">Libertad</span>
-          </div>
-        </div>
-        
-        <div class="partido-item">
-          <span class="partido-hora">16:30</span>
-          <div class="partido-equipo">
-            <img src="barcelona.png" class="escudo-equipo">
-            <span class="nombre-equipo">Barcelona SC</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="1" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="2" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="manta.png" class="escudo-equipo">
-            <span class="nombre-equipo">Manta</span>
-          </div>
-        </div>
-        
-        <div class="partido-item">
-          <span class="partido-hora">19:00</span>
-          <div class="partido-equipo">
-            <img src="vinotinto.png" class="escudo-equipo">
-            <span class="nombre-equipo">Vinotinto FC</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="1" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="2" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="ldu.png" class="escudo-equipo ldu">
-            <span class="nombre-equipo">Liga de Quito</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="match-date">Domingo 15 de junio</div>
-      <div class="partidos-grid">
-        <div class="partido-item">
-          <span class="partido-hora">13:00</span>
-          <div class="partido-equipo">
-            <img src="tecnico.png" class="escudo-equipo tecnico">
-            <span class="nombre-equipo">T. Universitario</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="1" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="1" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="aucas.png" class="escudo-equipo">
-            <span class="nombre-equipo">Aucas</span>
-          </div>
-        </div>
-        
-        <div class="partido-item">
-          <span class="partido-hora">15:30</span>
-          <div class="partido-equipo">
-            <img src="cuenca.png" class="escudo-equipo">
-            <span class="nombre-equipo">D. Cuenca</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="4" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="1" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="nacional.png" class="escudo-equipo">
-            <span class="nombre-equipo">El Nacional</span>
-          </div>
-        </div>
-        
-        <div class="partido-item">
-          <span class="partido-hora">18:00</span>
-          <div class="partido-equipo">
-            <img src="delfin.png" class="escudo-equipo">
-            <span class="nombre-equipo">Delfín</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="3" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="1" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="mushuc.png" class="escudo-equipo">
-            <span class="nombre-equipo">Mushuc Runa</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="match-date">Lunes 16 de junio</div>
-      <div class="partidos-grid">
-        <div class="partido-item">
-          <span class="partido-hora">19:00</span>
-          <div class="partido-equipo">
-            <img src="orense.png" class="escudo-equipo">
-            <span class="nombre-equipo">Orense</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="1" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="macara.png" class="escudo-equipo macara">
-            <span class="nombre-equipo">Macará</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <h2>Fecha 16 - Junio 2025</h2>
+  <div class="match-date">Sábado 14 de junio</div>
+  <table class="match-table">
+    <tr><td>14:00</td><td class="celda-equipo"><img src="idv.png" class="escudo-equipo"><span class="nombre-equipo">I. del Valle</span></td><td>1</td><td>-</td><td>1</td><td class="celda-equipo"><img src="libertad.png" class="escudo-equipo"><span class="nombre-equipo">Libertad</span></td></tr>
+    <tr><td>16:30</td><td class="celda-equipo"><img src="barcelona.png" class="escudo-equipo"><span class="nombre-equipo">Barcelona SC</span></td><td>1</td><td>-</td><td>2</td><td class="celda-equipo"><img src="manta.png" class="escudo-equipo"><span class="nombre-equipo">Manta</span></td></tr>
+    <tr><td>19:00</td><td class="celda-equipo"><img src="vinotinto.png" class="escudo-equipo"><span class="nombre-equipo">Vinotinto FC</span></td><td>1</td><td>-</td><td>2</td><td class="celda-equipo"><img src="ldu.png" class="escudo-equipo ldu"><span class="nombre-equipo">Liga de Quito</span></td></tr>
+  </table>
+
+  <div class="match-date">Domingo 15 de junio</div>
+  <table class="match-table">
+    <tr><td>13:00</td><td class="celda-equipo"><img src="tecnico.png" class="escudo-equipo tecnico"><span class="nombre-equipo">T. Universitario</span></td><td>1</td><td>-</td><td>1</td><td class="celda-equipo"><img src="aucas.png" class="escudo-equipo"><span class="nombre-equipo">Aucas</span></td></tr>
+    <tr><td>15:30</td><td class="celda-equipo"><img src="cuenca.png" class="escudo-equipo"><span class="nombre-equipo">D. Cuenca</span></td><td>4</td><td>-</td><td>1</td><td class="celda-equipo"><img src="nacional.png" class="escudo-equipo"><span class="nombre-equipo">El Nacional</span></td></tr>
+    <tr><td>18:00</td><td class="celda-equipo"><img src="delfin.png" class="escudo-equipo"><span class="nombre-equipo">Delfín</span></td><td>3</td><td>-</td><td>1</td><td class="celda-equipo"><img src="mushuc.png" class="escudo-equipo"><span class="nombre-equipo">Mushuc Runa</span></td></tr>
+  </table>
+
+  <div class="match-date">Lunes 16 de junio</div>
+  <table class="match-table">
+    <tr><td>19:00</td><td class="celda-equipo"><img src="orense.png" class="escudo-equipo"><span class="nombre-equipo">Orense</span></td><td>1</td><td>-</td><td>0</td><td class="celda-equipo"><img src="macara.png" class="escudo-equipo macara"><span class="nombre-equipo">Macará</span></td></tr>
+  </table>
+
+<!-- Fecha 7 Aplazada -->
+<h2>Fecha 7 Aplazada - Miércoles 18 de junio</h2>
+<table class="match-table">
+  <tr>
+    <td>19:00</td>
+    <td class="celda-equipo"><img src="ldu.png" class="escudo-equipo ldu"><span class="nombre-equipo">Liga de Quito</span></td>
+    <td></td><td>-</td><td></td>
+    <td class="celda-equipo"><img src="barcelona.png" class="escudo-equipo"><span class="nombre-equipo">Barcelona SC</span></td>
+  </tr>
+</table>
 
   <!-- Fecha 17 -->
-  <div class="fecha-container">
-    <div class="fecha-header" onclick="toggleFecha(this)">
-      <span>Fecha 17 - Junio 2025</span>
-      <span>▼</span>
-    </div>
-    <div class="fecha-content">
-      <div class="match-date">Viernes 20 de junio</div>
-      <div class="partidos-grid">
-        <div class="partido-item">
-          <span class="partido-hora">19:00</span>
-          <div class="partido-equipo">
-            <img src="libertad.png" class="escudo-equipo">
-            <span class="nombre-equipo">Libertad</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="tecnico.png" class="escudo-equipo tecnico">
-            <span class="nombre-equipo">T. Universitario</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="match-date">Sábado 21 de junio</div>
-      <div class="partidos-grid">
-        <div class="partido-item">
-          <span class="partido-hora">14:00</span>
-          <div class="partido-equipo">
-            <img src="nacional.png" class="escudo-equipo">
-            <span class="nombre-equipo">El Nacional</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="catolica.png" class="escudo-equipo">
-            <span class="nombre-equipo">U. Católica</span>
-          </div>
-        </div>
-        
-        <div class="partido-item">
-          <span class="partido-hora">16:30</span>
-          <div class="partido-equipo">
-            <img src="emelec.png" class="escudo-equipo">
-            <span class="nombre-equipo">Emelec</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="delfin.png" class="escudo-equipo">
-            <span class="nombre-equipo">Delfín</span>
-          </div>
-        </div>
-        
-        <div class="partido-item">
-          <span class="partido-hora">19:00</span>
-          <div class="partido-equipo">
-            <img src="macara.png" class="escudo-equipo macara">
-            <span class="nombre-equipo">Macará</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="vinotinto.png" class="escudo-equipo">
-            <span class="nombre-equipo">Vinotinto FC</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="match-date">Domingo 22 de junio</div>
-      <div class="partidos-grid">
-        <div class="partido-item">
-          <span class="partido-hora">12:00</span>
-          <div class="partido-equipo">
-            <img src="ldu.png" class="escudo-equipo ldu">
-            <span class="nombre-equipo">Liga de Quito</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="idv.png" class="escudo-equipo">
-            <span class="nombre-equipo">I. del Valle</span>
-          </div>
-        </div>
-        
-        <div class="partido-item">
-          <span class="partido-hora">15:00</span>
-          <div class="partido-equipo">
-            <img src="aucas.png" class="escudo-equipo">
-            <span class="nombre-equipo">Aucas</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="cuenca.png" class="escudo-equipo">
-            <span class="nombre-equipo">D. Cuenca</span>
-          </div>
-        </div>
-        
-        <div class="partido-item">
-          <span class="partido-hora">18:00</span>
-          <div class="partido-equipo">
-            <img src="mushuc.png" class="escudo-equipo">
-            <span class="nombre-equipo">Mushuc Runa</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="barcelona.png" class="escudo-equipo">
-            <span class="nombre-equipo">Barcelona SC</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="match-date">Lunes 23 de junio</div>
-      <div class="partidos-grid">
-        <div class="partido-item">
-          <span class="partido-hora">19:00</span>
-          <div class="partido-equipo">
-            <img src="manta.png" class="escudo-equipo">
-            <span class="nombre-equipo">Manta</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="orense.png" class="escudo-equipo">
-            <span class="nombre-equipo">Orense</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <h2>Fecha 17 - Junio 2025</h2>
+  <div class="match-date">Viernes 20 de junio</div>
+  <table class="match-table">
+    <tr>
+      <td>19:00</td>
+      <td class="celda-equipo"><img src="libertad.png" class="escudo-equipo"><span class="nombre-equipo">Libertad</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="tecnico.png" class="escudo-equipo tecnico"><span class="nombre-equipo">T. Universitario</span></td>
+    </tr>
+  </table>
 
-  <!-- Fechas 18-30 (estructura similar) -->
-  <!-- Solo mostraré un ejemplo, el resto sería similar -->
-  <div class="fecha-container">
-    <div class="fecha-header" onclick="toggleFecha(this)">
-      <span>Fecha 18 - Junio 2025</span>
-      <span>▼</span>
-    </div>
-    <div class="fecha-content">
-      <div class="partidos-grid">
-        <div class="partido-item">
-          <span class="partido-hora">14:00</span>
-          <div class="partido-equipo">
-            <img src="barcelona.png" class="escudo-equipo">
-            <span class="nombre-equipo">Barcelona SC</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="libertad.png" class="escudo-equipo">
-            <span class="nombre-equipo">Libertad</span>
-          </div>
-        </div>
-        
-        <div class="partido-item">
-          <span class="partido-hora">16:30</span>
-          <div class="partido-equipo">
-            <img src="orense.png" class="escudo-equipo">
-            <span class="nombre-equipo">Orense</span>
-          </div>
-          <div class="partido-resultado">
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-            <span>-</span>
-            <input type="number" min="0" value="0" onchange="actualizarTabla()">
-          </div>
-          <div class="partido-equipo">
-            <img src="ldu.png" class="escudo-equipo ldu">
-            <span class="nombre-equipo">Liga de Quito</span>
-          </div>
-        </div>
-        
-        <!-- Más partidos de la fecha 18 -->
-      </div>
-    </div>
-  </div>
+  <div class="match-date">Sábado 21 de junio</div>
+  <table class="match-table">
+    <tr>
+      <td>14:00</td>
+      <td class="celda-equipo"><img src="nacional.png" class="escudo-equipo"><span class="nombre-equipo">El Nacional</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="catolica.png" class="escudo-equipo"><span class="nombre-equipo">U. Católica</span></td>
+    </tr>
+    <tr>
+      <td>16:30</td>
+      <td class="celda-equipo"><img src="emelec.png" class="escudo-equipo"><span class="nombre-equipo">Emelec</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="delfin.png" class="escudo-equipo"><span class="nombre-equipo">Delfín</span></td>
+    </tr>
+    <tr>
+      <td>19:00</td>
+      <td class="celda-equipo"><img src="macara.png" class="escudo-equipo macara"><span class="nombre-equipo">Macará</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="vinotinto.png" class="escudo-equipo"><span class="nombre-equipo">Vinotinto FC</span></td>
+    </tr>
+  </table>
 
-  <!-- Continuar con fechas 19-30 de manera similar -->
-  <!-- ... -->
+  <div class="match-date">Domingo 22 de junio</div>
+  <table class="match-table">
+    <tr>
+      <td>12:00</td>
+      <td class="celda-equipo"><img src="ldu.png" class="escudo-equipo ldu"><span class="nombre-equipo">Liga de Quito</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="idv.png" class="escudo-equipo"><span class="nombre-equipo">I. del Valle</span></td>
+    </tr>
+    <tr>
+      <td>15:00</td>
+      <td class="celda-equipo"><img src="aucas.png" class="escudo-equipo"><span class="nombre-equipo">Aucas</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="cuenca.png" class="escudo-equipo"><span class="nombre-equipo">D. Cuenca</span></td>
+    </tr>
+    <tr>
+      <td>18:00</td>
+      <td class="celda-equipo"><img src="mushuc.png" class="escudo-equipo"><span class="nombre-equipo">Mushuc Runa</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="barcelona.png" class="escudo-equipo"><span class="nombre-equipo">Barcelona SC</span></td>
+    </tr>
+  </table>
 
+  <div class="match-date">Lunes 23 de junio</div>
+  <table class="match-table">
+    <tr>
+      <td>19:00</td>
+      <td class="celda-equipo"><img src="manta.png" class="escudo-equipo"><span class="nombre-equipo">Manta</span></td>
+      <td></td><td>-</td><td></td>
+      <td class="celda-equipo"><img src="orense.png" class="escudo-equipo"><span class="nombre-equipo">Orense</span></td>
+    </tr>
+  </table>
 </section>
 
 <section class="section" id="posiciones">
   <h2>Tabla de Posiciones</h2>
   
-  <!-- Pestañas para diferentes fases -->
-  <div class="tabs">
-    <div class="tab active" onclick="changeTab('tabla-general')">Fase Regular</div>
-    <div class="tab" onclick="changeTab('hexagonal-a')">Hexagonal A</div>
-    <div class="tab" onclick="changeTab('hexagonal-b')">Hexagonal B</div>
-    <div class="tab" onclick="changeTab('cuadrangular')">Cuadrangular</div>
-  </div>
-  
-  <!-- Tabla general -->
-  <div id="tabla-general" class="tab-content active">
-    <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
-      <!-- Tabla de posiciones (izquierda) -->
-      <div style="flex: 1; min-width: 300px;">
-        <table style="width: 100%;">
-          <thead>
-            <tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr>
-          </thead>
-          <tbody id="tabla-posiciones"></tbody>
-        </table>
-      </div>
-
-      <!-- Estadísticas (derecha) -->
-      <div style="flex: 1; min-width: 280px; background: #f8f9fa; border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-        <!-- Top 5 Goleadores -->
-        <h3 style="margin-top: 0; color: #d32f2f; border-bottom: 2px solid #d32f2f; padding-bottom: 5px;">⚽ Top 5 Goleadores</h3>
-        <table style="width: 100%; font-size: 14px;">
-          <thead>
-            <tr><th>#</th><th>Jugador</th><th>Equipo</th><th>PJ</th><th>Min</th><th>G</th><th>G/P</th></tr>
-          </thead>
-          <tbody id="top-goleadores"></tbody>
-        </table>
-
-        <!-- Top 5 Asistencias -->
-        <h3 style="margin-top: 20px; color: #1976d2; border-bottom: 2px solid #1976d2; padding-bottom: 5px;">🎯 Top 5 Asistencias</h3>
-        <table style="width: 100%; font-size: 14px;">
-          <thead>
-            <tr><th>#</th><th>Jugador</th><th>Equipo</th><th>PJ</th><th>Min</th><th>A</th><th>A/P</th></tr>
-          </thead>
-          <tbody id="top-asistencias"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Leyenda de colores -->
-    <div class="leyenda-posiciones" style="margin-top: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
-      <h3 style="margin-top: 0;">¿Qué significan los colores?</h3>
-      <ul style="list-style-type: none; padding: 0; margin-bottom: 0;">
-        <li style="margin-bottom: 8px;">
-          <span style="display: inline-block; width: 20px; height: 20px; background-color: #d4edda; border: 1px solid #999; margin-right: 10px; vertical-align: middle;"></span>
-          <strong>Top 6 (Verde):</strong> Clasifican a hexagonal final (Libertadores y Sudamericana).
-        </li>
-        <li style="margin-bottom: 8px;">
-          <span style="display: inline-block; width: 20px; height: 20px; background-color: #fff3cd; border: 1px solid #999; margin-right: 10px; vertical-align: middle;"></span>
-          <strong>Puestos 7-12 (Amarillo):</strong> Posibilidad de Copa Sudamericana.
-        </li>
-        <li>
-          <span style="display: inline-block; width: 20px; height: 20px; background-color: #f8d7da; border: 1px solid #999; margin-right: 10px; vertical-align: middle;"></span>
-          <strong>Puestos 13-16 (Rojo):</strong> Zona de descenso directo.
-        </li>
-      </ul>
-    </div>
-  </div>
-  
-  <!-- Hexagonal A -->
-  <div id="hexagonal-a" class="tab-content">
-    <div class="hexagonal-section">
-      <h3 class="hexagonal-title">Hexagonal A - Clasificación a Libertadores</h3>
+  <!-- Contenedor flexible para tabla + estadísticas -->
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
+    
+    <!-- Tabla de posiciones (izquierda) -->
+    <div style="flex: 1; min-width: 300px;">
       <table style="width: 100%;">
         <thead>
           <tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr>
         </thead>
-        <tbody id="hexagonal-a-body"></tbody>
+        <tbody id="tabla-posiciones"></tbody>
+      </table>
+    </div>
+
+    <!-- Estadísticas (derecha) -->
+    <div style="flex: 1; min-width: 280px; background: #f8f9fa; border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+      
+      <!-- Top 5 Goleadores -->
+      <h3 style="margin-top: 0; color: #d32f2f; border-bottom: 2px solid #d32f2f; padding-bottom: 5px;">⚽ Top 5 Goleadores</h3>
+      <table style="width: 100%; font-size: 14px;">
+        <thead>
+          <tr><th>#</th><th>Jugador</th><th>Equipo</th><th>PJ</th><th>Min</th><th>G</th><th>G/P</th></tr>
+        </thead>
+        <tbody id="top-goleadores">
+          <!-- Los datos se cargarán con JavaScript -->
+        </tbody>
+      </table>
+
+      <!-- Top 5 Asistencias -->
+      <h3 style="margin-top: 20px; color: #1976d2; border-bottom: 2px solid #1976d2; padding-bottom: 5px;">🎯 Top 5 Asistencias</h3>
+      <table style="width: 100%; font-size: 14px;">
+        <thead>
+          <tr><th>#</th><th>Jugador</th><th>Equipo</th><th>PJ</th><th>Min</th><th>A</th><th>A/P</th></tr>
+        </thead>
+        <tbody id="top-asistencias">
+          <!-- Los datos se cargarán con JavaScript -->
+        </tbody>
       </table>
     </div>
   </div>
-  
-  <!-- Hexagonal B -->
-  <div id="hexagonal-b" class="tab-content">
-    <div class="hexagonal-section">
-      <h3 class="hexagonal-title">Hexagonal B - Clasificación a Sudamericana</h3>
-      <table style="width: 100%;">
-        <thead>
-          <tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr>
-        </thead>
-        <tbody id="hexagonal-b-body"></tbody>
-      </table>
-    </div>
-  </div>
-  
-  <!-- Cuadrangular Descenso -->
-  <div id="cuadrangular" class="tab-content">
-    <div class="hexagonal-section">
-      <h3 class="hexagonal-title">Cuadrangular de Descenso</h3>
-      <table style="width: 100%;">
-        <thead>
-          <tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr>
-        </thead>
-        <tbody id="cuadrangular-body"></tbody>
-      </table>
-    </div>
+
+  <!-- Leyenda de colores -->
+  <div class="leyenda-posiciones" style="margin-top: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+    <h3 style="margin-top: 0;">¿Qué significan los colores?</h3>
+    <ul style="list-style-type: none; padding: 0; margin-bottom: 0;">
+      <li style="margin-bottom: 8px;">
+        <span style="display: inline-block; width: 20px; height: 20px; background-color: #d4edda; border: 1px solid #999; margin-right: 10px; vertical-align: middle;"></span>
+        <strong>Top 6 (Verde):</strong> Clasifican a hexagonal final (Libertadores y Sudamericana).
+      </li>
+      <li style="margin-bottom: 8px;">
+        <span style="display: inline-block; width: 20px; height: 20px; background-color: #fff3cd; border: 1px solid #999; margin-right: 10px; vertical-align: middle;"></span>
+        <strong>Puestos 7-12 (Amarillo):</strong> Posibilidad de Copa Sudamericana.
+      </li>
+      <li>
+        <span style="display: inline-block; width: 20px; height: 20px; background-color: #f8d7da; border: 1px solid #999; margin-right: 10px; vertical-align: middle;"></span>
+        <strong>Puestos 13-16 (Rojo):</strong> Zona de descenso directo.
+      </li>
+    </ul>
+    <p style="font-size: 12px; color: #666; margin-top: 10px; margin-bottom: 0;">
+      * ............
+    </p>
   </div>
 </section>
 
-<!-- Resto de las secciones (mano-a-mano, simulador) se mantienen igual -->
-<!-- ... -->
+<section class="section" id="mano-a-mano">
+<h2>Historial Mano a Mano</h2>
+<select id="selector-enfrentamiento">
+<option value="LDU-Quito">LDU vs Quito</option>
+<option value="LDU-Barcelona">LDU vs Barcelona</option>
+<option value="LDU-Nacional">LDU vs Nacional</option>
+<option value="Barcelona-Emelec">Barcelona vs Emelec</option>
+<option value="Barcelona-Nacional">Barcelona vs Nacional</option>
+<option value="LDU-IDV">LDU vs IDV</option>
+<option value="Cuenca-LDU">Cuenca vs LDU</option>
+<option value="Macará-Técnico">Macará vs Técnico</option>
+<option value="LDU-Delfín">LDU vs Delfín</option>
+<option value="LDU-Católica">LDU vs Católica</option>
+</select>
+<canvas height="250" id="graficoEnfrentamiento" width="400"></canvas>
+</section>
+
+<section class="section" id="simulador">
+  <h2>Simulador de Posiciones</h2>
+  <div id="partidos-simulador">
+    <h3>Simula los próximos partidos:</h3>
+    
+    <!-- Partido aplazado -->
+<div class="partido-simulado">
+  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+    <span>Miércoles 18:</span>
+    <select class="equipo-local" style="padding: 5px;">
+      <option value="Liga de Quito" selected>Liga de Quito</option>
+    </select>
+    <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+    <span>vs</span>
+    <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+    <select class="equipo-visitante" style="padding: 5px;">
+      <option value="Barcelona SC" selected>Barcelona SC</option>
+    </select>
+  </div>
+</div>
+
+    <!-- Fecha 17 -->
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Viernes 20:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="Libertad" selected>Libertad</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="T. Universitario" selected>T. Universitario</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Sábado 21:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="El Nacional" selected>El Nacional</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="U. Católica" selected>U. Católica</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Sábado 21:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="Emelec" selected>Emelec</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="Delfín" selected>Delfín</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Sábado 21:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="Macará" selected>Macará</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="Vinotinto FC" selected>Vinotinto FC</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Domingo 22:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="Liga de Quito" selected>Liga de Quito</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="I. del Valle" selected>I. del Valle</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Domingo 22:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="Aucas" selected>Aucas</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="D. Cuenca" selected>D. Cuenca</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Domingo 22:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="Mushuc Runa" selected>Mushuc Runa</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="Barcelona SC" selected>Barcelona SC</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="partido-simulado">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <span>Lunes 23:</span>
+        <select class="equipo-local" style="padding: 5px;">
+          <option value="Manta" selected>Manta</option>
+        </select>
+        <input type="number" class="goles-local" min="0" value="0" style="width: 50px; padding: 5px;">
+        <span>vs</span>
+        <input type="number" class="goles-visitante" min="0" value="0" style="width: 50px; padding: 5px;">
+        <select class="equipo-visitante" style="padding: 5px;">
+          <option value="Orense" selected>Orense</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button id="calcular-simulacion" style="margin-top: 15px; padding: 10px 20px; background: #1b1b1b; color: white; border: none; cursor: pointer;">
+    Calcular Proyección
+  </button>
+  <div id="tabla-simulada" style="margin-top: 20px;"></div>
+</section>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 function showSection(id) {
   document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-}
-
-// Función para alternar fechas
-function toggleFecha(element) {
-  const content = element.nextElementSibling;
-  content.classList.toggle('active');
-  const arrow = element.querySelector('span:last-child');
-  arrow.textContent = content.classList.contains('active') ? '▲' : '▼';
-}
-
-// Función para cambiar pestañas
-function changeTab(tabId) {
-  // Ocultar todos los contenidos de pestañas
-  document.querySelectorAll('.tab-content').forEach(tab => {
-    tab.classList.remove('active');
-  });
-  
-  // Desactivar todas las pestañas
-  document.querySelectorAll('.tab').forEach(tab => {
-    tab.classList.remove('active');
-  });
-  
-  // Activar la pestaña seleccionada
-  document.getElementById(tabId).classList.add('active');
-  event.currentTarget.classList.add('active');
-  
-  // Si es una pestaña de hexagonal, actualizar esa tabla
-  if (tabId === 'hexagonal-a') actualizarHexagonalA();
-  else if (tabId === 'hexagonal-b') actualizarHexagonalB();
-  else if (tabId === 'cuadrangular') actualizarCuadrangular();
 }
 
 // Datos iniciales de la tabla
@@ -729,7 +451,7 @@ const escudosEquipos = {
   "T. Universitario": "tecnico.png"
 };
 
-// Función para actualizar la tabla general
+// Función para actualizar la tabla
 function actualizarTabla() {
   // Reiniciamos los datos
   tablaBase = [
@@ -751,14 +473,15 @@ function actualizarTabla() {
     ["T. Universitario",15,10,2,4,9,14,25,-11]
   ];
 
-  // Procesamos resultados de todos los partidos
-  document.querySelectorAll(".partido-item").forEach(partido => {
-    const local = partido.querySelector(".partido-equipo:first-child .nombre-equipo")?.textContent?.trim();
-    const visitante = partido.querySelector(".partido-equipo:last-child .nombre-equipo")?.textContent?.trim();
-    const gl = parseInt(partido.querySelector(".partido-resultado input:first-child")?.value) || 0;
-    const gv = parseInt(partido.querySelector(".partido-resultado input:last-child")?.value) || 0;
+  // Procesamos resultados
+  document.querySelectorAll(".match-table tr").forEach(fila => {
+    const tds = fila.querySelectorAll("td");
+    const local = tds[1]?.querySelector('.nombre-equipo')?.textContent?.trim();
+    const gl = parseInt(tds[2]?.textContent);
+    const gv = parseInt(tds[4]?.textContent);
+    const visitante = tds[5]?.querySelector('.nombre-equipo')?.textContent?.trim();
     
-    if (!local || !visitante) return;
+    if (!local || !visitante || isNaN(gl) || isNaN(gv)) return;
     
     const eL = tablaBase.find(e => e[0] === local);
     const eV = tablaBase.find(e => e[0] === visitante);
@@ -780,7 +503,7 @@ function actualizarTabla() {
   // Ordenamos
   tablaBase.sort((a, b) => b[2] - a[2] || b[8] - a[8]);
 
-  // Actualizamos HTML de la tabla general
+  // Actualizamos HTML
   const cuerpo = document.getElementById("tabla-posiciones");
   cuerpo.innerHTML = "";
   
@@ -813,114 +536,211 @@ function actualizarTabla() {
     
     cuerpo.appendChild(fila);
   });
-  
-  // Actualizar también los hexagonales si están visibles
-  if (document.getElementById('hexagonal-a').classList.contains('active')) actualizarHexagonalA();
-  if (document.getElementById('hexagonal-b').classList.contains('active')) actualizarHexagonalB();
-  if (document.getElementById('cuadrangular').classList.contains('active')) actualizarCuadrangular();
 }
 
-// Función para actualizar el Hexagonal A (primeros 6)
-function actualizarHexagonalA() {
-  const hexagonalA = tablaBase.slice(0, 6);
-  const cuerpo = document.getElementById("hexagonal-a-body");
-  cuerpo.innerHTML = "";
-  
-  hexagonalA.forEach((e, i) => {
-    const claseEscudo = 
-      e[0] === "Liga de Quito" ? "ldu" :
-      e[0] === "Macará" ? "macara" :
-      e[0] === "T. Universitario" ? "tecnico" : "";
+// Configuración del gráfico
+const partidosData = {
+  "LDU-Quito": [66, 53, 47, "LDU", "Empate", "Quito"],
+  "LDU-Barcelona": [84, 60, 90, "LDU", "Empate", "Barcelona"],
+  "LDU-Nacional": [81, 78, 80, "LDU", "Empate", "Nacional"],
+  "Barcelona-Emelec": [73, 83, 75, "Emelec", "Empate", "Barcelona"],
+  "Barcelona-Nacional": [99, 67, 100, "Barcelona", "Empate", "Nacional"],
+  "LDU-IDV": [25, 16, 10, "LDU", "Empate", "IDV"],
+  "Cuenca-LDU": [50, 57, 69, "Cuenca", "Empate", "LDU"],
+  "Macará-Técnico": [18, 15, 12, "Macará", "Empate", "Técnico"],
+  "LDU-Delfín": [29, 16, 16, "LDU", "Empate", "Delfín"],
+  "LDU-Católica": [51, 29, 31, "LDU", "Empate", "Católica"]
+};
 
-    const fila = document.createElement("tr");
-    fila.innerHTML = `
-      <td>${i + 1}</td>
-      <td class="celda-equipo">
-        <img src="${escudosEquipos[e[0]]}" class="escudo-equipo ${claseEscudo}">
-        <span class="nombre-equipo">${e[0]}</span>
-      </td>
-      <td>${e[1]}</td>
-      <td>${e[2]}</td>
-      <td>${e[3]}</td>
-      <td>${e[4]}</td>
-      <td>${e[5]}</td>
-      <td>${e[6]}</td>
-      <td>${e[7]}</td>
-      <td>${e[8]}</td>
-    `;
-    fila.classList.add("top-pos");
-    cuerpo.appendChild(fila);
+const coloresEquipos = {
+  "LDU": "#FFFFFF", "Quito": "#DD0000", "Barcelona": "#FFFF00", "Nacional": "#FF0000",
+  "Emelec": "#0000FF", "IDV": "#FF69B4", "Cuenca": "#FF0000", "Macará": "#00BFFF",
+  "Técnico": "#FF6347", "Delfín": "#00CED1", "Católica": "#191970", "Empate": "#808080"
+};
+
+const ctx = document.getElementById('graficoEnfrentamiento').getContext('2d');
+let chart;
+
+function actualizarGrafico(equipo) {
+  const datos = partidosData[equipo];
+  if (!datos) return;
+  
+  const data = {
+    labels: [datos[3], datos[4], datos[5]],
+    datasets: [{
+      label: "Partidos",
+      data: [datos[0], datos[1], datos[2]],
+      backgroundColor: [
+        coloresEquipos[datos[3]],
+        coloresEquipos[datos[4]],
+        coloresEquipos[datos[5]]
+      ]
+    }]
+  };
+
+  if (chart) chart.destroy();
+  
+  chart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: {
+      responsive: true,
+      animation: {
+        duration: 1000,
+        easing: 'easeOutBounce'
+      },
+      plugins: {
+        legend: { display: false }
+      }
+    }
   });
 }
 
-// Función para actualizar el Hexagonal B (puestos 7-12)
-function actualizarHexagonalB() {
-  const hexagonalB = tablaBase.slice(6, 12);
-  const cuerpo = document.getElementById("hexagonal-b-body");
-  cuerpo.innerHTML = "";
-  
-  hexagonalB.forEach((e, i) => {
-    const claseEscudo = 
-      e[0] === "Liga de Quito" ? "ldu" :
-      e[0] === "Macará" ? "macara" :
-      e[0] === "T. Universitario" ? "tecnico" : "";
+// Función para calcular la simulación
+function calcularSimulacion() {
+  const tablaSimulada = JSON.parse(JSON.stringify(tablaBase)); // Copia profunda
+  const partidosSimulados = document.querySelectorAll('.partido-simulado');
 
-    const fila = document.createElement("tr");
+  partidosSimulados.forEach(partido => {
+    const local = partido.querySelector('.equipo-local').value;
+    const visitante = partido.querySelector('.equipo-visitante').value;
+    const golesLocal = parseInt(partido.querySelector('.goles-local').value) || 0;
+    const golesVisitante = parseInt(partido.querySelector('.goles-visitante').value) || 0;
+
+    const equipoLocal = tablaSimulada.find(e => e[0] === local);
+    const equipoVisitante = tablaSimulada.find(e => e[0] === visitante);
+
+    if (equipoLocal && equipoVisitante) {
+      equipoLocal[1]++; 
+      equipoVisitante[1]++;
+      equipoLocal[6] += golesLocal; 
+      equipoLocal[7] += golesVisitante;
+      equipoVisitante[6] += golesVisitante; 
+      equipoVisitante[7] += golesLocal;
+
+      if (golesLocal > golesVisitante) {
+        equipoLocal[3]++; 
+        equipoLocal[2] += 3;
+        equipoVisitante[5]++;
+      } else if (golesVisitante > golesLocal) {
+        equipoVisitante[3]++; 
+        equipoVisitante[2] += 3;
+        equipoLocal[5]++;
+      } else {
+        equipoLocal[4]++; 
+        equipoVisitante[4]++;
+        equipoLocal[2]++; 
+        equipoVisitante[2]++;
+      }
+
+      equipoLocal[8] = equipoLocal[6] - equipoLocal[7];
+      equipoVisitante[8] = equipoVisitante[6] - equipoVisitante[7];
+    }
+  });
+
+  // Ordenar y mostrar tabla simulada
+  tablaSimulada.sort((a, b) => b[2] - a[2] || b[8] - a[8]);
+  mostrarTablaSimulada(tablaSimulada);
+}
+
+function mostrarTablaSimulada(datos) {
+  const contenedor = document.getElementById('tabla-simulada');
+  contenedor.innerHTML = '<h3>Tabla Proyectada:</h3><table><thead><tr><th>Pos</th><th>Equipo</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr></thead><tbody></tbody></table>';
+
+  const tbody = contenedor.querySelector('tbody');
+  datos.forEach((equipo, index) => {
+    const fila = document.createElement('tr');
     fila.innerHTML = `
-      <td>${i + 1}</td>
-      <td class="celda-equipo">
-        <img src="${escudosEquipos[e[0]]}" class="escudo-equipo ${claseEscudo}">
-        <span class="nombre-equipo">${e[0]}</span>
-      </td>
-      <td>${e[1]}</td>
-      <td>${e[2]}</td>
-      <td>${e[3]}</td>
-      <td>${e[4]}</td>
-      <td>${e[5]}</td>
-      <td>${e[6]}</td>
-      <td>${e[7]}</td>
-      <td>${e[8]}</td>
+      <td>${index + 1}</td>
+      <td>${equipo[0]}</td>
+      <td>${equipo[2]}</td>
+      <td>${equipo[3]}</td>
+      <td>${equipo[4]}</td>
+      <td>${equipo[5]}</td>
+      <td>${equipo[6]}</td>
+      <td>${equipo[7]}</td>
+      <td>${equipo[8]}</td>
     `;
-    fila.classList.add("mid-pos");
-    cuerpo.appendChild(fila);
+    tbody.appendChild(fila);
   });
 }
 
-// Función para actualizar el Cuadrangular (últimos 4)
-function actualizarCuadrangular() {
-  const cuadrangular = tablaBase.slice(12);
-  const cuerpo = document.getElementById("cuadrangular-body");
-  cuerpo.innerHTML = "";
-  
-  cuadrangular.forEach((e, i) => {
-    const claseEscudo = 
-      e[0] === "Liga de Quito" ? "ldu" :
-      e[0] === "Macará" ? "macara" :
-      e[0] === "T. Universitario" ? "tecnico" : "";
+// Datos de jugadores (con tus estadísticas)
+const estadisticasJugadores = {
+  goleadores: [
+    { nombre: "R. Monti", equipo: "Vinotinto FC", goles: 11, pj: 14, minutos: 1120 },
+    { nombre: "D. Valencia", equipo: "Manta", goles: 10, pj: 13, minutos: 1050 },
+    { nombre: "M. Parrales", equipo: "Barcelona SC", goles: 7, pj: 12, minutos: 890 },
+    { nombre: "M. Hoyos", equipo: "I. del Valle", goles: 7, pj: 15, minutos: 1200 },
+    { nombre: "B. Palacios", equipo: "U. Católica", goles: 7, pj: 14, minutos: 1100 }
+  ],
+  asistencias: [
+    { nombre: "P. Mercado", equipo: "I. del Valle", asistencias: 8, pj: 15, minutos: 1250 },
+    { nombre: "J. Mina", equipo: "Aucas", asistencias: 7, pj: 14, minutos: 1150 },
+    { nombre: "C. Alemán", equipo: "Manta", asistencias: 6, pj: 13, minutos: 1000 },
+    { nombre: "D. Pazmiño", equipo: "El Nacional", asistencias: 5, pj: 15, minutos: 1200 },
+    { nombre: "D. Luna", equipo: "D. Cuenca", asistencias: 5, pj: 14, minutos: 1100 }
+  ]
+};
 
-    const fila = document.createElement("tr");
-    fila.innerHTML = `
-      <td>${i + 1}</td>
-      <td class="celda-equipo">
-        <img src="${escudosEquipos[e[0]]}" class="escudo-equipo ${claseEscudo}">
-        <span class="nombre-equipo">${e[0]}</span>
-      </td>
-      <td>${e[1]}</td>
-      <td>${e[2]}</td>
-      <td>${e[3]}</td>
-      <td>${e[4]}</td>
-      <td>${e[5]}</td>
-      <td>${e[6]}</td>
-      <td>${e[7]}</td>
-      <td>${e[8]}</td>
-    `;
-    fila.classList.add("low-pos");
-    cuerpo.appendChild(fila);
-  });
+// Función para mostrar estadísticas
+function actualizarTopEstadisticas() {
+  const escudos = {
+    "Vinotinto FC": "vinotinto.png",
+    "Manta": "manta.png",
+    "Barcelona SC": "barcelona.png",
+    "I. del Valle": "idv.png",
+    "U. Católica": "catolica.png",
+    "Aucas": "aucas.png",
+    "El Nacional": "nacional.png",
+    "D. Cuenca": "cuenca.png"
+  };
+
+  // Top 5 Goleadores
+  const topGoles = document.getElementById('top-goleadores');
+  topGoles.innerHTML = estadisticasJugadores.goleadores
+    .sort((a, b) => b.goles - a.goles)
+    .slice(0, 5)
+    .map((jugador, index) => `
+      <tr ${index === 0 ? 'style="background-color: #fff8e1; font-weight: bold;"' : ''}>
+        <td>${index + 1}</td>
+        <td>${jugador.nombre}</td>
+        <td style="text-align: center;">
+          <img src="${escudos[jugador.equipo]}" style="height: 20px; vertical-align: middle;" alt="${jugador.equipo}">
+        </td>
+        <td>${jugador.pj}</td>
+        <td>${jugador.minutos}</td>
+        <td>${jugador.goles}</td>
+        <td>${(jugador.goles / jugador.pj).toFixed(2)}</td>
+      </tr>
+    `).join('');
+
+  // Top 5 Asistencias
+  const topAsistencias = document.getElementById('top-asistencias');
+  topAsistencias.innerHTML = estadisticasJugadores.asistencias
+    .sort((a, b) => b.asistencias - a.asistencias)
+    .slice(0, 5)
+    .map((jugador, index) => `
+      <tr ${index === 0 ? 'style="background-color: #e8f5e9; font-weight: bold;"' : ''}>
+        <td>${index + 1}</td>
+        <td>${jugador.nombre}</td>
+        <td style="text-align: center;">
+          <img src="${escudos[jugador.equipo]}" style="height: 20px; vertical-align: middle;" alt="${jugador.equipo}">
+        </td>
+        <td>${jugador.pj}</td>
+        <td>${jugador.minutos}</td>
+        <td>${jugador.asistencias}</td>
+        <td>${(jugador.asistencias / jugador.pj).toFixed(2)}</td>
+      </tr>
+    `).join('');
 }
 
-// Resto del código (mano a mano, simulador, etc.) se mantiene igual
-// ...
+// Event listeners
+document.getElementById('selector-enfrentamiento')
+  .addEventListener('change', e => actualizarGrafico(e.target.value));
+
+document.getElementById('calcular-simulacion')
+  .addEventListener('click', calcularSimulacion);
 
 // Inicialización
 document.addEventListener("DOMContentLoaded", () => {
@@ -928,8 +748,10 @@ document.addEventListener("DOMContentLoaded", () => {
   actualizarTopEstadisticas();
   actualizarGrafico('LDU-Quito');
   
-  // Abrir la primera fecha por defecto
-  document.querySelector('.fecha-header').click();
+  // Actualizar al modificar resultados
+  document.querySelectorAll('.match-table td:nth-child(3), .match-table td:nth-child(5)').forEach(td => {
+    td.addEventListener('input', actualizarTabla);
+  });
 });
 </script>
 </body>
