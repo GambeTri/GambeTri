@@ -736,7 +736,7 @@ function cargarFaseFinal(tabId) {
 
 // Función para actualizar la tabla
 function actualizarTabla() {
-  // Reiniciamos los datos
+  // Reiniciamos los datos a los valores iniciales
   tablaBase = [
     ["I. del Valle",15,31,9,4,2,29,14,15],
     ["Barcelona SC",14,29,9,2,3,20,15,5],
@@ -756,37 +756,59 @@ function actualizarTabla() {
     ["T. Universitario",15,10,2,4,9,14,25,-11]
   ];
 
-  // Procesamos resultados
-  document.querySelectorAll(".match-table tr").forEach(fila => {
-    const tds = fila.querySelectorAll("td");
-    const local = tds[1]?.querySelector('.nombre-equipo')?.textContent?.trim();
-    const gl = parseInt(tds[2]?.textContent);
-    const gv = parseInt(tds[4]?.textContent);
-    const visitante = tds[5]?.querySelector('.nombre-equipo')?.textContent?.trim();
-    
-    if (!local || !visitante || isNaN(gl) || isNaN(gv)) return;
-    
-    const eL = tablaBase.find(e => e[0] === local);
-    const eV = tablaBase.find(e => e[0] === visitante);
-    
-    if (!eL || !eV) return;
-    
-    eL[1]++; eV[1]++;
-    eL[6] += gl; eL[7] += gv;
-    eV[6] += gv; eV[7] += gl;
-    
-    if (gl > gv) { eL[3]++; eL[2] += 3; eV[5]++; } 
-    else if (gv > gl) { eV[3]++; eV[2] += 3; eL[5]++; } 
-    else { eL[4]++; eV[4]++; eL[2]++; eV[2]++; }
-    
-    eL[8] = eL[6] - eL[7];
-    eV[8] = eV[6] - eV[7];
+  // Procesamos todos los partidos de fechas pasadas y actuales
+  todasLasFechas.forEach(fecha => {
+    // Solo procesamos fechas pasadas y actuales (no futuras)
+    if (fecha.status === 'pasada' || fecha.status === 'actual') {
+      fecha.partidos.forEach(partido => {
+        // Solo procesamos partidos jugados con resultados válidos
+        if (partido.jugado && partido.gl !== null && partido.gv !== null) {
+          const eL = tablaBase.find(e => e[0] === partido.local);
+          const eV = tablaBase.find(e => e[0] === partido.visitante);
+          
+          if (eL && eV) {
+            // Actualizamos partidos jugados
+            eL[1]++; 
+            eV[1]++;
+            
+            // Actualizamos goles a favor y en contra
+            eL[6] += partido.gl; 
+            eL[7] += partido.gv;
+            eV[6] += partido.gv; 
+            eV[7] += partido.gl;
+            
+            // Actualizamos puntos según el resultado
+            if (partido.gl > partido.gv) { 
+              // Victoria local
+              eL[3]++; 
+              eL[2] += 3; 
+              eV[5]++; 
+            } else if (partido.gv > partido.gl) { 
+              // Victoria visitante
+              eV[3]++; 
+              eV[2] += 3; 
+              eL[5]++; 
+            } else { 
+              // Empate
+              eL[4]++; 
+              eV[4]++; 
+              eL[2]++; 
+              eV[2]++; 
+            }
+            
+            // Actualizamos diferencia de goles
+            eL[8] = eL[6] - eL[7];
+            eV[8] = eV[6] - eV[7];
+          }
+        }
+      });
+    }
   });
 
-  // Ordenamos
+  // Ordenamos la tabla por puntos y diferencia de goles
   tablaBase.sort((a, b) => b[2] - a[2] || b[8] - a[8]);
 
-  // Actualizamos HTML
+  // Actualizamos la tabla en el HTML
   const cuerpo = document.getElementById("tabla-posiciones");
   cuerpo.innerHTML = "";
   
@@ -813,6 +835,7 @@ function actualizarTabla() {
       <td>${e[8]}</td>
     `;
     
+    // Aplicamos clases de color según la posición
     if (i < 6) fila.classList.add("top-pos");
     else if (i < 12) fila.classList.add("mid-pos");
     else fila.classList.add("low-pos");
@@ -1034,9 +1057,9 @@ document.addEventListener("DOMContentLoaded", () => {
   openTab('pasadas'); // Mostrar pestaña de fechas pasadas por defecto
   
   // Actualizar al modificar resultados
-  document.querySelectorAll('.match-table td:nth-child(3), .match-table td:nth-child(5)').forEach(td => {
-    td.addEventListener('input', actualizarTabla);
-  });
+ // document.querySelectorAll('.match-table td:nth-child(3), .match-table td:nth-child(5)').forEach(td => {
+   // td.addEventListener('input', actualizarTabla);
+ // });
 });
 </script>
 </body>
