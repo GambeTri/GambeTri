@@ -52,6 +52,134 @@
       background: white;
       margin-top: 15px;
     }
+    
+    /* Nuevos estilos para el sistema de pestañas */
+    .tabs-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #1b1b1b;
+    }
+    .tab-button {
+        padding: 10px 20px;
+        background: #f2f2f2;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-right: 5px;
+        border-radius: 5px 5px 0 0;
+        transition: all 0.3s;
+    }
+    .tab-button:hover {
+        background: #ddd;
+    }
+    .tab-button.active {
+        background: #1b1b1b;
+        color: white;
+        font-weight: bold;
+    }
+    .tab-content {
+        display: none;
+        width: 100%;
+        padding: 15px 0;
+        animation: fadeIn 0.5s;
+    }
+    .tab-content.active {
+        display: block;
+    }
+    .fecha-container {
+        margin-bottom: 30px;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    .fecha-header {
+        background: #1b1b1b;
+        color: white;
+        padding: 10px 15px;
+        font-weight: bold;
+    }
+    .fecha-body {
+        padding: 15px;
+    }
+    .partido-row {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+    .partido-row.jugado {
+        opacity: 0.8;
+    }
+    .partido-hora {
+        width: 60px;
+        font-weight: bold;
+    }
+    .partido-equipo {
+        display: flex;
+        align-items: center;
+        width: 35%;
+    }
+    .partido-equipo.local {
+        justify-content: flex-end;
+    }
+    .partido-equipo.visitante {
+        justify-content: flex-start;
+    }
+    .partido-resultado {
+        width: 60px;
+        text-align: center;
+        font-weight: bold;
+    }
+    .partido-escudo {
+        width: 25px;
+        height: 25px;
+        margin: 0 10px;
+    }
+    .partido-vs {
+        width: 30px;
+        text-align: center;
+        color: #666;
+    }
+    .fecha-status {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 3px;
+        font-size: 0.8rem;
+        margin-left: 10px;
+    }
+    .status-pasada {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    .status-actual {
+        background: #d4edda;
+        color: #155724;
+    }
+    .status-futura {
+        background: #fff3cd;
+        color: #856404;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    /* Estilos para móviles */
+    @media (max-width: 768px) {
+        .tabs-container {
+            overflow-x: auto;
+            flex-wrap: nowrap;
+        }
+        .partido-equipo {
+            flex-direction: column;
+            text-align: center;
+            width: 30%;
+        }
+        .partido-escudo {
+            margin: 5px 0;
+        }
+    }
 </style>
 </head>
 <body>
@@ -63,7 +191,7 @@
 <button onclick="showSection('inicio')">Inicio</button>
 <button onclick="showSection('mano-a-mano')">Historial Mano a Mano</button>
 <button onclick="showSection('posiciones')">Tabla de Posiciones</button>
-<button onclick="showSection('partidos')">Próximos Partidos</button>
+<button onclick="showSection('partidos')">Calendario Completo</button>
 <button onclick="showSection('simulador')">Simulador</button>
 </nav>
 <section class="section active inicio" id="inicio">
@@ -73,103 +201,52 @@
 </section>
 
 <section class="section" id="partidos">
-  <!-- Fecha 16 -->
-  <h2>Fecha 16 - Junio 2025</h2>
-  <div class="match-date">Sábado 14 de junio</div>
-  <table class="match-table">
-    <tr><td>14:00</td><td class="celda-equipo"><img src="idv.png" class="escudo-equipo"><span class="nombre-equipo">I. del Valle</span></td><td>1</td><td>-</td><td>1</td><td class="celda-equipo"><img src="libertad.png" class="escudo-equipo"><span class="nombre-equipo">Libertad</span></td></tr>
-    <tr><td>16:30</td><td class="celda-equipo"><img src="barcelona.png" class="escudo-equipo"><span class="nombre-equipo">Barcelona SC</span></td><td>1</td><td>-</td><td>2</td><td class="celda-equipo"><img src="manta.png" class="escudo-equipo"><span class="nombre-equipo">Manta</span></td></tr>
-    <tr><td>19:00</td><td class="celda-equipo"><img src="vinotinto.png" class="escudo-equipo"><span class="nombre-equipo">Vinotinto FC</span></td><td>1</td><td>-</td><td>2</td><td class="celda-equipo"><img src="ldu.png" class="escudo-equipo ldu"><span class="nombre-equipo">Liga de Quito</span></td></tr>
-  </table>
-
-  <div class="match-date">Domingo 15 de junio</div>
-  <table class="match-table">
-    <tr><td>13:00</td><td class="celda-equipo"><img src="tecnico.png" class="escudo-equipo tecnico"><span class="nombre-equipo">T. Universitario</span></td><td>1</td><td>-</td><td>1</td><td class="celda-equipo"><img src="aucas.png" class="escudo-equipo"><span class="nombre-equipo">Aucas</span></td></tr>
-    <tr><td>15:30</td><td class="celda-equipo"><img src="cuenca.png" class="escudo-equipo"><span class="nombre-equipo">D. Cuenca</span></td><td>4</td><td>-</td><td>1</td><td class="celda-equipo"><img src="nacional.png" class="escudo-equipo"><span class="nombre-equipo">El Nacional</span></td></tr>
-    <tr><td>18:00</td><td class="celda-equipo"><img src="delfin.png" class="escudo-equipo"><span class="nombre-equipo">Delfín</span></td><td>3</td><td>-</td><td>1</td><td class="celda-equipo"><img src="mushuc.png" class="escudo-equipo"><span class="nombre-equipo">Mushuc Runa</span></td></tr>
-  </table>
-
-  <div class="match-date">Lunes 16 de junio</div>
-  <table class="match-table">
-    <tr><td>19:00</td><td class="celda-equipo"><img src="orense.png" class="escudo-equipo"><span class="nombre-equipo">Orense</span></td><td>1</td><td>-</td><td>0</td><td class="celda-equipo"><img src="macara.png" class="escudo-equipo macara"><span class="nombre-equipo">Macará</span></td></tr>
-  </table>
-
-<!-- Fecha 7 Aplazada -->
-<h2>Fecha 7 Aplazada - Miércoles 18 de junio</h2>
-<table class="match-table">
-  <tr>
-    <td>19:00</td>
-    <td class="celda-equipo"><img src="ldu.png" class="escudo-equipo ldu"><span class="nombre-equipo">Liga de Quito</span></td>
-    <td>3</td><td>-</td><td>1</td>
-    <td class="celda-equipo"><img src="barcelona.png" class="escudo-equipo"><span class="nombre-equipo">Barcelona SC</span></td>
-  </tr>
-</table>
-
-  <!-- Fecha 17 -->
-  <h2>Fecha 17 - Junio 2025</h2>
-  <div class="match-date">Viernes 20 de junio</div>
-  <table class="match-table">
-    <tr>
-      <td>19:00</td>
-      <td class="celda-equipo"><img src="libertad.png" class="escudo-equipo"><span class="nombre-equipo">Libertad</span></td>
-      <td></td><td>-</td><td></td>
-      <td class="celda-equipo"><img src="tecnico.png" class="escudo-equipo tecnico"><span class="nombre-equipo">T. Universitario</span></td>
-    </tr>
-  </table>
-
-  <div class="match-date">Sábado 21 de junio</div>
-  <table class="match-table">
-    <tr>
-      <td>14:00</td>
-      <td class="celda-equipo"><img src="nacional.png" class="escudo-equipo"><span class="nombre-equipo">El Nacional</span></td>
-      <td></td><td>-</td><td></td>
-      <td class="celda-equipo"><img src="catolica.png" class="escudo-equipo"><span class="nombre-equipo">U. Católica</span></td>
-    </tr>
-    <tr>
-      <td>16:30</td>
-      <td class="celda-equipo"><img src="emelec.png" class="escudo-equipo"><span class="nombre-equipo">Emelec</span></td>
-      <td></td><td>-</td><td></td>
-      <td class="celda-equipo"><img src="delfin.png" class="escudo-equipo"><span class="nombre-equipo">Delfín</span></td>
-    </tr>
-    <tr>
-      <td>19:00</td>
-      <td class="celda-equipo"><img src="macara.png" class="escudo-equipo macara"><span class="nombre-equipo">Macará</span></td>
-      <td></td><td>-</td><td></td>
-      <td class="celda-equipo"><img src="vinotinto.png" class="escudo-equipo"><span class="nombre-equipo">Vinotinto FC</span></td>
-    </tr>
-  </table>
-
-  <div class="match-date">Domingo 22 de junio</div>
-  <table class="match-table">
-    <tr>
-      <td>12:00</td>
-      <td class="celda-equipo"><img src="ldu.png" class="escudo-equipo ldu"><span class="nombre-equipo">Liga de Quito</span></td>
-      <td></td><td>-</td><td></td>
-      <td class="celda-equipo"><img src="idv.png" class="escudo-equipo"><span class="nombre-equipo">I. del Valle</span></td>
-    </tr>
-    <tr>
-      <td>15:00</td>
-      <td class="celda-equipo"><img src="aucas.png" class="escudo-equipo"><span class="nombre-equipo">Aucas</span></td>
-      <td></td><td>-</td><td></td>
-      <td class="celda-equipo"><img src="cuenca.png" class="escudo-equipo"><span class="nombre-equipo">D. Cuenca</span></td>
-    </tr>
-    <tr>
-      <td>18:00</td>
-      <td class="celda-equipo"><img src="mushuc.png" class="escudo-equipo"><span class="nombre-equipo">Mushuc Runa</span></td>
-      <td></td><td>-</td><td></td>
-      <td class="celda-equipo"><img src="barcelona.png" class="escudo-equipo"><span class="nombre-equipo">Barcelona SC</span></td>
-    </tr>
-  </table>
-
-  <div class="match-date">Lunes 23 de junio</div>
-  <table class="match-table">
-    <tr>
-      <td>19:00</td>
-      <td class="celda-equipo"><img src="manta.png" class="escudo-equipo"><span class="nombre-equipo">Manta</span></td>
-      <td></td><td>-</td><td></td>
-      <td class="celda-equipo"><img src="orense.png" class="escudo-equipo"><span class="nombre-equipo">Orense</span></td>
-    </tr>
-  </table>
+  <h2>Calendario Completo</h2>
+  
+  <div class="tabs-container">
+    <button class="tab-button active" onclick="openTab('pasadas')">Fechas Pasadas</button>
+    <button class="tab-button" onclick="openTab('actual')">Fecha Actual</button>
+    <button class="tab-button" onclick="openTab('futuras')">Fechas Futuras</button>
+    <button class="tab-button" onclick="openTab('hexagonal-a')">Hexagonal A</button>
+    <button class="tab-button" onclick="openTab('hexagonal-b')">Hexagonal B</button>
+    <button class="tab-button" onclick="openTab('cuadrangular')">Cuadrangular Descenso</button>
+  </div>
+  
+  <!-- Fechas Pasadas -->
+  <div id="pasadas" class="tab-content active">
+    <h3>Fechas Jugadas</h3>
+    <div id="pasadas-container"></div>
+  </div>
+  
+  <!-- Fecha Actual -->
+  <div id="actual" class="tab-content">
+    <h3>Fecha en Juego</h3>
+    <div id="actual-container"></div>
+  </div>
+  
+  <!-- Fechas Futuras -->
+  <div id="futuras" class="tab-content">
+    <h3>Próximas Fechas</h3>
+    <div id="futuras-container"></div>
+  </div>
+  
+  <!-- Hexagonal A -->
+  <div id="hexagonal-a" class="tab-content">
+    <h3>Hexagonal A (Clasificación a Libertadores)</h3>
+    <div id="hexagonal-a-container"></div>
+  </div>
+  
+  <!-- Hexagonal B -->
+  <div id="hexagonal-b" class="tab-content">
+    <h3>Hexagonal B (Clasificación a Sudamericana)</h3>
+    <div id="hexagonal-b-container"></div>
+  </div>
+  
+  <!-- Cuadrangular Descenso -->
+  <div id="cuadrangular" class="tab-content">
+    <h3>Cuadrangular de Descenso</h3>
+    <div id="cuadrangular-container"></div>
+  </div>
 </section>
 
 <section class="section" id="posiciones">
@@ -450,6 +527,212 @@ const escudosEquipos = {
   "Mushuc Runa": "mushuc.png",
   "T. Universitario": "tecnico.png"
 };
+
+// Datos completos de todas las fechas
+const todasLasFechas = [
+  {
+    id: 'fecha16',
+    nombre: 'Fecha 16',
+    status: 'pasada',
+    partidos: [
+      { fecha: 'Sáb 14/06', hora: '14:00', local: 'I. del Valle', escudoLocal: 'idv.png', gl: 1, gv: 1, visitante: 'Libertad', escudoVisitante: 'libertad.png', jugado: true },
+      { fecha: 'Sáb 14/06', hora: '16:30', local: 'Barcelona SC', escudoLocal: 'barcelona.png', gl: 1, gv: 2, visitante: 'Manta', escudoVisitante: 'manta.png', jugado: true },
+      { fecha: 'Sáb 14/06', hora: '19:00', local: 'Vinotinto FC', escudoLocal: 'vinotinto.png', gl: 1, gv: 2, visitante: 'Liga de Quito', escudoVisitante: 'ldu.png', jugado: true },
+      { fecha: 'Dom 15/06', hora: '13:00', local: 'T. Universitario', escudoLocal: 'tecnico.png', gl: 1, gv: 1, visitante: 'Aucas', escudoVisitante: 'aucas.png', jugado: true },
+      { fecha: 'Dom 15/06', hora: '15:30', local: 'D. Cuenca', escudoLocal: 'cuenca.png', gl: 4, gv: 1, visitante: 'El Nacional', escudoVisitante: 'nacional.png', jugado: true },
+      { fecha: 'Dom 15/06', hora: '18:00', local: 'Delfín', escudoLocal: 'delfin.png', gl: 3, gv: 1, visitante: 'Mushuc Runa', escudoVisitante: 'mushuc.png', jugado: true },
+      { fecha: 'Lun 16/06', hora: '19:00', local: 'Orense', escudoLocal: 'orense.png', gl: 1, gv: 0, visitante: 'Macará', escudoVisitante: 'macara.png', jugado: true }
+    ]
+  },
+  {
+    id: 'fecha7-aplazada',
+    nombre: 'Fecha 7 (Aplazada)',
+    status: 'pasada',
+    partidos: [
+      { fecha: 'Mié 18/06', hora: '19:00', local: 'Liga de Quito', escudoLocal: 'ldu.png', gl: 3, gv: 1, visitante: 'Barcelona SC', escudoVisitante: 'barcelona.png', jugado: true }
+    ]
+  },
+  {
+    id: 'fecha17',
+    nombre: 'Fecha 17',
+    status: 'actual',
+    partidos: [
+      { fecha: 'Vie 20/06', hora: '19:00', local: 'Libertad', escudoLocal: 'libertad.png', gl: 4, gv: 1, visitante: 'T. Universitario', escudoVisitante: 'tecnico.png', jugado: false },
+      { fecha: 'Sáb 21/06', hora: '14:00', local: 'El Nacional', escudoLocal: 'nacional.png', gl: 0, gv: 3, visitante: 'U. Católica', escudoVisitante: 'catolica.png', jugado: false },
+      { fecha: 'Sáb 21/06', hora: '16:30', local: 'Emelec', escudoLocal: 'emelec.png', gl: 2, gv: 2, visitante: 'Delfín', escudoVisitante: 'delfin.png', jugado: false },
+      { fecha: 'Sáb 21/06', hora: '19:00', local: 'Macará', escudoLocal: 'macara.png', gl: 1, gv: 0, visitante: 'Vinotinto FC', escudoVisitante: 'vinotinto.png', jugado: false },
+      { fecha: 'Dom 22/06', hora: '12:00', local: 'Liga de Quito', escudoLocal: 'ldu.png', gl: null, gv: null, visitante: 'I. del Valle', escudoVisitante: 'idv.png', jugado: false },
+      { fecha: 'Dom 22/06', hora: '15:00', local: 'Aucas', escudoLocal: 'aucas.png', gl: null, gv: null, visitante: 'D. Cuenca', escudoVisitante: 'cuenca.png', jugado: false },
+      { fecha: 'Dom 22/06', hora: '18:00', local: 'Mushuc Runa', escudoLocal: 'mushuc.png', gl: null, gv: null, visitante: 'Barcelona SC', escudoVisitante: 'barcelona.png', jugado: false },
+      { fecha: 'Lun 23/06', hora: '19:00', local: 'Manta', escudoLocal: 'manta.png', gl: null, gv: null, visitante: 'Orense', escudoVisitante: 'orense.png', jugado: false }
+    ]
+  },
+  {
+    id: 'fecha18',
+    nombre: 'Fecha 18',
+    status: 'futura',
+    partidos: [
+      { fecha: 'Vie 27/06', hora: '19:00', local: 'Barcelona SC', escudoLocal: 'barcelona.png', gl: null, gv: null, visitante: 'Libertad', escudoVisitante: 'libertad.png', jugado: false },
+      { fecha: 'Sáb 28/06', hora: '14:00', local: 'Orense', escudoLocal: 'orense.png', gl: null, gv: null, visitante: 'Liga de Quito', escudoVisitante: 'ldu.png', jugado: false },
+      { fecha: 'Sáb 28/06', hora: '16:30', local: 'U. Católica', escudoLocal: 'catolica.png', gl: null, gv: null, visitante: 'I. del Valle', escudoVisitante: 'idv.png', jugado: false },
+      { fecha: 'Sáb 28/06', hora: '19:00', local: 'Macará', escudoLocal: 'macara.png', gl: null, gv: null, visitante: 'Emelec', escudoVisitante: 'emelec.png', jugado: false },
+      { fecha: 'Dom 29/06', hora: '12:00', local: 'Vinotinto FC', escudoLocal: 'vinotinto.png', gl: null, gv: null, visitante: 'Aucas', escudoVisitante: 'aucas.png', jugado: false },
+      { fecha: 'Dom 29/06', hora: '15:00', local: 'Delfín', escudoLocal: 'delfin.png', gl: null, gv: null, visitante: 'Manta', escudoVisitante: 'manta.png', jugado: false },
+      { fecha: 'Dom 29/06', hora: '18:00', local: 'T. Universitario', escudoLocal: 'tecnico.png', gl: null, gv: null, visitante: 'El Nacional', escudoVisitante: 'nacional.png', jugado: false },
+      { fecha: 'Lun 30/06', hora: '19:00', local: 'D. Cuenca', escudoLocal: 'cuenca.png', gl: null, gv: null, visitante: 'Mushuc Runa', escudoVisitante: 'mushuc.png', jugado: false }
+    ]
+  },
+  // Agregar más fechas hasta la 30...
+  {
+    id: 'fecha30',
+    nombre: 'Fecha 30',
+    status: 'futura',
+    partidos: [
+      { fecha: 'Dom 10/08', hora: '12:00', local: 'Barcelona SC', escudoLocal: 'barcelona.png', gl: null, gv: null, visitante: 'Aucas', escudoVisitante: 'aucas.png', jugado: false },
+      { fecha: 'Dom 10/08', hora: '15:00', local: 'T. Universitario', escudoLocal: 'tecnico.png', gl: null, gv: null, visitante: 'Liga de Quito', escudoVisitante: 'ldu.png', jugado: false },
+      { fecha: 'Dom 10/08', hora: '18:00', local: 'I. del Valle', escudoLocal: 'idv.png', gl: null, gv: null, visitante: 'Delfín', escudoVisitante: 'delfin.png', jugado: false },
+      { fecha: 'Lun 11/08', hora: '19:00', local: 'Orense', escudoLocal: 'orense.png', gl: null, gv: null, visitante: 'Emelec', escudoVisitante: 'emelec.png', jugado: false },
+      { fecha: 'Mar 12/08', hora: '19:00', local: 'U. Católica', escudoLocal: 'catolica.png', gl: null, gv: null, visitante: 'D. Cuenca', escudoVisitante: 'cuenca.png', jugado: false },
+      { fecha: 'Mié 13/08', hora: '19:00', local: 'El Nacional', escudoLocal: 'nacional.png', gl: null, gv: null, visitante: 'Mushuc Runa', escudoVisitante: 'mushuc.png', jugado: false },
+      { fecha: 'Jue 14/08', hora: '19:00', local: 'Manta', escudoLocal: 'manta.png', gl: null, gv: null, visitante: 'Macará', escudoVisitante: 'macara.png', jugado: false },
+      { fecha: 'Vie 15/08', hora: '19:00', local: 'Libertad', escudoLocal: 'libertad.png', gl: null, gv: null, visitante: 'Vinotinto FC', escudoVisitante: 'vinotinto.png', jugado: false }
+    ]
+  }
+];
+
+// Función para abrir pestañas
+function openTab(tabId) {
+  // Oculta todos los contenidos de pestañas
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  
+  // Desactiva todos los botones
+  document.querySelectorAll('.tab-button').forEach(button => {
+    button.classList.remove('active');
+  });
+  
+  // Activa la pestaña seleccionada
+  document.getElementById(tabId).classList.add('active');
+  event.currentTarget.classList.add('active');
+  
+  // Si es una pestaña de hexagonal, cargar datos
+  if (tabId.includes('hexagonal') || tabId === 'cuadrangular') {
+    cargarFaseFinal(tabId);
+  }
+}
+
+// Función para renderizar fechas por estado
+function renderizarFechas() {
+  const pasadasContainer = document.getElementById('pasadas-container');
+  const actualContainer = document.getElementById('actual-container');
+  const futurasContainer = document.getElementById('futuras-container');
+  
+  pasadasContainer.innerHTML = '';
+  actualContainer.innerHTML = '';
+  futurasContainer.innerHTML = '';
+  
+  todasLasFechas.forEach(fecha => {
+    const container = fecha.status === 'pasada' ? pasadasContainer :
+                     fecha.status === 'actual' ? actualContainer :
+                     futurasContainer;
+    
+    const fechaDiv = document.createElement('div');
+    fechaDiv.className = 'fecha-container';
+    
+    const statusClass = `status-${fecha.status}`;
+    const statusText = fecha.status === 'pasada' ? 'Jugada' : 
+                      fecha.status === 'actual' ? 'En Juego' : 'Próxima';
+    
+    fechaDiv.innerHTML = `
+      <div class="fecha-header">
+        ${fecha.nombre} <span class="fecha-status ${statusClass}">${statusText}</span>
+      </div>
+      <div class="fecha-body" id="${fecha.id}-partidos"></div>
+    `;
+    
+    container.appendChild(fechaDiv);
+    
+    // Renderizar partidos
+    const partidosContainer = document.getElementById(`${fecha.id}-partidos`);
+    let currentDate = '';
+    
+    fecha.partidos.forEach(partido => {
+      if (partido.fecha !== currentDate) {
+        const fechaHeader = document.createElement('div');
+        fechaHeader.className = 'match-date';
+        fechaHeader.textContent = partido.fecha;
+        partidosContainer.appendChild(fechaHeader);
+        currentDate = partido.fecha;
+      }
+      
+      const partidoRow = document.createElement('div');
+      partidoRow.className = `partido-row ${partido.jugado ? 'jugado' : ''}`;
+      
+      const resultado = partido.jugado ? 
+        `${partido.gl} - ${partido.gv}` : 
+        'vs';
+      
+      partidoRow.innerHTML = `
+        <div class="partido-hora">${partido.hora}</div>
+        <div class="partido-equipo local">
+          <span class="nombre-equipo">${partido.local}</span>
+          <img src="${partido.escudoLocal}" class="partido-escudo">
+        </div>
+        <div class="partido-resultado">${resultado}</div>
+        <div class="partido-equipo visitante">
+          <img src="${partido.escudoVisitante}" class="partido-escudo">
+          <span class="nombre-equipo">${partido.visitante}</span>
+        </div>
+      `;
+      
+      partidosContainer.appendChild(partidoRow);
+    });
+  });
+}
+
+// Función para cargar datos de las fases finales
+function cargarFaseFinal(tabId) {
+  let container, titulo, descripcion, equipos;
+  
+  switch(tabId) {
+    case 'hexagonal-a':
+      container = document.getElementById('hexagonal-a-container');
+      titulo = "Hexagonal A - Clasificación a Libertadores";
+      descripcion = "Los 6 primeros equipos de la fase regular juegan esta fase para definir al campeón y los cupos internacionales.";
+      equipos = ["I. del Valle", "Barcelona SC", "Aucas", "Liga de Quito", "D. Cuenca", "Orense"];
+      break;
+    case 'hexagonal-b':
+      container = document.getElementById('hexagonal-b-container');
+      titulo = "Hexagonal B - Clasificación a Sudamericana";
+      descripcion = "Los equipos del 7° al 12° puesto juegan esta fase por un cupo a la Copa Sudamericana.";
+      equipos = ["Vinotinto FC", "U. Católica", "El Nacional", "Libertad", "Delfín", "Manta"];
+      break;
+    case 'cuadrangular':
+      container = document.getElementById('cuadrangular-container');
+      titulo = "Cuadrangular de Descenso";
+      descripcion = "Los 4 últimos equipos de la fase regular juegan esta fase donde los dos últimos descienden.";
+      equipos = ["Emelec", "Macará", "Mushuc Runa", "T. Universitario"];
+      break;
+  }
+  
+  container.innerHTML = `
+    <div class="fecha-container">
+      <div class="fecha-header">${titulo}</div>
+      <div class="fecha-body">
+        <p>${descripcion}</p>
+        <h4>Equipos clasificados:</h4>
+        <ul style="columns: 2; list-style-type: none; padding: 0;">
+          ${equipos.map(eq => `<li style="margin-bottom: 8px;">
+            <img src="${escudosEquipos[eq]}" style="height: 20px; vertical-align: middle; margin-right: 10px;">
+            ${eq}
+          </li>`).join('')}
+        </ul>
+        <p style="margin-top: 15px; font-style: italic;">Esta fase comenzará después de completar las 30 fechas de la fase regular.</p>
+      </div>
+    </div>
+  `;
+}
 
 // Función para actualizar la tabla
 function actualizarTabla() {
@@ -747,6 +1030,8 @@ document.addEventListener("DOMContentLoaded", () => {
   actualizarTabla();
   actualizarTopEstadisticas();
   actualizarGrafico('LDU-Quito');
+  renderizarFechas();
+  openTab('pasadas'); // Mostrar pestaña de fechas pasadas por defecto
   
   // Actualizar al modificar resultados
   document.querySelectorAll('.match-table td:nth-child(3), .match-table td:nth-child(5)').forEach(td => {
