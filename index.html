@@ -165,6 +165,150 @@
         from { opacity: 0; }
         to { opacity: 1; }
     }
+    /* Estilos para el inicio mejorado */
+    .hero-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, #1b1b1b 0%, #333 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-content {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .hero-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      opacity: 0.9;
+    }
+
+    .hero-image {
+      max-width: 300px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    .stats-grid {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.1);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      flex: 1;
+      min-width: 100px;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #4CAF50;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .features-container {
+      margin: 3rem 0;
+    }
+
+    .features-container h3 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+      color: #1b1b1b;
+    }
+
+    .features-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      flex: 1;
+      min-width: 250px;
+      max-width: 350px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h4 {
+      margin-top: 0;
+      color: #1b1b1b;
+    }
+
+    .news-container {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .news-container h3 {
+      margin-top: 0;
+      color: #1b1b1b;
+      border-bottom: 2px solid #1b1b1b;
+      padding-bottom: 0.5rem;
+    }
+
+    .news-ticker {
+      margin-top: 1rem;
+    }
+
+    .news-item {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .news-item:last-child {
+      border-bottom: none;
+    }
+
+    .news-date {
+      display: inline-block;
+      width: 100px;
+      font-weight: bold;
+      color: #1b1b1b;
+    }
+
+    .news-text {
+      color: #333;
+    }
     /* Estilos para móviles */
     @media (max-width: 768px) {
         .tabs-container {
@@ -179,6 +323,30 @@
         .partido-escudo {
             margin: 5px 0;
         }
+    }
+ @media (max-width: 768px) {       /* nuevos estilos */
+      .hero-banner {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .hero-image {
+        margin-top: 2rem;
+      }
+      
+      .stats-grid {
+        flex-wrap: wrap;
+      }
+      
+      .feature-card {
+        min-width: 100%;
+      }
+      
+      .news-date {
+        display: block;
+        width: auto;
+        margin-bottom: 0.3rem;
+      }
     }
 </style>
 </head>
@@ -195,9 +363,66 @@
 <button onclick="showSection('simulador')">Simulador</button>
 </nav>
 <section class="section active inicio" id="inicio">
-<h2>Bienvenido a GambeTri</h2>
-<p>Explora las estadísticas, historia y actualidad del fútbol ecuatoriano...</p>
-<img alt="Imagen de inicio" src="logo-ultimo.png"/>
+  <div class="hero-banner">
+    <div class="hero-content">
+      <h2>Bienvenido a GambeTri</h2>
+      <p class="subtitle">El portal definitivo del fútbol ecuatoriano</p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">16</div>
+          <div class="stat-label">Equipos en LigaPro</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">30</div>
+          <div class="stat-label">Fechas por temporada</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">67</div>
+          <div class="stat-label">Años de historia</div>
+        </div>
+      </div>
+    </div>
+    <img alt="Imagen de inicio" src="logo-ultimo.png" class="hero-image"/>
+  </div>
+  
+  <div class="features-container">
+    <h3>¿Qué encontrarás en GambeTri?</h3>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h4>Estadísticas Completas</h4>
+        <p>Datos detallados de todos los partidos, jugadores y equipos de la LigaPro.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h4>Calendario Interactivo</h4>
+        <p>Todos los partidos de la temporada con resultados en tiempo real.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔮</div>
+        <h4>Simulador de Posiciones</h4>
+        <p>Proyecta cómo quedaría la tabla según los resultados que pronostiques.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="news-container">
+    <h3>Últimas Noticias</h3>
+    <div class="news-ticker">
+      <div class="news-item">
+        <span class="news-date">25/06/2025</span>
+        <span class="news-text">Liga de Quito e Independiente del Valle empatan 1-1 en un emocionante clásico capitalino.</span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">24/06/2025</span>
+        <span class="news-text">Barcelona SC golea 5-0 a Mushuc Runa y se acerca a la cima de la tabla.</span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">23/06/2025</span>
+        <span class="news-text">La FEF anuncia cambios en el formato de la Copa Ecuador para 2026.</span>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section class="section" id="partidos">
