@@ -417,7 +417,19 @@ nav {
     gap: 2rem;
     align-items: start;
   }
+  .section {
+    display: none; /* Oculta todas las secciones por defecto */
+  }
   
+  .section.active {
+    display: block; /* Muestra solo la activa */
+    animation: fadeIn 0.5s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
   /* Posiciona el news-container a la derecha */
   .news-container {
     grid-column: 2;
