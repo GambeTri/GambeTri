@@ -667,12 +667,14 @@ body.nav-active {
   <p>El portal de estadísticas del fútbol ecuatoriano</p>
   <button class="menu-toggle" aria-label="Abrir menú">☰</button> 
 </header>
-<nav>
+<nav id="main-nav">
   <button class="active" onclick="showSection('inicio')">Inicio</button>
   <button onclick="showSection('mano-a-mano')">Historial Mano a Mano</button>
   <button onclick="showSection('posiciones')">Tabla de Posiciones</button>
   <button onclick="showSection('partidos')">Calendario Completo</button>
   <button onclick="showSection('simulador')">Simulador</button>
+  <button onclick="showSection('historica')">Tabla Histórica</button>
+  <button onclick="showSection('copa-ecuador')">Copa Ecuador 2025</button>
 </nav>
 <section class="section active inicio" id="inicio">
   <!-- Hero Banner -->
