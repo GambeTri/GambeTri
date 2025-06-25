@@ -41,6 +41,22 @@ header p {
   opacity: 0.9;
   margin: 0.5rem 0 0;
 }
+   .header-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.header-logo {
+  height: 50px; /* Ajusta según necesites */
+  width: auto;
+}
+
+header h1 {
+  margin: 0; /* Elimina márgenes para mejor alineación */
+  font-size: 2.2rem;
+}
 nav { 
   display: flex; 
   justify-content: center; 
@@ -566,8 +582,12 @@ nav button.active {
 </head>
 <body>
 <header>
-<h1>GambeTri</h1>
-<p>El portal de estadísticas del fútbol ecuatoriano</p>
+  <div class="header-logos">
+    <img src="gambetri.jpg" alt="Logo GambeTri" class="header-logo">
+    <h1>GambeTri</h1>
+    <img src="ligapro.png" alt="Logo LigaPro" class="header-logo">
+  </div>
+  <p>El portal de estadísticas del fútbol ecuatoriano</p>
 </header>
 <nav>
   <button class="active" onclick="showSection('inicio')">Inicio</button>
