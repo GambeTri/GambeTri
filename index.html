@@ -1891,36 +1891,41 @@ function actualizarDatosHistoricos() {
     const equipoHist = datosHistoricos.find(e => e.equipo === equipo2025.equipo);
     
     if (equipoHist) {
-      // Actualizar estadísticas sumando las de 2025 a las históricas
+      // Actualizar estadísticas básicas (sumar temporada 2025)
       equipoHist.pj += equipo2025.pj;
-      equipoHist.pgt += equipo2025.pg;
-      equipoHist.pg3 += equipo2025.pg; // Todas las victorias de 2025 son de 3 puntos
+      equipoHist.pgt += equipo2025.pg;  // Total de victorias
+      equipoHist.pg3 += equipo2025.pg;  // Victorias de 3 puntos (todas las de 2025)
       equipoHist.pe += equipo2025.pe;
       equipoHist.pp += equipo2025.pp;
       equipoHist.gf += equipo2025.gf;
       equipoHist.gc += equipo2025.gc;
       equipoHist.gd = equipoHist.gf - equipoHist.gc;
       
-      // Calcular puntos según sistema histórico (2 puntos por victoria antes de 1995/96)
-      // Asumimos que la temporada 2025 usa 3 puntos por victoria
-      equipoHist.ptsHis += (equipo2025.pg * 2); // Para el histórico usamos 2 puntos
-      equipoHist.ptsx3V += (equipo2025.pg * 3); // Para el cálculo alternativo usamos 3 puntos
-      equipoHist.ptsx3V += equipo2025.pe; // Empates suman 1 en ambos sistemas
+      // CALCULO CORRECTO DE PUNTOS:
+      // 1. ptsHis: Puntos históricos (victorias antiguas de 2 pts + nuevas de 3 pts)
+      //    - Mantenemos los ptsHis originales (que ya incluían victorias de 2 pts si las había)
+      //    - Sumamos las nuevas victorias (de 2025) como 3 puntos cada una
+      equipoHist.ptsHis = (equipoHist.ptsHis || 0) + (equipo2025.pg * 3) + equipo2025.pe;
       
-      // Calcular porcentajes
+      // 2. ptsx3V: Puntos como si siempre fueran 3 por victoria
+      //    - Para equipos antiguos: recalculamos todas sus victorias como de 3 puntos
+      //    - Para equipos nuevos: solo sumamos los puntos de 2025 (ya son de 3 pts)
+      equipoHist.ptsx3V = (equipoHist.pgt * 3) + equipoHist.pe;
+      
+      // Calcular porcentajes actualizados
       const totalPJ = equipoHist.pj;
       equipoHist.porcPG = ((equipoHist.pgt / totalPJ) * 100).toFixed(2) + "%";
       equipoHist.porcPE = ((equipoHist.pe / totalPJ) * 100).toFixed(2) + "%";
       equipoHist.porcPP = ((equipoHist.pp / totalPJ) * 100).toFixed(2) + "%";
     } else {
-      // Para equipos nuevos (como Vinotinto FC)
+      // Para equipos nuevos (como Vinotinto FC) - todos sus puntos son de 3
       datosHistoricos.push({
         equipo: equipo2025.equipo,
-        ptsHis: equipo2025.pg * 2 + equipo2025.pe, // 2 puntos por victoria (histórico)
-        ptsx3V: equipo2025.pg * 3 + equipo2025.pe, // 3 puntos por victoria
+        ptsHis: equipo2025.pts, // Usamos directamente los puntos de 2025 (ya son de 3)
+        ptsx3V: equipo2025.pts, // Igual que ptsHis porque son todos de 3 pts
         pj: equipo2025.pj,
         pgt: equipo2025.pg,
-        pg2: 0, // No hay victorias de 2 puntos en 2025
+        pg2: 0,    // No hay victorias de 2 puntos
         pg3: equipo2025.pg, // Todas las victorias son de 3 puntos
         pe: equipo2025.pe,
         pp: equipo2025.pp,
@@ -1934,7 +1939,7 @@ function actualizarDatosHistoricos() {
     }
   });
   
-  // Reordenar y mostrar la tabla
+  // Reordenar por puntos históricos (ptsHis) y mostrar
   datosHistoricos.sort((a, b) => b.ptsHis - a.ptsHis);
   cargarTablaHistorica();
   datosActualizados = true;
