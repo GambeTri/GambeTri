@@ -1104,8 +1104,52 @@ body.nav-active {
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 function showSection(id) {
+  // 1. Ocultar todas las secciones y desactivar botones del menú
   document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+  document.querySelectorAll('#main-nav button').forEach(btn => btn.classList.remove('active'));
+  
+  // 2. Activar la sección seleccionada y su botón correspondiente
   document.getElementById(id).classList.add('active');
+  document.querySelector(`#main-nav button[onclick="showSection('${id}')"]`).classList.add('active');
+  
+  // 3. Cargar contenido específico para cada sección
+  switch(id) {
+    case 'mano-a-mano':
+      actualizarGrafico(document.getElementById('selector-enfrentamiento').value);
+      break;
+      
+    case 'posiciones':
+      actualizarTabla();
+      actualizarTopEstadisticas();
+      break;
+      
+    case 'partidos':
+      renderizarFechas();
+      openTab('actual'); // Mostrar pestaña de fecha actual por defecto
+      break;
+      
+    case 'simulador':
+      // Puedes inicializar algo aquí si es necesario
+      break;
+      
+    case 'historica':
+      actualizarDatosHistoricos();
+      break;
+      
+    case 'copa-ecuador':
+      // Inicialización específica para Copa Ecuador
+      break;
+      
+    case 'inicio':
+      // Inicialización para la página de inicio
+      break;
+  }
+  
+  // 4. Cerrar menú en móviles al seleccionar una opción
+  if (window.innerWidth <= 992) {
+    document.getElementById('main-nav').classList.remove('active');
+    document.body.classList.remove('nav-active');
+  }
 }
 // Datos iniciales de la tabla
 let tablaBase = [
@@ -1722,17 +1766,6 @@ document.body.addEventListener('click', function(e) {
   }
 });
 
-// Cerrar menú al seleccionar una opción (modificar la función showSection)
-function showSection(id) {
-  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  
-  // Cerrar menú en móviles al seleccionar una opción
-  if (window.innerWidth <= 992) {
-    document.getElementById('main-nav').classList.remove('active');
-    document.body.classList.remove('nav-active');
-  }
-}
 // Datos históricos extraídos del Excel
 const datosHistoricos = [
   { equipo: "Barcelona SC", ptsHis: 3471, ptsx3V: 4028, pj: 2423, pgt: 1122, pg2: 557, pg3: 565, pe: 662, pp: 639, gf: 3557, gc: 2424, gd: 1133, porcPG: "46.31%", porcPE: "27.32%", porcPP: "26.37%" },
