@@ -1106,23 +1106,6 @@ body.nav-active {
 function showSection(id) {
   document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  
-  if (id === 'historica') {
-    actualizarDatosHistoricos();
-  }
-  
-  // Cerrar menú en móviles al seleccionar una opción
-  if (window.innerWidth <= 992) {
-    document.getElementById('main-nav').classList.remove('active');
-    document.body.classList.remove('nav-active');
-  }
-}
-  
-  // 4. Cerrar menú en móviles al seleccionar una opción
-  if (window.innerWidth <= 992) {
-    document.getElementById('main-nav').classList.remove('active');
-    document.body.classList.remove('nav-active');
-  }
 }
 // Datos iniciales de la tabla
 let tablaBase = [
@@ -1501,7 +1484,6 @@ function actualizarTabla() {
     
     cuerpo.appendChild(fila);
   });
-   actualizarDatosHistoricos(); 
 }
 
 // Configuración del gráfico
@@ -1739,6 +1721,17 @@ document.body.addEventListener('click', function(e) {
   }
 });
 
+// Cerrar menú al seleccionar una opción (modificar la función showSection)
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  
+  // Cerrar menú en móviles al seleccionar una opción
+  if (window.innerWidth <= 992) {
+    document.getElementById('main-nav').classList.remove('active');
+    document.body.classList.remove('nav-active');
+  }
+}
 // Datos históricos extraídos del Excel
 const datosHistoricos = [
   { equipo: "Barcelona SC", ptsHis: 3471, ptsx3V: 4028, pj: 2423, pgt: 1122, pg2: 557, pg3: 565, pe: 662, pp: 639, gf: 3557, gc: 2424, gd: 1133, porcPG: "46.31%", porcPE: "27.32%", porcPP: "26.37%" },
@@ -1808,12 +1801,17 @@ const datosHistoricos = [
 ];
 
 // Función para cargar y mostrar la tabla histórica
-function cargarTablaHistorica(datos) {
+function cargarTablaHistorica() {
   const tbody = document.getElementById('tabla-historica');
   tbody.innerHTML = '';
   
-  datos.forEach((equipo, index) => {
+  // Ordenamos por PtsHis (ya debería estar ordenado, pero por si acaso)
+  datosHistoricos.sort((a, b) => b.ptsHis - a.ptsHis);
+  
+  datosHistoricos.forEach((equipo, index) => {
     const fila = document.createElement('tr');
+    
+    // Aplicamos clases especiales para los escudos de algunos equipos
     const claseEscudo = 
       equipo.equipo === "Liga de Quito" ? "ldu" :
       equipo.equipo === "Macará" ? "macara" :
@@ -1841,21 +1839,22 @@ function cargarTablaHistorica(datos) {
       <td>${equipo.porcPP}</td>
     `;
     
-    if (index < 4) fila.classList.add("top-pos");
-    else if (index < 10) fila.classList.add("mid-pos");
-    else if (index < 20) fila.classList.add("low-pos");
+    // Aplicamos clases de color según la posición histórica
+    if (index < 4) fila.classList.add("top-pos"); // Top 4
+    else if (index < 10) fila.classList.add("mid-pos"); // Del 5 al 10
+    else if (index < 20) fila.classList.add("low-pos"); // Del 11 al 20
     
     tbody.appendChild(fila);
   });
 }
 // Función para actualizar los datos históricos con la temporada actual
+// Variable para controlar que no se actualice múltiples veces
 let datosActualizados = false;
 
 function actualizarDatosHistoricos() {
   // Evitar doble actualización
   if (datosActualizados) return;
-  
-  // Obtener datos ACTUALES de la tabla de posiciones 2025
+    // Obtener datos ACTUALES de la tabla de posiciones 2025
   const equipos2025 = [];
   document.querySelectorAll('#tabla-posiciones tr').forEach(fila => {
     const celdas = fila.querySelectorAll('td');
@@ -1888,27 +1887,52 @@ function actualizarDatosHistoricos() {
     const equipoHist = datosHistoricos.find(e => e.equipo === equipo2025.equipo);
     
     if (equipoHist) {
-      // Actualizar estadísticas sumando las de 2025 a las históricas
-      equipoHist.pj += equipo2025.pj;
-      equipoHist.pgt += equipo2025.pg;
-      equipoHist.pg3 += equipo2025.pg; // Todas las victorias de 2025 son de 3 puntos
-      equipoHist.pe += equipo2025.pe;
-      equipoHist.pp += equipo2025.pp;
-      equipoHist.gf += equipo2025.gf;
-      equipoHist.gc += equipo2025.gc;
-      equipoHist.gd = equipoHist.gf - equipoHist.gc;
-      
-      // Calcular puntos según sistema histórico (2 puntos por victoria antes de 1995/96)
-      // Asumimos que la temporada 2025 usa 3 puntos por victoria
-      equipoHist.ptsHis += (equipo2025.pg * 2); // Para el histórico usamos 2 puntos
-      equipoHist.ptsx3V += (equipo2025.pg * 3); // Para el cálculo alternativo usamos 3 puntos
-      equipoHist.ptsx3V += equipo2025.pe; // Empates suman 1 en ambos sistemas
-      
-      // Calcular porcentajes
-      const totalPJ = equipoHist.pj;
-      equipoHist.porcPG = ((equipoHist.pgt / totalPJ) * 100).toFixed(2) + "%";
-      equipoHist.porcPE = ((equipoHist.pe / totalPJ) * 100).toFixed(2) + "%";
-      equipoHist.porcPP = ((equipoHist.pp / totalPJ) * 100).toFixed(2) + "%";
+      // Solo actualizar si los partidos jugados son mayores que los registrados
+      if (equipo2025.pj > (equipoHist.pj - (equipoHist.pjOriginal || 0))) {
+        // Calcular diferencia
+        const difPJ = equipo2025.pj - (equipoHist.pj - (equipoHist.pjOriginal || 0));
+        const difPG = equipo2025.pg - (equipoHist.pgt - (equipoHist.pgOriginal || 0));
+        const difPE = equipo2025.pe - (equipoHist.pe - (equipoHist.peOriginal || 0));
+        const difPP = equipo2025.pp - (equipoHist.pp - (equipoHist.ppOriginal || 0));
+        const difGF = equipo2025.gf - (equipoHist.gf - (equipoHist.gfOriginal || 0));
+        const difGC = equipo2025.gc - (equipoHist.gc - (equipoHist.gcOriginal || 0));
+        
+        // Actualizar datos
+        equipoHist.pj = (equipoHist.pjOriginal || 0) + equipo2025.pj;
+        equipoHist.pgt = (equipoHist.pgOriginal || 0) + equipo2025.pg;
+        equipoHist.pe = (equipoHist.peOriginal || 0) + equipo2025.pe;
+        equipoHist.pp = (equipoHist.ppOriginal || 0) + equipo2025.pp;
+        equipoHist.gf = (equipoHist.gfOriginal || 0) + equipo2025.gf;
+        equipoHist.gc = (equipoHist.gcOriginal || 0) + equipo2025.gc;
+        equipoHist.gd = equipoHist.gf - equipoHist.gc;
+        
+        // Calcular puntos según sistema histórico
+        equipoHist.ptsHis = (equipoHist.ptsOriginal || 0) + 
+                           (difPG * 2) + // Asume que antes eran 2 puntos por victoria
+                           (difPE * 1);
+        
+        // Calcular puntos como si siempre fueran 3 puntos por victoria
+        equipoHist.ptsx3V = (equipoHist.ptsOriginal || 0) + 
+                           (difPG * 3) + 
+                           (difPE * 1);
+        
+        // Actualizar porcentajes
+        const totalPJ = equipoHist.pj;
+        equipoHist.porcPG = ((equipoHist.pgt / totalPJ) * 100).toFixed(2) + "%";
+        equipoHist.porcPE = ((equipoHist.pe / totalPJ) * 100).toFixed(2) + "%";
+        equipoHist.porcPP = ((equipoHist.pp / totalPJ) * 100).toFixed(2) + "%";
+        
+        // Guardar valores originales (solo primera vez)
+        if (!equipoHist.pjOriginal) {
+          equipoHist.pjOriginal = equipoHist.pj - equipo2025.pj;
+          equipoHist.ptsOriginal = equipoHist.ptsHis - (equipo2025.pg * 2 + equipo2025.pe);
+          equipoHist.pgOriginal = equipoHist.pgt - equipo2025.pg;
+          equipoHist.peOriginal = equipoHist.pe - equipo2025.pe;
+          equipoHist.ppOriginal = equipoHist.pp - equipo2025.pp;
+          equipoHist.gfOriginal = equipoHist.gf - equipo2025.gf;
+          equipoHist.gcOriginal = equipoHist.gc - equipo2025.gc;
+        }
+      }
     } else {
       // Para equipos nuevos (como Vinotinto FC)
       datosHistoricos.push({
@@ -1917,8 +1941,8 @@ function actualizarDatosHistoricos() {
         ptsx3V: equipo2025.pg * 3 + equipo2025.pe, // 3 puntos por victoria
         pj: equipo2025.pj,
         pgt: equipo2025.pg,
-        pg2: 0, // No hay victorias de 2 puntos en 2025
-        pg3: equipo2025.pg, // Todas las victorias son de 3 puntos
+        pg2: 0,
+        pg3: equipo2025.pg,
         pe: equipo2025.pe,
         pp: equipo2025.pp,
         gf: equipo2025.gf,
@@ -1926,7 +1950,14 @@ function actualizarDatosHistoricos() {
         gd: equipo2025.gd,
         porcPG: ((equipo2025.pg / equipo2025.pj) * 100).toFixed(2) + "%",
         porcPE: ((equipo2025.pe / equipo2025.pj) * 100).toFixed(2) + "%",
-        porcPP: ((equipo2025.pp / equipo2025.pj) * 100).toFixed(2) + "%"
+        porcPP: ((equipo2025.pp / equipo2025.pj) * 100).toFixed(2) + "%",
+        pjOriginal: 0,
+        ptsOriginal: 0,
+        pgOriginal: 0,
+        peOriginal: 0,
+        ppOriginal: 0,
+        gfOriginal: 0,
+        gcOriginal: 0
       });
     }
   });
@@ -1941,18 +1972,8 @@ function showSection(id) {
   document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   
-  // Cargar contenido específico de cada sección
-  switch(id) {
-    case 'mano-a-mano':
-      actualizarGrafico(document.getElementById('selector-enfrentamiento').value);
-      break;
-    case 'historica':
-      actualizarDatosHistoricos();
-      break;
-    case 'posiciones':
-      actualizarTabla();
-      actualizarTopEstadisticas();
-      break;
+  if (id === 'historica') {
+    actualizarDatosHistoricos();
   }
   
   // Cerrar menú en móviles al seleccionar una opción
@@ -1980,7 +2001,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('main-nav').classList.add('active');
     document.body.classList.add('nav-active');
   }
-});
+});  
 </script>
 </body>
 </html>
