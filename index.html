@@ -449,9 +449,41 @@ header h1 {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
 }
-   /* =============================================== */
+/* Estilos para la tabla histórica */
+#tabla-historica tr:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+#tabla-historica td, #tabla-historica th {
+  padding: 8px 5px;
+  text-align: center;
+}
+
+#tabla-historica th {
+  background-color: #0a3d62;
+  color: white;
+  position: sticky;
+  top: 0;
+}
+
+#tabla-historica .celda-equipo {
+  min-width: 150px;
+  text-align: left;
+}
+
+/* Colores para posiciones históricas */
+#tabla-historica .top-pos {
+  background-color: rgba(212, 237, 218, 0.7); /* Verde claro */
+}
+
+#tabla-historica .mid-pos {
+  background-color: rgba(255, 243, 205, 0.7); /* Amarillo claro */
+}
+
+#tabla-historica .low-pos {
+  background-color: rgba(248, 215, 218, 0.7); /* Rojo claro */
+}
 /* MEDIA QUERY PARA DESKTOP (min-width: 992px) */
-/* =============================================== */
 @media (min-width: 992px) {
   /* Grid layout para reorganizar secciones */
   .inicio {
@@ -1030,7 +1062,52 @@ function showSection(id) {
   document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
-
+//TABLA HISTORICA
+<section class="section" id="historica">
+  <h2>Tabla Histórica de Primera División Ecuatoriana</h2>
+  <p>Estadísticas acumuladas desde 1957 hasta 2024 (no incluye Copas Nacionales ni definiciones mata-mata)</p>
+  
+  <div style="overflow-x: auto; margin-bottom: 20px;">
+    <table style="width: 100%; margin-top: 1rem;">
+      <thead>
+        <tr>
+          <th>Pos</th>
+          <th>Equipo</th>
+          <th>PtsHis</th>
+          <th>Ptsx3V</th>
+          <th>PJ</th>
+          <th>PGT</th>
+          <th>PG2</th>
+          <th>PG3</th>
+          <th>PE</th>
+          <th>PP</th>
+          <th>GF</th>
+          <th>GC</th>
+          <th>GD</th>
+          <th>%PG</th>
+          <th>%PE</th>
+          <th>%PP</th>
+        </tr>
+      </thead>
+      <tbody id="tabla-historica">
+        <!-- Los datos se cargarán con JavaScript -->
+      </tbody>
+    </table>
+  </div>
+  
+  <div style="margin-top: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+    <h3>Leyenda:</h3>
+    <ul>
+      <li><strong>PtsHis:</strong> Puntaje aplicando puntos por victoria según el reglamento de cada época (3 puntos a partir de 1995/96 y 2 puntos en torneos previos)</li>
+      <li><strong>Ptsx3V:</strong> Puntaje aplicando reglamento actual a todas las épocas (3 puntos por victoria)</li>
+      <li><strong>PGT:</strong> Victorias totales</li>
+      <li><strong>PG2:</strong> Victorias de 2 puntos (antes de 1995/96)</li>
+      <li><strong>PG3:</strong> Victorias de 3 puntos (desde 1995/96)</li>
+      <li><strong>%PG, %PE, %PP:</strong> Porcentaje de partidos ganados, empatados y perdidos</li>
+    </ul>
+    <p><strong>Nota:</strong> Los datos se actualizan automáticamente con los resultados de la temporada actual.</p>
+  </div>
+</section>   
 // Datos iniciales de la tabla
 let tablaBase = [
   ["I. del Valle",15,31,9,4,2,29,14,15],
@@ -1656,7 +1733,232 @@ function showSection(id) {
     document.body.classList.remove('nav-active');
   }
 }
+// Datos históricos extraídos del Excel
+const datosHistoricos = [
+  { equipo: "Barcelona SC", ptsHis: 3471, ptsx3V: 4028, pj: 2423, pgt: 1122, pg2: 557, pg3: 565, pe: 662, pp: 639, gf: 3557, gc: 2424, gd: 1133, porcPG: "46.31%", porcPE: "27.32%", porcPP: "26.37%" },
+  { equipo: "Emelec", ptsHis: 3198, ptsx3V: 3678, pj: 2268, pgt: 1033, pg2: 480, pg3: 553, pe: 579, pp: 656, gf: 3443, gc: 2572, gd: 871, porcPG: "45.55%", porcPE: "25.53%", porcPP: "28.92%" },
+  { equipo: "Liga de Quito", ptsHis: 3136, ptsx3V: 3538, pj: 2238, pgt: 967, pg2: 402, pg3: 565, pe: 637, pp: 634, gf: 3360, gc: 2533, gd: 827, porcPG: "43.21%", porcPE: "28.46%", porcPP: "28.33%" },
+  { equipo: "El Nacional", ptsHis: 3115, ptsx3V: 3624, pj: 2327, pgt: 992, pg2: 509, pg3: 483, pe: 648, pp: 687, gf: 3548, gc: 2659, gd: 889, porcPG: "42.63%", porcPE: "27.85%", porcPP: "29.52%" },
+  { equipo: "D. Quito", ptsHis: 2240, ptsx3V: 2587, pj: 1818, pgt: 691, pg2: 347, pg3: 344, pe: 514, pp: 613, gf: 2501, gc: 2307, gd: 194, porcPG: "38.01%", porcPE: "28.27%", porcPP: "33.72%" },
+  { equipo: "D. Cuenca", ptsHis: 2159, ptsx3V: 2422, pj: 1823, pgt: 636, pg2: 263, pg3: 373, pe: 514, pp: 673, gf: 2154, gc: 2255, gd: -101, porcPG: "34.89%", porcPE: "28.20%", porcPP: "36.92%" },
+  { equipo: "Aucas", ptsHis: 1654, ptsx3V: 1846, pj: 1426, pgt: 480, pg2: 192, pg3: 288, pe: 406, pp: 540, gf: 1856, gc: 1993, gd: -137, porcPG: "33.66%", porcPE: "28.47%", porcPP: "37.87%" },
+  { equipo: "U. Católica", ptsHis: 1477, ptsx3V: 1764, pj: 1272, pgt: 474, pg2: 287, pg3: 187, pe: 342, pp: 456, gf: 1706, gc: 1604, gd: 102, porcPG: "37.26%", porcPE: "26.89%", porcPP: "35.85%" },
+  { equipo: "Macará", ptsHis: 1228, ptsx3V: 1363, pj: 1115, pgt: 347, pg2: 135, pg3: 212, pe: 322, pp: 446, gf: 1361, gc: 1598, gd: -237, porcPG: "31.12%", porcPE: "28.88%", porcPP: "40.00%" },
+  { equipo: "T. Universitario", ptsHis: 1146, ptsx3V: 1360, pj: 1136, pgt: 354, pg2: 214, pg3: 140, pe: 298, pp: 484, gf: 1346, gc: 1626, gd: -280, porcPG: "31.16%", porcPE: "26.23%", porcPP: "42.61%" },
+  { equipo: "Olmedo", ptsHis: 1117, ptsx3V: 1126, pj: 917, pgt: 284, pg2: 9, pg3: 275, pe: 274, pp: 359, gf: 1015, gc: 1233, gd: -218, porcPG: "30.97%", porcPE: "29.88%", porcPP: "39.15%" },
+  { equipo: "I. del Valle", ptsHis: 939, ptsx3V: 939, pj: 576, pgt: 267, pg2: 0, pg3: 267, pe: 138, pp: 171, gf: 864, gc: 651, gd: 213, porcPG: "46.35%", porcPE: "23.96%", porcPP: "29.69%" },
+  { equipo: "Espoli", ptsHis: 800, ptsx3V: 822, pj: 658, pgt: 218, pg2: 22, pg3: 196, pe: 168, pp: 272, gf: 832, gc: 926, gd: -94, porcPG: "33.13%", porcPE: "25.53%", porcPP: "41.34%" },
+  { equipo: "Delfín", ptsHis: 796, ptsx3V: 855, pj: 676, pgt: 228, pg2: 59, pg3: 169, pe: 171, pp: 277, gf: 839, gc: 1036, gd: -197, porcPG: "33.73%", porcPE: "25.30%", porcPP: "40.98%" },
+  { equipo: "Liga de Portoviejo", ptsHis: 720, ptsx3V: 922, pj: 787, pgt: 239, pg2: 202, pg3: 37, pe: 205, pp: 343, gf: 990, gc: 1294, gd: -304, porcPG: "30.37%", porcPE: "26.05%", porcPP: "43.58%" },
+  { equipo: "América de Quito", ptsHis: 575, ptsx3V: 762, pj: 648, pgt: 193, pg2: 187, pg3: 6, pe: 183, pp: 272, gf: 730, gc: 857, gd: -127, porcPG: "29.78%", porcPE: "28.24%", porcPP: "41.98%" },
+  { equipo: "9 de Octubre", ptsHis: 465, ptsx3V: 605, pj: 514, pgt: 162, pg2: 140, pg3: 22, pe: 119, pp: 233, gf: 642, gc: 804, gd: -162, porcPG: "31.52%", porcPE: "23.15%", porcPP: "45.33%" },
+  { equipo: "Mushuc Runa", ptsHis: 346, ptsx3V: 346, pj: 312, pgt: 86, pg2: 0, pg3: 86, pe: 88, pp: 138, gf: 352, gc: 474, gd: -122, porcPG: "27.56%", porcPE: "28.21%", porcPP: "44.23%" },
+  { equipo: "Guayaquil City", ptsHis: 338, ptsx3V: 338, pj: 326, pgt: 85, pg2: 0, pg3: 85, pe: 83, pp: 158, gf: 332, gc: 481, gd: -149, porcPG: "26.07%", porcPE: "25.46%", porcPP: "48.47%" },
+  { equipo: "Filanbanco", ptsHis: 324, ptsx3V: 445, pj: 290, pgt: 121, pg2: 121, pg3: 0, pe: 82, pp: 87, gf: 438, gc: 323, gd: 115, porcPG: "41.72%", porcPE: "28.28%", porcPP: "30.00%" },
+  { equipo: "Liga de Loja", ptsHis: 306, ptsx3V: 306, pj: 256, pgt: 82, pg2: 0, pg3: 82, pe: 60, pp: 114, gf: 306, gc: 378, gd: -72, porcPG: "32.03%", porcPE: "23.44%", porcPP: "44.53%" },
+  { equipo: "Manta", ptsHis: 254, ptsx3V: 254, pj: 242, pgt: 62, pg2: 0, pg3: 62, pe: 68, pp: 112, gf: 250, gc: 353, gd: -103, porcPG: "25.62%", porcPE: "28.10%", porcPP: "46.28%" },
+  { equipo: "D. Quevedo", ptsHis: 252, ptsx3V: 315, pj: 325, pgt: 78, pg2: 63, pg3: 15, pe: 81, pp: 166, gf: 299, gc: 533, gd: -234, porcPG: "24.00%", porcPE: "24.92%", porcPP: "51.08%" },
+  { equipo: "Green Cross", ptsHis: 235, ptsx3V: 281, pj: 217, pgt: 78, pg2: 46, pg3: 32, pe: 47, pp: 92, gf: 271, gc: 322, gd: -51, porcPG: "35.94%", porcPE: "21.66%", porcPP: "42.40%" },
+  { equipo: "Manta Sport", ptsHis: 228, ptsx3V: 312, pj: 268, pgt: 84, pg2: 84, pg3: 0, pe: 60, pp: 124, gf: 328, gc: 428, gd: -100, porcPG: "31.34%", porcPE: "22.39%", porcPP: "46.27%" },
+  { equipo: "Everest", ptsHis: 220, ptsx3V: 296, pj: 264, pgt: 76, pg2: 76, pg3: 0, pe: 68, pp: 120, gf: 352, gc: 475, gd: -123, porcPG: "28.79%", porcPE: "25.76%", porcPP: "45.45%" },
+  { equipo: "Audaz Octubrino", ptsHis: 218, ptsx3V: 287, pj: 252, pgt: 78, pg2: 69, pg3: 9, pe: 53, pp: 121, gf: 258, gc: 391, gd: -133, porcPG: "30.95%", porcPE: "21.03%", porcPP: "48.02%" },
+  { equipo: "Orense", ptsHis: 175, ptsx3V: 175, pj: 150, pgt: 41, pg2: 0, pg3: 41, pe: 52, pp: 57, gf: 145, gc: 182, gd: -37, porcPG: "27.33%", porcPE: "34.67%", porcPP: "38.00%" },
+  { equipo: "Esmeraldas Petrolero", ptsHis: 138, ptsx3V: 189, pj: 150, pgt: 51, pg2: 51, pg3: 0, pe: 36, pp: 63, gf: 169, gc: 200, gd: -31, porcPG: "34.00%", porcPE: "24.00%", porcPP: "42.00%" },
+  { equipo: "Patria", ptsHis: 124, ptsx3V: 170, pj: 128, pgt: 46, pg2: 46, pg3: 0, pe: 32, pp: 50, gf: 161, gc: 173, gd: -12, porcPG: "35.94%", porcPE: "25.00%", porcPP: "39.06%" },
+  { equipo: "Valdez", ptsHis: 122, ptsx3V: 166, pj: 130, pgt: 44, pg2: 44, pg3: 0, pe: 34, pp: 52, gf: 148, gc: 175, gd: -27, porcPG: "33.85%", porcPE: "26.15%", porcPP: "40.00%" },
+  { equipo: "Imbabura", ptsHis: 111, ptsx3V: 111, pj: 110, pgt: 28, pg2: 0, pg3: 28, pe: 27, pp: 55, gf: 124, gc: 196, gd: -72, porcPG: "25.45%", porcPE: "24.55%", porcPP: "50.00%" },
+  { equipo: "D. Azogues", ptsHis: 106, ptsx3V: 106, pj: 96, pgt: 28, pg2: 0, pg3: 28, pe: 22, pp: 46, gf: 99, gc: 135, gd: -36, porcPG: "29.17%", porcPE: "22.92%", porcPP: "47.92%" },
+  { equipo: "Politécnico", ptsHis: 101, ptsx3V: 134, pj: 113, pgt: 33, pg2: 33, pg3: 0, pe: 35, pp: 45, gf: 156, gc: 173, gd: -17, porcPG: "29.20%", porcPE: "30.97%", porcPP: "39.82%" },
+  { equipo: "Fuerza Amarilla", ptsHis: 83, ptsx3V: 83, pj: 118, pgt: 19, pg2: 0, pg3: 19, pe: 26, pp: 73, gf: 107, gc: 212, gd: -105, porcPG: "16.10%", porcPE: "22.03%", porcPP: "61.86%" },
+  { equipo: "Cumbayá", ptsHis: 81, ptsx3V: 81, pj: 90, pgt: 18, pg2: 0, pg3: 18, pe: 27, pp: 45, gf: 76, gc: 131, gd: -55, porcPG: "20.00%", porcPE: "30.00%", porcPP: "50.00%" },
+  { equipo: "Carmen Mora", ptsHis: 61, ptsx3V: 81, pj: 76, pgt: 20, pg2: 20, pg3: 0, pe: 21, pp: 35, gf: 77, gc: 121, gd: -44, porcPG: "26.32%", porcPE: "27.63%", porcPP: "46.05%" },
+  { equipo: "Gualaceo", ptsHis: 59, ptsx3V: 59, pj: 60, pgt: 16, pg2: 0, pg3: 16, pe: 11, pp: 33, gf: 54, gc: 99, gd: -45, porcPG: "26.67%", porcPE: "18.33%", porcPP: "55.00%" },
+  { equipo: "Libertad", ptsHis: 55, ptsx3V: 55, pj: 60, pgt: 12, pg2: 0, pg3: 12, pe: 19, pp: 29, gf: 60, gc: 87, gd: -27, porcPG: "20.00%", porcPE: "31.67%", porcPP: "48.33%" },
+  { equipo: "River Plate (Riobamba)", ptsHis: 49, ptsx3V: 64, pj: 68, pgt: 15, pg2: 15, pg3: 0, pe: 19, pp: 34, gf: 60, gc: 103, gd: -43, porcPG: "22.06%", porcPE: "27.94%", porcPP: "50.00%" },
+  { equipo: "Panamá", ptsHis: 34, ptsx3V: 34, pj: 53, pgt: 6, pg2: 0, pg3: 6, pe: 16, pp: 31, gf: 41, gc: 94, gd: -53, porcPG: "11.32%", porcPE: "30.19%", porcPP: "58.49%" },
+  { equipo: "Juventus", ptsHis: 34, ptsx3V: 43, pj: 56, pgt: 9, pg2: 9, pg3: 0, pe: 16, pp: 31, gf: 47, gc: 102, gd: -55, porcPG: "16.07%", porcPE: "28.57%", porcPP: "55.36%" },
+  { equipo: "Norte América", ptsHis: 34, ptsx3V: 47, pj: 60, pgt: 13, pg2: 13, pg3: 0, pe: 8, pp: 39, gf: 53, gc: 117, gd: -64, porcPG: "21.67%", porcPE: "13.33%", porcPP: "65.00%" },
+  { equipo: "Juventud Italiana", ptsHis: 32, ptsx3V: 41, pj: 35, pgt: 9, pg2: 9, pg3: 0, pe: 14, pp: 12, gf: 44, gc: 62, gd: -18, porcPG: "25.71%", porcPE: "40.00%", porcPP: "34.29%" },
+  { equipo: "Clan Juvenil", ptsHis: 29, ptsx3V: 29, pj: 44, pgt: 6, pg2: 0, pg3: 6, pe: 11, pp: 27, gf: 50, gc: 102, gd: -52, porcPG: "13.64%", porcPE: "25.00%", porcPP: "61.36%" },
+  { equipo: "Bonita Banana", ptsHis: 28, ptsx3V: 38, pj: 36, pgt: 10, pg2: 10, pg3: 0, pe: 8, pp: 18, gf: 28, gc: 43, gd: -15, porcPG: "27.78%", porcPE: "22.22%", porcPP: "50.00%" },
+  { equipo: "Calvi", ptsHis: 26, ptsx3V: 26, pj: 37, pgt: 7, pg2: 0, pg3: 7, pe: 5, pp: 25, gf: 47, gc: 80, gd: -33, porcPG: "18.92%", porcPE: "13.51%", porcPP: "67.57%" },
+  { equipo: "Juvenil", ptsHis: 26, ptsx3V: 34, pj: 38, pgt: 8, pg2: 8, pg3: 0, pe: 10, pp: 20, gf: 36, gc: 87, gd: -51, porcPG: "21.05%", porcPE: "26.32%", porcPP: "52.63%" },
+  { equipo: "Atlético Riobamba", ptsHis: 24, ptsx3V: 29, pj: 34, pgt: 5, pg2: 5, pg3: 0, pe: 14, pp: 15, gf: 35, gc: 55, gd: -20, porcPG: "14.71%", porcPE: "41.18%", porcPP: "44.12%" },
+  { equipo: "Español", ptsHis: 24, ptsx3V: 33, pj: 38, pgt: 9, pg2: 9, pg3: 0, pe: 6, pp: 23, gf: 44, gc: 69, gd: -25, porcPG: "23.68%", porcPE: "15.79%", porcPP: "60.53%" },
+  { equipo: "Guayaquil Sport", ptsHis: 23, ptsx3V: 31, pj: 34, pgt: 8, pg2: 8, pg3: 0, pe: 7, pp: 19, gf: 30, gc: 63, gd: -33, porcPG: "23.53%", porcPE: "20.59%", porcPP: "55.88%" },
+  { equipo: "Liga de Cuenca", ptsHis: 20, ptsx3V: 26, pj: 36, pgt: 6, pg2: 6, pg3: 0, pe: 8, pp: 22, gf: 24, gc: 64, gd: -40, porcPG: "16.67%", porcPE: "22.22%", porcPP: "61.11%" },
+  { equipo: "Brasil", ptsHis: 19, ptsx3V: 25, pj: 28, pgt: 6, pg2: 6, pg3: 0, pe: 7, pp: 15, gf: 20, gc: 50, gd: -30, porcPG: "21.43%", porcPE: "25.00%", porcPP: "53.57%" },
+  { equipo: "Estibadores Navales", ptsHis: 17, ptsx3V: 23, pj: 26, pgt: 6, pg2: 6, pg3: 0, pe: 5, pp: 15, gf: 38, gc: 57, gd: -19, porcPG: "23.08%", porcPE: "19.23%", porcPP: "57.69%" },
+  { equipo: "España", ptsHis: 14, ptsx3V: 18, pj: 24, pgt: 4, pg2: 4, pg3: 0, pe: 6, pp: 14, gf: 31, gc: 55, gd: -24, porcPG: "16.67%", porcPE: "25.00%", porcPP: "58.33%" },
+  { equipo: "América de Ambato", ptsHis: 14, ptsx3V: 19, pj: 39, pgt: 5, pg2: 5, pg3: 0, pe: 4, pp: 30, gf: 50, gc: 112, gd: -62, porcPG: "12.82%", porcPE: "10.26%", porcPP: "76.92%" },
+  { equipo: "América de Manta", ptsHis: 13, ptsx3V: 18, pj: 13, pgt: 5, pg2: 5, pg3: 0, pe: 3, pp: 5, gf: 15, gc: 20, gd: -5, porcPG: "38.46%", porcPE: "23.08%", porcPP: "38.46%" },
+  { equipo: "U. D. Valdez", ptsHis: 13, ptsx3V: 18, pj: 18, pgt: 5, pg2: 5, pg3: 0, pe: 3, pp: 10, gf: 25, gc: 37, gd: -12, porcPG: "27.78%", porcPE: "16.67%", porcPP: "55.56%" },
+  { equipo: "Santos", ptsHis: 13, ptsx3V: 16, pj: 20, pgt: 3, pg2: 3, pg3: 0, pe: 7, pp: 10, gf: 18, gc: 36, gd: -18, porcPG: "15.00%", porcPE: "35.00%", porcPP: "50.00%" },
+  { equipo: "D. Cotopaxi", ptsHis: 12, ptsx3V: 15, pj: 34, pgt: 3, pg2: 3, pg3: 0, pe: 6, pp: 25, gf: 26, gc: 78, gd: -52, porcPG: "8.82%", porcPE: "17.65%", porcPP: "73.53%" },
+  { equipo: "INECEL", ptsHis: 6, ptsx3V: 8, pj: 26, pgt: 2, pg2: 2, pg3: 0, pe: 2, pp: 22, gf: 17, gc: 67, gd: -50, porcPG: "7.69%", porcPE: "7.69%", porcPP: "84.62%" },
+  { equipo: "River Plate (Manta)", ptsHis: 5, ptsx3V: 7, pj: 11, pgt: 2, pg2: 2, pg3: 0, pe: 1, pp: 8, gf: 13, gc: 30, gd: -17, porcPG: "18.18%", porcPE: "9.09%", porcPP: "72.73%" },
+  // Añadimos Vinotinto FC que no estaba en el histórico original
+  { equipo: "Vinotinto FC", ptsHis: 0, ptsx3V: 0, pj: 0, pgt: 0, pg2: 0, pg3: 0, pe: 0, pp: 0, gf: 0, gc: 0, gd: 0, porcPG: "0%", porcPE: "0%", porcPP: "0%" }
+];
 
+// Función para cargar y mostrar la tabla histórica
+function cargarTablaHistorica() {
+  const tbody = document.getElementById('tabla-historica');
+  tbody.innerHTML = '';
+  
+  // Ordenamos por PtsHis (ya debería estar ordenado, pero por si acaso)
+  datosHistoricos.sort((a, b) => b.ptsHis - a.ptsHis);
+  
+  datosHistoricos.forEach((equipo, index) => {
+    const fila = document.createElement('tr');
+    
+    // Aplicamos clases especiales para los escudos de algunos equipos
+    const claseEscudo = 
+      equipo.equipo === "Liga de Quito" ? "ldu" :
+      equipo.equipo === "Macará" ? "macara" :
+      equipo.equipo === "T. Universitario" ? "tecnico" : "";
+    
+    fila.innerHTML = `
+      <td>${index + 1}</td>
+      <td class="celda-equipo">
+        <img src="${escudosEquipos[equipo.equipo] || 'default.png'}" class="escudo-equipo ${claseEscudo}">
+        <span class="nombre-equipo">${equipo.equipo}</span>
+      </td>
+      <td>${equipo.ptsHis}</td>
+      <td>${equipo.ptsx3V}</td>
+      <td>${equipo.pj}</td>
+      <td>${equipo.pgt}</td>
+      <td>${equipo.pg2}</td>
+      <td>${equipo.pg3}</td>
+      <td>${equipo.pe}</td>
+      <td>${equipo.pp}</td>
+      <td>${equipo.gf}</td>
+      <td>${equipo.gc}</td>
+      <td>${equipo.gd}</td>
+      <td>${equipo.porcPG}</td>
+      <td>${equipo.porcPE}</td>
+      <td>${equipo.porcPP}</td>
+    `;
+    
+    // Aplicamos clases de color según la posición histórica
+    if (index < 4) fila.classList.add("top-pos"); // Top 4
+    else if (index < 10) fila.classList.add("mid-pos"); // Del 5 al 10
+    else if (index < 20) fila.classList.add("low-pos"); // Del 11 al 20
+    
+    tbody.appendChild(fila);
+  });
+}
+
+// Función para actualizar los datos históricos con la temporada actual
+function actualizarDatosHistoricos() {
+  // Obtenemos los datos de la tabla actual
+  const tablaActual = [
+    ["I. del Valle",15,31,9,4,2,29,14,15],
+    ["Barcelona SC",14,29,9,2,3,20,15,5],
+    ["Aucas",15,25,7,4,4,22,16,6],
+    ["Liga de Quito",14,23,6,5,3,22,14,8],
+    ["D. Cuenca",15,23,7,2,6,14,13,1],
+    ["Orense",15,23,7,2,6,18,20,-2],
+    ["Vinotinto FC",15,22,6,4,5,24,19,5],
+    ["U. Católica",15,20,5,5,5,24,19,5],
+    ["El Nacional",15,19,5,4,6,21,21,0],
+    ["Libertad",15,19,5,4,6,19,20,-1],
+    ["Delfín",15,18,4,6,5,12,20,-8],
+    ["Manta",15,16,3,7,5,21,27,-6],
+    ["Emelec",15,16,4,4,7,9,18,-9],
+    ["Macará",15,15,3,6,6,12,15,-3],
+    ["Mushuc Runa",15,15,4,3,8,21,26,-5],
+    ["T. Universitario",15,10,2,4,9,14,25,-11]
+  ];
+
+  // Actualizamos los datos históricos con la temporada actual
+  tablaActual.forEach(equipoActual => {
+    const nombreEquipo = equipoActual[0];
+    const pjActual = equipoActual[1];
+    const ptsActual = equipoActual[2];
+    const pgActual = equipoActual[3];
+    const peActual = equipoActual[4];
+    const ppActual = equipoActual[5];
+    const gfActual = equipoActual[6];
+    const gcActual = equipoActual[7];
+    const gdActual = equipoActual[8];
+    
+    // Buscamos el equipo en los datos históricos
+    const equipoHistorico = datosHistoricos.find(e => e.equipo === nombreEquipo);
+    
+    if (equipoHistorico) {
+      // Actualizamos los datos
+      equipoHistorico.pj += pjActual;
+      equipoHistorico.ptsHis += ptsActual;
+      equipoHistorico.pgt += pgActual;
+      equipoHistorico.pe += peActual;
+      equipoHistorico.pp += ppActual;
+      equipoHistorico.gf += gfActual;
+      equipoHistorico.gc += gcActual;
+      equipoHistorico.gd += gdActual;
+      
+      // Para Ptsx3V, asumimos que todas las victorias actuales son de 3 puntos
+      equipoHistorico.ptsx3V += (pgActual * 3) + (peActual * 1);
+      
+      // Para PG3, asumimos que todas las victorias actuales son de 3 puntos
+      equipoHistorico.pg3 += pgActual;
+      
+      // Actualizamos porcentajes
+      const totalPartidos = equipoHistorico.pj;
+      equipoHistorico.porcPG = ((equipoHistorico.pgt / totalPartidos) * 100).toFixed(2) + "%";
+      equipoHistorico.porcPE = ((equipoHistorico.pe / totalPartidos) * 100).toFixed(2) + "%";
+      equipoHistorico.porcPP = ((equipoHistorico.pp / totalPartidos) * 100).toFixed(2) + "%";
+    } else {
+      // Si el equipo no existe en el histórico (como Vinotinto FC), lo añadimos
+      datosHistoricos.push({
+        equipo: nombreEquipo,
+        ptsHis: ptsActual,
+        ptsx3V: (pgActual * 3) + (peActual * 1),
+        pj: pjActual,
+        pgt: pgActual,
+        pg2: 0, // No hay victorias de 2 puntos en la temporada actual
+        pg3: pgActual,
+        pe: peActual,
+        pp: ppActual,
+        gf: gfActual,
+        gc: gcActual,
+        gd: gdActual,
+        porcPG: ((pgActual / pjActual) * 100).toFixed(2) + "%",
+        porcPE: ((peActual / pjActual) * 100).toFixed(2) + "%",
+        porcPP: ((ppActual / pjActual) * 100).toFixed(2) + "%"
+      });
+    }
+  });
+  
+  // Volvemos a cargar la tabla con los datos actualizados
+  cargarTablaHistorica();
+}
+
+// Llamamos a las funciones cuando se carga la página
+document.addEventListener("DOMContentLoaded", () => {
+  cargarTablaHistorica();
+  
+  // Si estamos en la sección histórica, actualizamos con datos de la temporada actual
+  if (document.getElementById('historica').classList.contains('active')) {
+    actualizarDatosHistoricos();
+  }
+});
+
+// También actualizamos cuando se cambia a la sección histórica
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  
+  if (id === 'historica') {
+    actualizarDatosHistoricos();
+  }
+  
+  // Cerrar menú en móviles al seleccionar una opción
+  if (window.innerWidth <= 992) {
+    document.getElementById('main-nav').classList.remove('active');
+    document.body.classList.remove('nav-active');
+  }
+}
 // Asegurar que la navegación esté visible en desktop al cargar
 document.addEventListener("DOMContentLoaded", () => {
   if (window.innerWidth > 992) {
