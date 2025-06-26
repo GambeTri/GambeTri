@@ -1989,23 +1989,22 @@ function showSection(id) {
 }
 // Asegurar que la navegación esté visible en desktop al cargar
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Cargar datos históricos desde localStorage (si existen) o usar los iniciales
+  // Inicializar datos históricos
   const datosGuardados = localStorage.getItem('tablaHistorica');
-  const datosHistoricosParaMostrar = datosGuardados ? JSON.parse(datosGuardados) : datosHistoricos;
-
-  // 2. Actualizar la tabla actual (2025)
-  actualizarTabla();
+  const datosHistoricosIniciales = [...datosHistoricos]; // Copia de los datos iniciales
+  const datosParaMostrar = datosGuardados ? JSON.parse(datosGuardados) : datosHistoricosIniciales;
   
-  // 3. Otras inicializaciones
+  // Cargar tablas
+  actualizarTabla();
+  cargarTablaHistorica(datosParaMostrar);
+  
+  // Otras inicializaciones
   actualizarTopEstadisticas();
   actualizarGrafico('LDU-Quito');
   renderizarFechas();
   openTab('actual');
   
-  // 4. Cargar la tabla histórica (con datos actualizados o iniciales)
-  cargarTablaHistorica(datosHistoricosParaMostrar);
-  
-  // 5. Control de menú en desktop
+  // Mostrar navegación en desktop
   if (window.innerWidth > 992) {
     document.getElementById('main-nav').classList.add('active');
     document.body.classList.add('nav-active');
