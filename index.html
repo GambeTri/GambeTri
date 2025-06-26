@@ -1055,13 +1055,6 @@ body.nav-active {
   </button>
   <div id="tabla-simulada" style="margin-top: 20px;"></div>
 </section>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-function showSection(id) {
-  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
 //TABLA HISTORICA
 <section class="section" id="historica">
   <h2>Tabla Histórica de Primera División Ecuatoriana</h2>
@@ -1107,7 +1100,13 @@ function showSection(id) {
     </ul>
     <p><strong>Nota:</strong> Los datos se actualizan automáticamente con los resultados de la temporada actual.</p>
   </div>
-</section>   
+</section>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
 // Datos iniciales de la tabla
 let tablaBase = [
   ["I. del Valle",15,31,9,4,2,29,14,15],
