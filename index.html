@@ -1104,46 +1104,19 @@ body.nav-active {
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 function showSection(id) {
-  // 1. Ocultar todas las secciones y desactivar botones del menú
   document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-  document.querySelectorAll('#main-nav button').forEach(btn => btn.classList.remove('active'));
-  
-  // 2. Activar la sección seleccionada y su botón correspondiente
   document.getElementById(id).classList.add('active');
-  document.querySelector(`#main-nav button[onclick="showSection('${id}')"]`).classList.add('active');
   
-  // 3. Cargar contenido específico para cada sección
-  switch(id) {
-    case 'mano-a-mano':
-      actualizarGrafico(document.getElementById('selector-enfrentamiento').value);
-      break;
-      
-    case 'posiciones':
-      actualizarTabla();
-      actualizarTopEstadisticas();
-      break;
-      
-    case 'partidos':
-      renderizarFechas();
-      openTab('actual'); // Mostrar pestaña de fecha actual por defecto
-      break;
-      
-    case 'simulador':
-      // Puedes inicializar algo aquí si es necesario
-      break;
-      
-    case 'historica':
-      actualizarDatosHistoricos();
-      break;
-      
-    case 'copa-ecuador':
-      // Inicialización específica para Copa Ecuador
-      break;
-      
-    case 'inicio':
-      // Inicialización para la página de inicio
-      break;
+  if (id === 'historica') {
+    actualizarDatosHistoricos();
   }
+  
+  // Cerrar menú en móviles al seleccionar una opción
+  if (window.innerWidth <= 992) {
+    document.getElementById('main-nav').classList.remove('active');
+    document.body.classList.remove('nav-active');
+  }
+}
   
   // 4. Cerrar menú en móviles al seleccionar una opción
   if (window.innerWidth <= 992) {
@@ -1876,10 +1849,12 @@ function cargarTablaHistorica(datos) {
   });
 }
 // Función para actualizar los datos históricos con la temporada actual
-// Variable para controlar que no se actualice múltiples veces
 let datosActualizados = false;
 
 function actualizarDatosHistoricos() {
+  // Evitar doble actualización
+  if (datosActualizados) return;
+  
   // Obtener datos ACTUALES de la tabla de posiciones 2025
   const equipos2025 = [];
   document.querySelectorAll('#tabla-posiciones tr').forEach(fila => {
@@ -1908,42 +1883,42 @@ function actualizarDatosHistoricos() {
     }
   });
 
-  // Cargar datos históricos desde localStorage (si existen) o usar los iniciales
-  let datosGuardados = localStorage.getItem('tablaHistorica');
-  let datosHistoricos = datosGuardados ? JSON.parse(datosGuardados) : [...datosHistoricosIniciales];
-
   // Actualizar datos históricos
   equipos2025.forEach(equipo2025 => {
     const equipoHist = datosHistoricos.find(e => e.equipo === equipo2025.equipo);
     
     if (equipoHist) {
-      // Sumar estadísticas de 2025 a las históricas
+      // Actualizar estadísticas sumando las de 2025 a las históricas
       equipoHist.pj += equipo2025.pj;
       equipoHist.pgt += equipo2025.pg;
-      equipoHist.pg3 += equipo2025.pg;
+      equipoHist.pg3 += equipo2025.pg; // Todas las victorias de 2025 son de 3 puntos
       equipoHist.pe += equipo2025.pe;
       equipoHist.pp += equipo2025.pp;
       equipoHist.gf += equipo2025.gf;
       equipoHist.gc += equipo2025.gc;
       equipoHist.gd = equipoHist.gf - equipoHist.gc;
-      equipoHist.ptsHis += (equipo2025.pg * 2) + equipo2025.pe;
-      equipoHist.ptsx3V += (equipo2025.pg * 3) + equipo2025.pe;
       
-      // Actualizar porcentajes
+      // Calcular puntos según sistema histórico (2 puntos por victoria antes de 1995/96)
+      // Asumimos que la temporada 2025 usa 3 puntos por victoria
+      equipoHist.ptsHis += (equipo2025.pg * 2); // Para el histórico usamos 2 puntos
+      equipoHist.ptsx3V += (equipo2025.pg * 3); // Para el cálculo alternativo usamos 3 puntos
+      equipoHist.ptsx3V += equipo2025.pe; // Empates suman 1 en ambos sistemas
+      
+      // Calcular porcentajes
       const totalPJ = equipoHist.pj;
       equipoHist.porcPG = ((equipoHist.pgt / totalPJ) * 100).toFixed(2) + "%";
       equipoHist.porcPE = ((equipoHist.pe / totalPJ) * 100).toFixed(2) + "%";
       equipoHist.porcPP = ((equipoHist.pp / totalPJ) * 100).toFixed(2) + "%";
     } else {
-      // Agregar nuevo equipo (ej: Vinotinto FC)
+      // Para equipos nuevos (como Vinotinto FC)
       datosHistoricos.push({
         equipo: equipo2025.equipo,
-        ptsHis: equipo2025.pg * 2 + equipo2025.pe,
-        ptsx3V: equipo2025.pg * 3 + equipo2025.pe,
+        ptsHis: equipo2025.pg * 2 + equipo2025.pe, // 2 puntos por victoria (histórico)
+        ptsx3V: equipo2025.pg * 3 + equipo2025.pe, // 3 puntos por victoria
         pj: equipo2025.pj,
         pgt: equipo2025.pg,
-        pg2: 0,
-        pg3: equipo2025.pg,
+        pg2: 0, // No hay victorias de 2 puntos en 2025
+        pg3: equipo2025.pg, // Todas las victorias son de 3 puntos
         pe: equipo2025.pe,
         pp: equipo2025.pp,
         gf: equipo2025.gf,
@@ -1955,12 +1930,11 @@ function actualizarDatosHistoricos() {
       });
     }
   });
-
-  // Guardar en localStorage
-  localStorage.setItem('tablaHistorica', JSON.stringify(datosHistoricos));
   
-  // Mostrar tabla actualizada
-  cargarTablaHistorica(datosHistoricos);
+  // Reordenar y mostrar la tabla
+  datosHistoricos.sort((a, b) => b.ptsHis - a.ptsHis);
+  cargarTablaHistorica();
+  datosActualizados = true;
 }
 // También actualizamos cuando se cambia a la sección histórica
 function showSection(id) {
@@ -1989,22 +1963,19 @@ function showSection(id) {
 }
 // Asegurar que la navegación esté visible en desktop al cargar
 document.addEventListener("DOMContentLoaded", () => {
-  // Inicializar datos históricos
-  const datosGuardados = localStorage.getItem('tablaHistorica');
-  const datosHistoricosIniciales = [...datosHistoricos]; // Copia de los datos iniciales
-  const datosParaMostrar = datosGuardados ? JSON.parse(datosGuardados) : datosHistoricosIniciales;
-  
-  // Cargar tablas
+  // Primero actualizar la tabla actual
   actualizarTabla();
-  cargarTablaHistorica(datosParaMostrar);
   
-  // Otras inicializaciones
+  // Luego otras inicializaciones
   actualizarTopEstadisticas();
   actualizarGrafico('LDU-Quito');
   renderizarFechas();
   openTab('actual');
   
-  // Mostrar navegación en desktop
+  // Finalmente actualizar datos históricos
+  actualizarDatosHistoricos();
+  
+  // Control de menú en desktop
   if (window.innerWidth > 992) {
     document.getElementById('main-nav').classList.add('active');
     document.body.classList.add('nav-active');
