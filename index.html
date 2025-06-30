@@ -40,7 +40,6 @@ header p {
   font-size: 1.2rem;
   opacity: 0.9;
   margin: 0.5rem 0 0;
-  color: white;
 }
    .header-logos {
   display: flex;
@@ -215,7 +214,6 @@ header h1 {
     }
     /* ===== HERO BANNER MEJORADO ===== */
 .hero-banner {
-   margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -829,10 +827,10 @@ body.nav-active {
   <h2>Tabla de Posiciones</h2>
   
   <!-- Contenedor flexible para tabla + estadísticas -->
-  <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
+  <div style="display: flex; gap: 20px; width: calc(100% - 20px); margin-left: 20px;">
     
     <!-- Tabla de posiciones (izquierda) -->
-    <div style="flex: 1; min-width: 300px;">
+    <div style="flex: 1.5; min-width: 0; overflow-x: auto;">
       <table style="width: 100%;">
         <thead>
           <tr><th>Pos</th><th>Equipo</th><th>PJ</th><th>PTS</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DF</th></tr>
