@@ -521,7 +521,39 @@ header h1 {
     to { opacity: 1; }
   }
 }
+/* ESTILOS ACTUALIZADOS - COPIA ESTO */
+#posiciones > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
 
+/* Desktop (993px en adelante) */
+@media (min-width: 993px) {
+  #posiciones > div {
+    width: calc(100% - 20px);
+    margin-left: 20px;
+  }
+  #posiciones > div > div:first-child {
+    flex: 1.5;
+    min-width: 0;
+  }
+  #posiciones > div > div:nth-child(2) {
+    flex: 1;
+    min-width: 280px;
+  }
+}
+
+/* Móvil (hasta 768px) */
+@media (max-width: 768px) {
+  #posiciones > div {
+    flex-direction: column;
+  }
+  #posiciones > div > div {
+    width: 100%;
+    min-width: 100% !important;
+  }
+}
 /* =============================================== */
 /* MEDIA QUERY PARA MÓVILES (max-width: 768px) */
 /* =============================================== */
@@ -827,7 +859,7 @@ body.nav-active {
   <h2>Tabla de Posiciones</h2>
   
   <!-- Contenedor flexible para tabla + estadísticas -->
-  <div style="display: flex; gap: 20px; width: calc(100% - 20px); margin-left: 20px;">
+  <div style="display: flex; flex-wrap: wrap; gap: 20px;">
     
     <!-- Tabla de posiciones (izquierda) -->
     <div style="flex: 1.5; min-width: 0; overflow-x: auto;">
