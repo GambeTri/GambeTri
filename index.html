@@ -212,242 +212,188 @@ header h1 {
         from { opacity: 0; }
         to { opacity: 1; }
     }
-    /* ===== HERO BANNER MEJORADO ===== */
-.hero-banner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(135deg, #0a3d62 0%, #1e88e5 100%); /* Nuevo gradiente azul */
-  color: white;
-  padding: 2.5rem;
-  border-radius: 10px;
-  margin-bottom: 2rem;
+
+/* === CARRUSEL MEJORADO === */
+.news-slider {
   position: relative;
+  margin: 0 auto 40px;
+  border-radius: 10px;
   overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  max-width: 1200px;
 }
 
-/* Efecto de onda decorativa */
-.hero-banner::after {
-  content: "";
-  position: absolute;
-  bottom: -20px;
-  left: 0;
+.slider-container {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.slide {
+  min-width: 100%;
+  position: relative;
+}
+
+.slide img {
   width: 100%;
-  height: 20px;
-  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%23ffffff" opacity=".25"/></svg>');
-  background-size: cover;
+  height: 400px;
+  object-fit: cover;
 }
 
-.hero-content {
-  flex: 1;
-  min-width: 300px;
-  position: relative;
-  z-index: 1;
-}
-
-.hero-content h2 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  color: white;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-}
-
-.subtitle {
-  font-size: 1.2rem;
-  margin-bottom: 1.5rem;
-  opacity: 0.9;
-}
-
-.hero-image {
-  max-width: 300px;
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-  position: relative;
-  z-index: 1;
-}
-
-.stats-grid {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.stat-card {
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255,255,255,0.2);
-  transition: all 0.3s ease;
-  padding: 1.2rem;
-  border-radius: 8px;
-  text-align: center;
-  flex: 1;
-  min-width: 100px;
-}
-
-.stat-card:hover {
-  transform: translateY(-5px);
-  background: rgba(255,255,255,0.25);
-}
-
-.stat-number {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #f6b93b; /* Amarillo dorado */
-  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-.stat-label {
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-
-    .features-container {
-  margin: 3rem 0;
-  position: relative;
-}
-
-.features-container h3 {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  color: #0a3d62; /* Azul oscuro */
-  position: relative;
-  display: inline-block;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.features-container h3::after {
-  content: "";
+.slide-content {
   position: absolute;
-  bottom: -10px;
-  left: 25%;
-  width: 50%;
-  height: 3px;
-  background: #1e88e5; /* Azul claro */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10, 61, 98, 0.8);
+  color: white;
+  padding: 20px;
 }
 
-.features-grid {
+.slide-tag {
+  background: #f6b93b;
+  color: #000;
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.slide-title {
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+
+.slider-nav {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
+  justify-content: space-between;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  transform: translateY(-50%);
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.slider-btn {
+  background: rgba(255,255,255,0.5);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
   justify-content: center;
 }
 
-.feature-card {
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ccc;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.dot.active {
+  background: #0a3d62;
+}
+
+/* === ENCUESTA CAMPEONATO === */
+.poll-container {
   background: white;
   border-radius: 10px;
-  padding: 1.8rem;
-  flex: 1;
-  min-width: 250px;
-  max-width: 350px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-  transition: all 0.3s;
-  border-top: 4px solid #1e88e5; /* Borde superior de acento */
-  position: relative;
-  overflow: hidden;
+  padding: 25px;
+  margin: 0 auto 30px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  text-align: center;
+  max-width: 1200px;
 }
 
-.feature-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(30,136,229,0.05) 0%, rgba(10,61,98,0.05) 100%);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-}
-
-.feature-card:hover::before {
-  opacity: 1;
-}
-
-.feature-icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  color: #1e88e5; /* Azul claro */
-  display: inline-block;
-  animation: float 3s ease-in-out infinite;
-}
-
-.feature-card h4 {
-  margin-top: 0;
-  color: #0a3d62; /* Azul oscuro */
-  font-weight: 600;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-    .news-container {
-  background: white;
-  border-radius: 10px;
-  padding: 1.8rem;
-  margin-top: 0; /* Cambiado de 2rem a 0 para el grid */
-  border: 1px solid rgba(10,61,98,0.1);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-  order: 1; /* Mueve las noticias arriba en móviles */
-}
-
-.news-container h3 {
-  margin-top: 0;
-  color: #0a3d62; /* Azul oscuro */
-  border-bottom: 2px solid #1e88e5; /* Azul claro */
-  padding-bottom: 0.5rem;
+.poll-title {
   font-size: 1.5rem;
-}
-
-.news-ticker {
-  margin-top: 1rem;
-}
-
-.news-item {
-  padding: 0.8rem 0;
-  border-bottom: 1px solid #eee;
-  transition: all 0.3s;
-  padding-left: 10px;
-  border-left: 2px solid transparent;
-}
-
-.news-item:hover {
-  background: rgba(10,61,98,0.03);
-  border-left: 2px solid #1e88e5;
-}
-
-.news-date {
-  display: inline-block;
-  width: 100px;
-  font-weight: bold;
-  color: #1e88e5; /* Azul claro */
-}
-
-.news-text {
-  color: #333;
-  transition: color 0.3s;
-}
-
-.news-item:hover .news-text {
+  margin-bottom: 20px;
   color: #0a3d62;
 }
-   /* ===== ANIMACIONES ===== */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+
+.poll-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+.poll-option {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.poll-option:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.poll-option img {
+  width: 40px;
+  margin-right: 10px;
+}
+
+.poll-btn {
+  background: #0a3d62;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.poll-btn:hover {
+  background: #1e88e5;
+}
+
+/* === LOGO GAMBETRI === */
+.logo-section {
+  text-align: center;
+  margin: 30px auto;
+  max-width: 1200px;
+}
+
+.logo-section img {
+  max-width: 300px;
+  height: auto;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .slide img {
+    height: 300px;
+  }
+  
+  .poll-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .slider-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
 }
 /* Estilos para la tabla histórica */
 #tabla-historica tr:hover {
@@ -485,29 +431,7 @@ header h1 {
 }
 /* MEDIA QUERY PARA DESKTOP (min-width: 992px) */
 @media (min-width: 992px) {
-  /* Grid layout para reorganizar secciones */
-  .inicio {
-    display: grid;
-    grid-template-columns: 2fr 1fr; /* Contenido principal (2/3) | Noticias (1/3) */
-    gap: 2rem;
-    align-items: start;
-  }
-  
-  /* Posiciona el news-container a la derecha */
-  .news-container {
-    grid-column: 2;
-    grid-row: 1 / span 2; /* Ocupa hero + features */
-    position: sticky;
-    top: 20px; /* Fijo al hacer scroll */
-    margin-top: 0;
-  }
-  
-  /* Asegura que hero y features usen la columna izquierda */
-  .hero-banner,
-  .features-container {
-    grid-column: 1;
-  }
-   .section {
+     .section {
     display: none; /* Oculta todas las secciones por defecto */
   }
   
@@ -574,38 +498,7 @@ header h1 {
     margin: 5px 0;
   }
 
-  /* Hero Banner */
-  .hero-banner {
-    flex-direction: column;
-    text-align: center;
-    padding: 1.5rem;
-  }
-  
-  .hero-image {
-    margin-top: 1.5rem;
-    max-width: 200px;
-  }
-  
-  .stats-grid {
-    flex-wrap: wrap;
-  }
-
-  /* Sección "Qué encontrarás" */
-  .feature-card {
-    min-width: 100%;
-  }
-
-  /* News Ticker */
-  .news-container {
-    margin-top: 1.5rem;
-    order: 3; /* Mueve noticias al final en móviles */
-  }
-  
-  .news-date {
-    display: block;
-    width: auto;
-    margin-bottom: 0.3rem;
-  }
+ 
 }
  /* ===== NUEVA BARRA DE NAVEGACIÓN ===== */
 #main-nav {
@@ -741,69 +634,100 @@ body.nav-active {
   <button onclick="showSection('copa-ecuador')">Copa Ecuador 2025</button>
 </nav>
 <section class="section active inicio" id="inicio">
-  <!-- Hero Banner -->
-  <div class="hero-banner">
-    <div class="hero-content">
-      <h2>Bienvenido a GambeTri</h2>
-      <p class="subtitle">El portal definitivo del fútbol ecuatoriano</p>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-number">16</div>
-          <div class="stat-label">Equipos en LigaPro</div>
+   <!-- CARRUSEL DE NOTICIAS -->
+        <div class="news-slider">
+            <div class="slider-container" id="slider">
+                <!-- NOTICIA 1 -->
+                <div class="slide">
+                    <img src="https://via.placeholder.com/1200x400?text=Partido+Destacado" alt="Noticia 1" loading="lazy">
+                    <div class="slide-content">
+                        <span class="slide-tag">RESULTADO</span>
+                        <h2 class="slide-title">Barcelona SC 3 - 1 Emelec</h2>
+                        <p>El equipo torero se impuso en el clásico del Astillero con goles de Mena, Díaz y García.</p>
+                    </div>
+                </div>
+                
+                <!-- NOTICIA 2 -->
+                <div class="slide">
+                    <img src="https://via.placeholder.com/1200x400?text=Nuevo+Fichaje" alt="Noticia 2" loading="lazy">
+                    <div class="slide-content">
+                        <span class="slide-tag">FICHAJE</span>
+                        <h2 class="slide-title">LDU ficha a delantero argentino</h2>
+                        <p>Matías Pérez llega desde Vélez Sarsfield para reforzar la delantera albo.</p>
+                    </div>
+                </div>
+                
+                <!-- NOTICIA 3 -->
+                <div class="slide">
+                    <img src="https://via.placeholder.com/1200x400?text=Estadio" alt="Noticia 3" loading="lazy">
+                    <div class="slide-content">
+                        <span class="slide-tag">ACTUALIZACIÓN</span>
+                        <h2 class="slide-title">Nuevo estadio aprobado en Guayaquil</h2>
+                        <p>La FEF autorizó el uso del nuevo coloso para partidos internacionales.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FLECHAS DE NAVEGACIÓN -->
+            <div class="slider-nav">
+                <button class="slider-btn" id="prevBtn">❮</button>
+                <button class="slider-btn" id="nextBtn">❯</button>
+            </div>
+            
+            <!-- PUNTOS INDICADORES -->
+            <div class="slider-dots" id="dots">
+                <!-- Se generan automáticamente con JS -->
+            </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-number">30</div>
-          <div class="stat-label">Fechas por temporada</div>
+        
+        <!-- LOGO GAMBETRI -->
+        <div class="logo-section">
+            <img src="https://via.placeholder.com/300x150?text=GambeTri+Logo" alt="GambeTri Logo" loading="lazy">
         </div>
-        <div class="stat-card">
-          <div class="stat-number">67</div>
-          <div class="stat-label">Años de historia</div>
+        
+        <!-- ENCUESTA CAMPEONATO -->
+        <div class="poll-container">
+            <h2 class="poll-title">¿Quién crees que será campeón?</h2>
+            <div class="poll-grid">
+                <!-- OPCIÓN 1 -->
+                <div class="poll-option">
+                    <img src="https://via.placeholder.com/50x50?text=IDV" alt="Independiente del Valle">
+                    <span>Independiente del Valle</span>
+                </div>
+                
+                <!-- OPCIÓN 2 -->
+                <div class="poll-option">
+                    <img src="https://via.placeholder.com/50x50?text=BSC" alt="Barcelona SC">
+                    <span>Barcelona SC</span>
+                </div>
+                
+                <!-- OPCIÓN 3 -->
+                <div class="poll-option">
+                    <img src="https://via.placeholder.com/50x50?text=LDU" alt="Liga de Quito">
+                    <span>Liga de Quito</span>
+                </div>
+                
+                <!-- OPCIÓN 4 -->
+                <div class="poll-option">
+                    <img src="https://via.placeholder.com/50x50?text=AUCS" alt="Aucas">
+                    <span>Aucas</span>
+                </div>
+                
+                <!-- OPCIÓN 5 -->
+                <div class="poll-option">
+                    <img src="https://via.placeholder.com/50x50?text=DC" alt="Deportivo Cuenca">
+                    <span>Deportivo Cuenca</span>
+                </div>
+                
+                <!-- OPCIÓN 6 -->
+                <div class="poll-option">
+                    <img src="https://via.placeholder.com/50x50?text=ORNS" alt="Orense">
+                    <span>Orense</span>
+                </div>
+            </div>
+            <button class="poll-btn">Votar</button>
         </div>
-      </div>
-    </div>
-    <img alt="Imagen de inicio" src="logo-ultimo.png" class="hero-image"/>
-  </div>
-  
-  <!-- Features Grid -->
-  <div class="features-container">
-    <h3>¿Qué encontrarás en GambeTri?</h3>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <h4>Estadísticas Completas</h4>
-        <p>Datos detallados de todos los partidos, jugadores y equipos de la LigaPro.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📅</div>
-        <h4>Calendario Interactivo</h4>
-        <p>Todos los partidos de la temporada con resultados en tiempo real.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔮</div>
-        <h4>Simulador de Posiciones</h4>
-        <p>Proyecta cómo quedaría la tabla según los resultados que pronostiques.</p>
-      </div>
-    </div>
-  </div>
-  
-  <!-- News Container -->
-  <div class="news-container">
-    <h3>Últimas Noticias</h3>
-    <div class="news-ticker">
-      <div class="news-item">
-        <span class="news-date">25/06/2025</span>
-        <span class="news-text">Liga de Quito e Independiente del Valle empatan 1-1 en un emocionante clásico capitalino.</span>
-      </div>
-      <div class="news-item">
-        <span class="news-date">24/06/2025</span>
-        <span class="news-text">Barcelona SC golea 5-0 a Mushuc Runa y se acerca a la cima de la tabla.</span>
-      </div>
-      <div class="news-item">
-        <span class="news-date">23/06/2025</span>
-        <span class="news-text">La FEF anuncia cambios en el formato de la Copa Ecuador para 2026.</span>
-      </div>
-    </div>
-  </div>
+    
 </section>
 
 <section class="section" id="partidos">
@@ -2011,6 +1935,46 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add('nav-active');
   }
 });
+// CARRUSEL INTERACTIVO
+const slider = document.querySelector('.slider-container');
+const slides = document.querySelectorAll('.slide');
+const dotsContainer = document.querySelector('.slider-dots');
+const prevBtn = document.querySelector('#prevBtn');
+const nextBtn = document.querySelector('#nextBtn');
+let currentIndex = 0;
+
+// Crear puntos indicadores
+slides.forEach((slide, index) => {
+  const dot = document.createElement('span');
+  dot.classList.add('dot');
+  if(index === 0) dot.classList.add('active');
+  dot.addEventListener('click', () => goToSlide(index));
+  dotsContainer.appendChild(dot);
+});
+
+function goToSlide(index) {
+  currentIndex = index;
+  slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+  
+  document.querySelectorAll('.dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === currentIndex);
+  });
+}
+
+prevBtn.addEventListener('click', () => {
+  currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
+  goToSlide(currentIndex);
+});
+
+nextBtn.addEventListener('click', () => {
+  currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+  goToSlide(currentIndex);
+});
+
+setInterval(() => {
+  currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+  goToSlide(currentIndex);
+}, 5000);   
 </script>
 </body>
 </html>
