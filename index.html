@@ -2004,63 +2004,69 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: 'bsc', name: 'Barcelona SC', logo: 'barcelona.png' },
         { id: 'ldu', name: 'Liga de Quito', logo: 'ldu.png' },
         { id: 'aucs', name: 'Aucas', logo: 'aucas.png' },
-        { id: 'dc', name: 'D. Cuenca', logo: 'cuenca.png' },
+        { id: 'dc', name: 'Deportivo Cuenca', logo: 'cuenca.png' },
         { id: 'ornse', name: 'Orense', logo: 'orense.png' }
     ];
 
+    // Elementos del DOM
     const pollOptions = document.getElementById('pollOptions');
     const voteBtn = document.getElementById('voteBtn');
     const pollResults = document.getElementById('pollResults');
     const resultsContainer = document.getElementById('resultsContainer');
     const pollMessage = document.getElementById('pollMessage');
+    
+    // Estado inicial
     let selectedTeam = null;
-    let hasVoted = localStorage.getItem('hasVoted');
-
-    // Cargar resultados guardados o inicializar
-    let votes = JSON.parse(localStorage.getItem('pollVotes')) || {};
-    if (!votes.total) {
-        votes = { total: 0 };
-        teams.forEach(team => votes[team.id] = 0);
-    }
-
-    // Mostrar opciones de votación
+    let hasVoted = localStorage.getItem('hasVoted') === 'true';
+    let votes = JSON.parse(localStorage.getItem('pollVotes')) || { total: 0 };
+    
+    // Inicializar votos si no existen
     teams.forEach(team => {
-        const option = document.createElement('div');
-        option.className = 'poll-option';
-        option.dataset.team = team.id;
-        option.innerHTML = `
-            <img src="${team.logo}" alt="${team.name}">
-            <span>${team.name}</span>
-        `;
-        option.addEventListener('click', () => selectTeam(team.id));
-        pollOptions.appendChild(option);
+        if (!votes[team.id]) {
+            votes[team.id] = 0;
+        }
     });
 
-    // Si ya votó, mostrar resultados
-    if (hasVoted) {
-        showResults();
+    // Mostrar opciones de votación
+    function renderPollOptions() {
+        pollOptions.innerHTML = '';
+        teams.forEach(team => {
+            const option = document.createElement('div');
+            option.className = 'poll-option';
+            if (selectedTeam === team.id) {
+                option.classList.add('selected');
+            }
+            option.dataset.team = team.id;
+            option.innerHTML = `
+                <img src="${team.logo}" alt="${team.name}">
+                <span>${team.name}</span>
+            `;
+            option.addEventListener('click', () => selectTeam(team.id));
+            pollOptions.appendChild(option);
+        });
     }
 
     // Seleccionar equipo
     function selectTeam(teamId) {
-        if (hasVoted) return;
+        if (hasVoted) {
+            pollMessage.textContent = 'Ya has votado anteriormente. Solo puedes votar una vez.';
+            return;
+        }
         
         selectedTeam = teamId;
-        document.querySelectorAll('.poll-option').forEach(opt => {
-            opt.classList.toggle('selected', opt.dataset.team === teamId);
-        });
+        renderPollOptions();
         pollMessage.textContent = '';
     }
 
     // Manejar voto
     voteBtn.addEventListener('click', () => {
         if (hasVoted) {
-            pollMessage.textContent = 'Ya has votado anteriormente';
+            pollMessage.textContent = 'Ya has votado anteriormente. Solo puedes votar una vez.';
             return;
         }
         
         if (!selectedTeam) {
-            pollMessage.textContent = 'Selecciona un equipo para votar';
+            pollMessage.textContent = 'Por favor selecciona un equipo para votar';
             return;
         }
 
@@ -2071,6 +2077,7 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem('hasVoted', 'true');
         hasVoted = true;
         
+        // Mostrar resultados
         showResults();
     });
 
@@ -2080,22 +2087,59 @@ document.addEventListener("DOMContentLoaded", () => {
         pollResults.style.display = 'block';
         resultsContainer.innerHTML = '';
         
-        teams.forEach(team => {
-            const percent = votes.total > 0 ? Math.round((votes[team.id] / votes.total) * 100) : 0;
+        // Ordenar equipos por votos (de mayor a menor)
+        const sortedTeams = [...teams].sort((a, b) => votes[b.id] - votes[a.id]);
+        
+        sortedTeams.forEach(team => {
+            const count = votes[team.id] || 0;
+            const percent = votes.total > 0 ? Math.round((count / votes.total) * 100) : 0;
             
             const result = document.createElement('div');
             result.className = 'result-bar';
             result.innerHTML = `
-                <div class="result-team">${team.name}</div>
-                <div class="result-progress">
-                    <div class="result-fill" style="width: ${percent}%"></div>
+                <div class="result-team">
+                    <img src="${team.logo}" alt="${team.name}" style="height: 20px; margin-right: 8px;">
+                    ${team.name}
                 </div>
-                <div class="result-percent">${percent}%</div>
+                <div class="result-progress">
+                    <div class="result-fill" style="width: ${percent}%; background-color: ${getTeamColor(team.id)};"></div>
+                </div>
+                <div class="result-percent">${percent}% (${count})</div>
             `;
             resultsContainer.appendChild(result);
         });
+        
+        // Mostrar total de votos
+        const totalVotes = document.createElement('div');
+        totalVotes.style.marginTop = '20px';
+        totalVotes.style.fontWeight = 'bold';
+        totalVotes.textContent = `Total de votos: ${votes.total}`;
+        resultsContainer.appendChild(totalVotes);
     }
-}); 
+    
+    // Función para obtener color del equipo
+    function getTeamColor(teamId) {
+        const colors = {
+            'idv': '#FF1493',    // Rosa fuerte
+            'bsc': '#FFD700',    // Amarillo oro
+            'ldu': '#FFFFFF',    // Blanco
+            'aucs': '#000000',   // Negro
+            'dc': '#FF0000',     // Rojo
+            'ornse': '#00BFFF'   // Azul claro
+        };
+        return colors[teamId] || '#0a3d62'; // Color por defecto
+    }
+
+    // Inicializar la vista
+    if (hasVoted) {
+        showResults();
+    } else {
+        renderPollOptions();
+    }
+    
+    // Asegurar que el botón de votar solo se muestra si no ha votado
+    voteBtn.style.display = hasVoted ? 'none' : 'block';
+});
 // CARRUSEL INTERACTIVO
 const slider = document.querySelector('.slider-container');
 const slides = document.querySelectorAll('.slide');
