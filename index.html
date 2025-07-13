@@ -221,7 +221,8 @@ header h1 {
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   max-width: 1200px;
-  height: 500px; /* Altura fija para el contenedor */
+  height: auto; /* Cambiado de 500px a auto */
+  aspect-ratio: 16/9; /* Mantiene relación de aspecto */
 }
 
 .slider-container {
@@ -238,9 +239,9 @@ header h1 {
 
 .slide img {
   width: 100%;
-  height: 100%; /* Ocupa toda la altura del slide */
-  object-fit: cover; /* Mantiene la relación de aspecto cubriendo el área */
-  object-position: center; /* Centra la imagen */
+  height: 100%;
+  object-fit: contain; /* Cambiado de cover a contain para ver imágenes completas */
+  object-position: center;
 }
 
 .slide-content {
@@ -248,8 +249,8 @@ header h1 {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(10, 61, 98, 0.8);
-  color: white;
+  background: rgba(10, 61, 98, 0.8); /* Azul oscuro semitransparente */
+  color: white; /* Texto blanco */
   padding: 20px;
 }
 
@@ -266,7 +267,7 @@ header h1 {
 .slide-title {
   font-size: 1.5rem;
   margin: 10px 0;
-  color: white; /* Asegura que el título sea blanco */
+  color: white !important; /* Fuerza color blanco */
 }
 
 .slide-content p {
