@@ -319,70 +319,158 @@ header h1 {
   background: #0a3d62;
 }
 
+/* Estilos para la encuesta */
+.poll-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.poll-title {
+  text-align: center;
+  color: #0a3d62;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+.poll-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
 .poll-option {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-    background: white;
-    margin: 5px;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: white;
+}
+
+.poll-option:hover {
+  border-color: #0a3d62;
+  background-color: #f0f8ff;
 }
 
 .poll-option.selected {
-    border: 2px solid #0a3d62;
-    background-color: #e3f2fd;
+  border: 2px solid #0a3d62;
+  background-color: #e3f2fd;
 }
 
 .poll-option img {
-    width: 30px;
-    height: 30px;
-    object-fit: contain;
-    margin-right: 12px;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  margin-right: 12px;
 }
 
 .poll-option span {
-    flex-grow: 1;
-    text-align: left;
+  flex-grow: 1;
+  text-align: left;
+  font-weight: 500;
+}
+
+.poll-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 30px;
+  background: #0a3d62;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.poll-btn:hover {
+  background: #1e88e5;
+}
+
+.poll-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.poll-results {
+  width: 100%;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
 }
 
 .results-container {
-    width: 100%;
-    margin-top: 15px;
+  width: 100%;
 }
 
 .result-bar {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
 .result-team {
-    width: 120px;
-    font-weight: bold;
+  width: 200px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.result-team img {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  margin-right: 10px;
 }
 
 .result-progress {
-    flex-grow: 1;
-    height: 20px;
-    background: #e0e0e0;
-    border-radius: 10px;
-    margin: 0 10px;
-    overflow: hidden;
+  flex-grow: 1;
+  height: 25px;
+  background: #e0e0e0;
+  border-radius: 5px;
+  margin: 0 15px;
+  overflow: hidden;
 }
 
 .result-fill {
-    height: 100%;
-    background: #0a3d62;
-    border-radius: 10px;
-    transition: width 0.5s;
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.5s ease-out;
 }
 
 .result-percent {
-    width: 50px;
-    text-align: right;
+  width: 80px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.poll-message {
+  text-align: center;
+  margin-top: 15px;
+  font-weight: 500;
+}
+
+.success-message {
+  color: #2e7d32;
+}
+
+.error-message {
+  color: #d32f2f;
+}
+
+.total-votes {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  color: #0a3d62;
 }
 
 /* === LOGO GAMBETRI === */
@@ -716,51 +804,55 @@ body.nav-active {
         
         <!-- ENCUESTA CAMPEONATO -->
         <div class="poll-container">
-             <h2 class="poll-title">¿Quién crees que será campeón?</h2>
-             <div class="poll-grid" id="pollOptions">
-                <!-- OPCIÓN 1 -->
-                <div class="poll-option">
-                    <img src="idv.png" alt="Independiente del Valle">
-                    <span>Independiente del Valle</span>
-                </div>
-                
-                <!-- OPCIÓN 2 -->
-                <div class="poll-option">
-                    <img src="barcelona.png" alt="Barcelona SC">
-                    <span>Barcelona SC</span>
-                </div>
-                
-                <!-- OPCIÓN 3 -->
-                <div class="poll-option">
-                    <img src="ldu.png" alt="Liga de Quito">
-                    <span>Liga de Quito</span>
-                </div>
-                
-                <!-- OPCIÓN 4 -->
-                <div class="poll-option">
-                    <img src="aucas.png" alt="Aucas">
-                    <span>Aucas</span>
-                </div>
-                
-                <!-- OPCIÓN 5 -->
-                <div class="poll-option">
-                    <img src="cuenca.png" alt="Deportivo Cuenca">
-                    <span>Deportivo Cuenca</span>
-                </div>
-                
-                <!-- OPCIÓN 6 -->
-                <div class="poll-option">
-                    <img src="orense.png" alt="Orense">
-                    <span>Orense</span>
-                </div>
-            </div>
-            <div class="poll-results" id="pollResults" style="display: none;">
-        <h3>Resultados:</h3>
-        <div class="results-container" id="resultsContainer"></div>
+  <h2 class="poll-title">¿Quién crees que será campeón?</h2>
+  <div class="poll-grid" id="pollOptions">
+    <!-- OPCIÓN 1 -->
+    <div class="poll-option" data-team="idv">
+      <img src="idv.png" alt="Independiente del Valle">
+      <span>Independiente del Valle</span>
     </div>
-    <button class="poll-btn" id="voteBtn">Votar</button>
-    <div class="poll-message" id="pollMessage" style="color: #d32f2f; margin-top: 10px;"></div>
-        </div>
+    
+    <!-- OPCIÓN 2 -->
+    <div class="poll-option" data-team="bsc">
+      <img src="barcelona.png" alt="Barcelona SC">
+      <span>Barcelona SC</span>
+    </div>
+    
+    <!-- OPCIÓN 3 -->
+    <div class="poll-option" data-team="ldu">
+      <img src="ldu.png" alt="Liga de Quito">
+      <span>Liga de Quito</span>
+    </div>
+    
+    <!-- OPCIÓN 4 -->
+    <div class="poll-option" data-team="aucas">
+      <img src="aucas.png" alt="Aucas">
+      <span>Aucas</span>
+    </div>
+    
+    <!-- OPCIÓN 5 -->
+    <div class="poll-option" data-team="cuenca">
+      <img src="cuenca.png" alt="Deportivo Cuenca">
+      <span>Deportivo Cuenca</span>
+    </div>
+    
+    <!-- OPCIÓN 6 -->
+    <div class="poll-option" data-team="orense">
+      <img src="orense.png" alt="Orense">
+      <span>Orense</span>
+    </div>
+  </div>
+  
+  <button class="poll-btn" id="voteBtn">Votar</button>
+  
+  <div class="poll-message" id="pollMessage"></div>
+  
+  <div class="poll-results" id="pollResults">
+    <h3>Resultados de la votación:</h3>
+    <div class="results-container" id="resultsContainer"></div>
+    <div class="total-votes" id="totalVotes"></div>
+  </div>
+</div>
     
 </section>
 
@@ -2076,146 +2168,158 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('main-nav').classList.add('active');
     document.body.classList.add('nav-active');
   }
+  // Sistema de votación
+document.addEventListener("DOMContentLoaded", function() {
+  // Datos de los equipos
   const teams = [
-        { id: 'idv', name: 'Independiente del Valle', logo: 'idv.png' },
-        { id: 'bsc', name: 'Barcelona SC', logo: 'barcelona.png' },
-        { id: 'ldu', name: 'Liga de Quito', logo: 'ldu.png' },
-        { id: 'aucs', name: 'Aucas', logo: 'aucas.png' },
-        { id: 'dc', name: 'Deportivo Cuenca', logo: 'cuenca.png' },
-        { id: 'ornse', name: 'Orense', logo: 'orense.png' }
-    ];
+    { id: 'idv', name: 'Independiente del Valle', logo: 'idv.png', color: '#FF1493' },
+    { id: 'bsc', name: 'Barcelona SC', logo: 'barcelona.png', color: '#FFD700' },
+    { id: 'ldu', name: 'Liga de Quito', logo: 'ldu.png', color: '#FFFFFF' },
+    { id: 'aucas', name: 'Aucas', logo: 'aucas.png', color: '#000000' },
+    { id: 'cuenca', name: 'Deportivo Cuenca', logo: 'cuenca.png', color: '#FF0000' },
+    { id: 'orense', name: 'Orense', logo: 'orense.png', color: '#00BFFF' }
+  ];
 
-    // Elementos del DOM
-    const pollOptions = document.getElementById('pollOptions');
-    const voteBtn = document.getElementById('voteBtn');
-    const pollResults = document.getElementById('pollResults');
-    const resultsContainer = document.getElementById('resultsContainer');
-    const pollMessage = document.getElementById('pollMessage');
-    
-    // Estado inicial
-    let selectedTeam = null;
-    let hasVoted = localStorage.getItem('hasVoted') === 'true';
-    let votes = JSON.parse(localStorage.getItem('pollVotes')) || { total: 0 };
-    
-    // Inicializar votos si no existen
-    teams.forEach(team => {
-        if (!votes[team.id]) {
-            votes[team.id] = 0;
-        }
-    });
-
-    // Mostrar opciones de votación
-    function renderPollOptions() {
-        pollOptions.innerHTML = '';
-        teams.forEach(team => {
-            const option = document.createElement('div');
-            option.className = 'poll-option';
-            if (selectedTeam === team.id) {
-                option.classList.add('selected');
-            }
-            option.dataset.team = team.id;
-            option.innerHTML = `
-                <img src="${team.logo}" alt="${team.name}">
-                <span>${team.name}</span>
-            `;
-            option.addEventListener('click', () => selectTeam(team.id));
-            pollOptions.appendChild(option);
-        });
+  // Elementos del DOM
+  const pollOptions = document.getElementById('pollOptions');
+  const voteBtn = document.getElementById('voteBtn');
+  const pollResults = document.getElementById('pollResults');
+  const resultsContainer = document.getElementById('resultsContainer');
+  const pollMessage = document.getElementById('pollMessage');
+  const totalVotes = document.getElementById('totalVotes');
+  
+  // Estado inicial
+  let selectedTeam = null;
+  let hasVoted = localStorage.getItem('hasVoted') === 'true';
+  let votes = JSON.parse(localStorage.getItem('pollVotes')) || { total: 0 };
+  
+  // Inicializar votos si no existen
+  teams.forEach(team => {
+    if (votes[team.id] === undefined) {
+      votes[team.id] = 0;
     }
+  });
 
-    // Seleccionar equipo
-    function selectTeam(teamId) {
+  // Configurar opciones de votación
+  function setupPollOptions() {
+    const options = pollOptions.querySelectorAll('.poll-option');
+    options.forEach(option => {
+      option.addEventListener('click', function() {
         if (hasVoted) {
-            pollMessage.textContent = 'Ya has votado anteriormente. Solo puedes votar una vez.';
-            return;
+          showMessage('Ya has votado anteriormente. Solo puedes votar una vez.', 'error');
+          return;
         }
         
-        selectedTeam = teamId;
-        renderPollOptions();
-        pollMessage.textContent = '';
-    }
-
-    // Manejar voto
-    voteBtn.addEventListener('click', () => {
-        if (hasVoted) {
-            pollMessage.textContent = 'Ya has votado anteriormente. Solo puedes votar una vez.';
-            return;
-        }
+        // Deseleccionar cualquier opción previa
+        options.forEach(opt => opt.classList.remove('selected'));
         
-        if (!selectedTeam) {
-            pollMessage.textContent = 'Por favor selecciona un equipo para votar';
-            return;
-        }
-
-        // Registrar voto
-        votes[selectedTeam]++;
-        votes.total++;
-        localStorage.setItem('pollVotes', JSON.stringify(votes));
-        localStorage.setItem('hasVoted', 'true');
-        hasVoted = true;
+        // Seleccionar la opción actual
+        this.classList.add('selected');
+        selectedTeam = this.dataset.team;
         
-        // Mostrar resultados
-        showResults();
+        // Limpiar mensajes
+        clearMessage();
+      });
     });
+  }
 
-    // Mostrar resultados
-    function showResults() {
-        voteBtn.style.display = 'none';
-        pollResults.style.display = 'block';
-        resultsContainer.innerHTML = '';
-        
-        // Ordenar equipos por votos (de mayor a menor)
-        const sortedTeams = [...teams].sort((a, b) => votes[b.id] - votes[a.id]);
-        
-        sortedTeams.forEach(team => {
-            const count = votes[team.id] || 0;
-            const percent = votes.total > 0 ? Math.round((count / votes.total) * 100) : 0;
-            
-            const result = document.createElement('div');
-            result.className = 'result-bar';
-            result.innerHTML = `
-                <div class="result-team">
-                    <img src="${team.logo}" alt="${team.name}" style="height: 20px; margin-right: 8px;">
-                    ${team.name}
-                </div>
-                <div class="result-progress">
-                    <div class="result-fill" style="width: ${percent}%; background-color: ${getTeamColor(team.id)};"></div>
-                </div>
-                <div class="result-percent">${percent}% (${count})</div>
-            `;
-            resultsContainer.appendChild(result);
-        });
-        
-        // Mostrar total de votos
-        const totalVotes = document.createElement('div');
-        totalVotes.style.marginTop = '20px';
-        totalVotes.style.fontWeight = 'bold';
-        totalVotes.textContent = `Total de votos: ${votes.total}`;
-        resultsContainer.appendChild(totalVotes);
-    }
-    
-    // Función para obtener color del equipo
-    function getTeamColor(teamId) {
-        const colors = {
-            'idv': '#FF1493',    // Rosa fuerte
-            'bsc': '#FFD700',    // Amarillo oro
-            'ldu': '#FFFFFF',    // Blanco
-            'aucs': '#000000',   // Negro
-            'dc': '#FF0000',     // Rojo
-            'ornse': '#00BFFF'   // Azul claro
-        };
-        return colors[teamId] || '#0a3d62'; // Color por defecto
-    }
-
-    // Inicializar la vista
+  // Manejar el voto
+  voteBtn.addEventListener('click', function() {
     if (hasVoted) {
-        showResults();
-    } else {
-        renderPollOptions();
+      showMessage('Ya has votado anteriormente. Solo puedes votar una vez.', 'error');
+      return;
     }
     
-    // Asegurar que el botón de votar solo se muestra si no ha votado
-    voteBtn.style.display = hasVoted ? 'none' : 'block';
+    if (!selectedTeam) {
+      showMessage('Por favor selecciona un equipo para votar', 'error');
+      return;
+    }
+
+    // Registrar voto
+    votes[selectedTeam]++;
+    votes.total++;
+    
+    // Guardar en localStorage
+    localStorage.setItem('pollVotes', JSON.stringify(votes));
+    localStorage.setItem('hasVoted', 'true');
+    hasVoted = true;
+    
+    // Deshabilitar botón
+    voteBtn.disabled = true;
+    
+    // Mostrar mensaje de éxito
+    const teamName = teams.find(t => t.id === selectedTeam).name;
+    showMessage(`¡Gracias por tu voto! Has votado por ${teamName}.`, 'success');
+    
+    // Mostrar resultados
+    displayResults();
+  });
+
+  // Mostrar resultados
+  function displayResults() {
+    // Ordenar equipos por votos (de mayor a menor)
+    const sortedTeams = [...teams].sort((a, b) => votes[b.id] - votes[a.id]);
+    
+    // Generar HTML de resultados
+    resultsContainer.innerHTML = '';
+    
+    sortedTeams.forEach(team => {
+      const count = votes[team.id] || 0;
+      const percent = votes.total > 0 ? ((count / votes.total) * 100).toFixed(1) : 0;
+      
+      const resultBar = document.createElement('div');
+      resultBar.className = 'result-bar';
+      resultBar.innerHTML = `
+        <div class="result-team">
+          <img src="${team.logo}" alt="${team.name}">
+          ${team.name}
+        </div>
+        <div class="result-progress">
+          <div class="result-fill" style="width: ${percent}%; background-color: ${team.color};"></div>
+        </div>
+        <div class="result-percent">${percent}% (${count})</div>
+      `;
+      
+      resultsContainer.appendChild(resultBar);
+    });
+    
+    // Mostrar total de votos
+    totalVotes.textContent = `Total de votos: ${votes.total}`;
+    
+    // Mostrar sección de resultados
+    pollResults.style.display = 'block';
+  }
+
+  // Mostrar mensajes
+  function showMessage(message, type) {
+    pollMessage.textContent = message;
+    pollMessage.className = 'poll-message';
+    pollMessage.classList.add(type === 'error' ? 'error-message' : 'success-message');
+    
+    // Ocultar mensaje después de 5 segundos
+    setTimeout(clearMessage, 5000);
+  }
+
+  function clearMessage() {
+    pollMessage.textContent = '';
+    pollMessage.className = 'poll-message';
+  }
+
+  // Inicializar la vista según el estado
+  function initializeView() {
+    if (hasVoted) {
+      voteBtn.disabled = true;
+      voteBtn.textContent = 'Ya votaste';
+      displayResults();
+    } else {
+      pollResults.style.display = 'none';
+    }
+    
+    setupPollOptions();
+  }
+
+  // Inicializar
+  initializeView();
 });
 // CARRUSEL INTERACTIVO
 const slider = document.querySelector('.slider-container');
