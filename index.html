@@ -2159,17 +2159,6 @@ document.addEventListener("DOMContentLoaded", () => {
   actualizarGrafico('LDU-Quito');
   renderizarFechas();
   openTab('actual');
-  
-  // Finalmente actualizar datos históricos
-  actualizarDatosHistoricos();
-  
-  // Control de menú en desktop
-  if (window.innerWidth > 992) {
-    document.getElementById('main-nav').classList.add('active');
-    document.body.classList.add('nav-active');
-  }
-  // Sistema de votación
-document.addEventListener("DOMContentLoaded", function() {
   // Datos de los equipos
   const teams = [
     { id: 'idv', name: 'Independiente del Valle', logo: 'idv.png', color: '#FF1493' },
@@ -2321,6 +2310,15 @@ document.addEventListener("DOMContentLoaded", function() {
   // Inicializar
   initializeView();
 });
+  // Finalmente actualizar datos históricos
+  actualizarDatosHistoricos();
+  
+  // Control de menú en desktop
+  if (window.innerWidth > 992) {
+    document.getElementById('main-nav').classList.add('active');
+    document.body.classList.add('nav-active');
+  }
+ 
 // CARRUSEL INTERACTIVO
 const slider = document.querySelector('.slider-container');
 const slides = document.querySelectorAll('.slide');
