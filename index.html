@@ -2172,74 +2172,71 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add('nav-active');
   }
 });
-// Sistema de votación - VERSIÓN CORREGIDA
+// SISTEMA DE VOTACIÓN - VERSIÓN CORREGIDA Y SIMPLIFICADA
 function inicializarSistemaVotacion() {
     console.log("Inicializando sistema de votación...");
     
-    // Datos de los equipos
-    const teams = [
-        { id: 'idv', name: 'Independiente del Valle', logo: 'idv.png', color: '#FF1493' },
-        { id: 'bsc', name: 'Barcelona SC', logo: 'barcelona.png', color: '#FFD700' },
-        { id: 'ldu', name: 'Liga de Quito', logo: 'ldu.png', color: '#FFFFFF' },
-        { id: 'aucas', name: 'Aucas', logo: 'aucas.png', color: '#000000' },
-        { id: 'cuenca', name: 'Deportivo Cuenca', logo: 'cuenca.png', color: '#FF0000' },
-        { id: 'orense', name: 'Orense', logo: 'orense.png', color: '#00BFFF' }
-    ];
-
-    // Elementos del DOM
+    // Verificar que los elementos existan
     const pollOptions = document.getElementById('pollOptions');
     const voteBtn = document.getElementById('voteBtn');
+    
+    if (!pollOptions || !voteBtn) {
+        console.error("No se encontraron los elementos de votación");
+        setTimeout(inicializarSistemaVotacion, 100); // Reintentar después de 100ms
+        return;
+    }
+
     const pollResults = document.getElementById('pollResults');
     const resultsContainer = document.getElementById('resultsContainer');
     const pollMessage = document.getElementById('pollMessage');
     const totalVotes = document.getElementById('totalVotes');
     
-    // Estado inicial
+    // Datos de equipos
+    const teams = {
+        'idv': { name: 'Independiente del Valle', logo: 'idv.png', color: '#FF1493' },
+        'bsc': { name: 'Barcelona SC', logo: 'barcelona.png', color: '#FFD700' },
+        'ldu': { name: 'Liga de Quito', logo: 'ldu.png', color: '#FFFFFF' },
+        'aucas': { name: 'Aucas', logo: 'aucas.png', color: '#000000' },
+        'cuenca': { name: 'Deportivo Cuenca', logo: 'cuenca.png', color: '#FF0000' },
+        'orense': { name: 'Orense', logo: 'orense.png', color: '#00BFFF' }
+    };
+
     let selectedTeam = null;
     let hasVoted = localStorage.getItem('hasVoted') === 'true';
-    
-    // Inicializar votos
     let votes = JSON.parse(localStorage.getItem('pollVotes')) || { total: 0 };
-    
-    // Asegurarse de que todos los equipos tengan un valor en votes
-    teams.forEach(team => {
-        if (votes[team.id] === undefined) {
-            votes[team.id] = 0;
+
+    // Inicializar votos para cada equipo si no existen
+    Object.keys(teams).forEach(teamId => {
+        if (votes[teamId] === undefined) {
+            votes[teamId] = 0;
         }
     });
 
-    // Configurar opciones de votación
-    function setupPollOptions() {
-        const options = pollOptions.querySelectorAll('.poll-option');
-        options.forEach(option => {
-            option.addEventListener('click', function() {
-                if (hasVoted) {
-                    showMessage('Ya has votado anteriormente. Solo puedes votar una vez.', 'error');
-                    return;
-                }
-                
-                // Deseleccionar cualquier opción previa
-                options.forEach(opt => opt.classList.remove('selected'));
-                
-                // Seleccionar la opción actual
-                this.classList.add('selected');
-                selectedTeam = this.dataset.team;
-                
-                // Limpiar mensajes
-                clearMessage();
-            });
+    // Configurar eventos de opciones
+    const options = pollOptions.querySelectorAll('.poll-option');
+    options.forEach(option => {
+        option.addEventListener('click', function() {
+            if (hasVoted) {
+                showMessage('Ya has votado. Solo puedes votar una vez.', 'error');
+                return;
+            }
+            
+            options.forEach(opt => opt.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedTeam = this.dataset.team;
+            clearMessage();
         });
-    }
+    });
 
-    // Manejar el voto
+    // Evento del botón de votar
     voteBtn.addEventListener('click', function() {
         if (hasVoted) {
-            showMessage('Ya has votado anteriormente. Solo puedes votar una vez.', 'error');
+            showMessage('Ya has votado anteriormente.', 'error');
             return;
         }
         
         if (!selectedTeam) {
-            showMessage('Por favor selecciona un equipo para votar', 'error');
+            showMessage('Por favor selecciona un equipo', 'error');
             return;
         }
 
@@ -2247,130 +2244,175 @@ function inicializarSistemaVotacion() {
         votes[selectedTeam]++;
         votes.total++;
         
-        // Guardar en localStorage
+        // Guardar
         localStorage.setItem('pollVotes', JSON.stringify(votes));
         localStorage.setItem('hasVoted', 'true');
         hasVoted = true;
         
-        // Deshabilitar botón
+        // Actualizar UI
         voteBtn.disabled = true;
         voteBtn.textContent = 'Ya votaste';
         
-        // Mostrar mensaje de éxito
-        const teamName = teams.find(t => t.id === selectedTeam).name;
-        showMessage(`¡Gracias por tu voto! Has votado por ${teamName}.`, 'success');
-        
-        // Mostrar resultados
+        showMessage(`¡Voto registrado para ${teams[selectedTeam].name}!`, 'success');
         displayResults();
     });
 
     // Mostrar resultados
     function displayResults() {
-        // Ordenar equipos por votos (de mayor a menor)
-        const sortedTeams = [...teams].sort((a, b) => votes[b.id] - votes[a.id]);
+        if (!resultsContainer) return;
         
-        // Generar HTML de resultados
         resultsContainer.innerHTML = '';
         
+        // Ordenar equipos por votos
+        const sortedTeams = Object.entries(teams)
+            .map(([id, data]) => ({ id, ...data, votes: votes[id] || 0 }))
+            .sort((a, b) => b.votes - a.votes);
+        
         sortedTeams.forEach(team => {
-            const count = votes[team.id] || 0;
-            const percent = votes.total > 0 ? ((count / votes.total) * 100).toFixed(1) : 0;
+            const percent = votes.total > 0 ? ((team.votes / votes.total) * 100).toFixed(1) : 0;
             
             const resultBar = document.createElement('div');
             resultBar.className = 'result-bar';
             resultBar.innerHTML = `
                 <div class="result-team">
-                    <img src="${team.logo}" alt="${team.name}">
+                    <img src="${team.logo}" alt="${team.name}" width="25" height="25">
                     ${team.name}
                 </div>
                 <div class="result-progress">
                     <div class="result-fill" style="width: ${percent}%; background-color: ${team.color};"></div>
                 </div>
-                <div class="result-percent">${percent}% (${count})</div>
+                <div class="result-percent">${percent}% (${team.votes})</div>
             `;
             
             resultsContainer.appendChild(resultBar);
         });
         
-        // Mostrar total de votos
-        totalVotes.textContent = `Total de votos: ${votes.total}`;
-        
-        // Mostrar sección de resultados
-        pollResults.style.display = 'block';
+        if (totalVotes) {
+            totalVotes.textContent = `Total de votos: ${votes.total}`;
+        }
+        if (pollResults) {
+            pollResults.style.display = 'block';
+        }
     }
 
-    // Mostrar mensajes
     function showMessage(message, type) {
-        pollMessage.textContent = message;
-        pollMessage.className = 'poll-message';
-        pollMessage.classList.add(type === 'error' ? 'error-message' : 'success-message');
-        
-        // Ocultar mensaje después de 5 segundos
-        setTimeout(clearMessage, 5000);
+        if (pollMessage) {
+            pollMessage.textContent = message;
+            pollMessage.className = `poll-message ${type}-message`;
+            setTimeout(() => {
+                if (pollMessage) pollMessage.textContent = '';
+            }, 3000);
+        }
     }
 
     function clearMessage() {
-        pollMessage.textContent = '';
-        pollMessage.className = 'poll-message';
+        if (pollMessage) pollMessage.textContent = '';
     }
 
-    // Inicializar la vista según el estado
-    function initializeView() {
-        if (hasVoted) {
-            voteBtn.disabled = true;
-            voteBtn.textContent = 'Ya votaste';
-            displayResults();
-        } else {
-            pollResults.style.display = 'none';
-        }
-        
-        setupPollOptions();
+    // Inicializar vista
+    if (hasVoted) {
+        voteBtn.disabled = true;
+        voteBtn.textContent = 'Ya votaste';
+        displayResults();
     }
-
-    // Inicializar
-    initializeView();
 }
- 
-// CARRUSEL INTERACTIVO
-const slider = document.querySelector('.slider-container');
-const slides = document.querySelectorAll('.slide');
-const dotsContainer = document.querySelector('.slider-dots');
-const prevBtn = document.querySelector('#prevBtn');
-const nextBtn = document.querySelector('#nextBtn');
-let currentIndex = 0;
 
-// Crear puntos indicadores
-slides.forEach((slide, index) => {
-  const dot = document.createElement('span');
-  dot.classList.add('dot');
-  if(index === 0) dot.classList.add('active');
-  dot.addEventListener('click', () => goToSlide(index));
-  dotsContainer.appendChild(dot);
-});
-
-function goToSlide(index) {
-  currentIndex = index;
-  slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+// Asegurar que la navegación esté visible en desktop al cargar
+document.addEventListener("DOMContentLoaded", function() {
+  console.log("DOM completamente cargado");
   
-  document.querySelectorAll('.dot').forEach((dot, i) => {
-    dot.classList.toggle('active', i === currentIndex);
-  });
+  // Primero actualizar la tabla actual
+  actualizarTabla();
+  
+  // Luego otras inicializaciones
+  actualizarTopEstadisticas();
+  actualizarGrafico('LDU-Quito');
+  renderizarFechas();
+  openTab('actual');
+  
+  // Inicializar sistema de votación - CON RETRASO PARA ASEGURAR QUE EL DOM ESTÉ LISTO
+  setTimeout(inicializarSistemaVotacion, 100);
+  
+  // Finalmente actualizar datos históricos
+  if (typeof actualizarDatosHistoricos === 'function') {
+    actualizarDatosHistoricos();
+  }
+  
+  // Control de menú en desktop
+  if (window.innerWidth > 992) {
+    document.getElementById('main-nav').classList.add('active');
+    document.body.classList.add('nav-active');
+  }
+
+  // Manejo del menú hamburguesa
+  const menuToggle = document.querySelector('.menu-toggle');
+  if (menuToggle) {
+    menuToggle.addEventListener('click', function() {
+      document.getElementById('main-nav').classList.toggle('active');
+      document.body.classList.toggle('nav-active');
+    });
+  }
+});
+
+// CARRUSEL INTERACTIVO - Versión mejorada
+function inicializarCarrusel() {
+  const slider = document.querySelector('.slider-container');
+  const slides = document.querySelectorAll('.slide');
+  const dotsContainer = document.querySelector('.slider-dots');
+  const prevBtn = document.querySelector('#prevBtn');
+  const nextBtn = document.querySelector('#nextBtn');
+  
+  if (!slider || slides.length === 0) {
+    console.log("Elementos del carrusel no encontrados");
+    return;
+  }
+  
+  let currentIndex = 0;
+
+  // Crear puntos indicadores
+  if (dotsContainer) {
+    slides.forEach((slide, index) => {
+      const dot = document.createElement('span');
+      dot.classList.add('dot');
+      if(index === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(index));
+      dotsContainer.appendChild(dot);
+    });
+  }
+
+  function goToSlide(index) {
+    currentIndex = index;
+    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+    
+    // Actualizar puntos activos
+    document.querySelectorAll('.dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentIndex);
+    });
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
+      goToSlide(currentIndex);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+      goToSlide(currentIndex);
+    });
+  }
+
+  // Auto avanzar
+  setInterval(() => {
+    currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+    goToSlide(currentIndex);
+  }, 5000);
 }
 
-prevBtn.addEventListener('click', () => {
-  currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
-  goToSlide(currentIndex);
-});
-
-nextBtn.addEventListener('click', () => {
-  currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
-  goToSlide(currentIndex);
-});
-
-setInterval(() => {
-  currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
-  goToSlide(currentIndex);
-}, 5000);   
+// Inicializar carrusel cuando el DOM esté listo
+document.addEventListener("DOMContentLoaded", inicializarCarrusel);
 </script>
 </body>
 </html>
