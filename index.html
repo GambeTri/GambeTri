@@ -2172,247 +2172,195 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add('nav-active');
   }
 });
-// SISTEMA DE VOTACIÓN - VERSIÓN CORREGIDA Y SIMPLIFICADA
+// SISTEMA DE VOTACIÓN SIMPLIFICADO - VERSIÓN FUNCIONAL
 function inicializarSistemaVotacion() {
-    console.log("Inicializando sistema de votación...");
+    console.log("🔵 Inicializando sistema de votación...");
     
-    // Verificar que los elementos existan
-    const pollOptions = document.getElementById('pollOptions');
-    const voteBtn = document.getElementById('voteBtn');
-    
-    if (!pollOptions || !voteBtn) {
-        console.error("No se encontraron los elementos de votación");
-        setTimeout(inicializarSistemaVotacion, 100); // Reintentar después de 100ms
-        return;
-    }
-
-    const pollResults = document.getElementById('pollResults');
-    const resultsContainer = document.getElementById('resultsContainer');
-    const pollMessage = document.getElementById('pollMessage');
-    const totalVotes = document.getElementById('totalVotes');
-    
-    // Datos de equipos
-    const teams = {
-        'idv': { name: 'Independiente del Valle', logo: 'idv.png', color: '#FF1493' },
-        'bsc': { name: 'Barcelona SC', logo: 'barcelona.png', color: '#FFD700' },
-        'ldu': { name: 'Liga de Quito', logo: 'ldu.png', color: '#FFFFFF' },
-        'aucas': { name: 'Aucas', logo: 'aucas.png', color: '#000000' },
-        'cuenca': { name: 'Deportivo Cuenca', logo: 'cuenca.png', color: '#FF0000' },
-        'orense': { name: 'Orense', logo: 'orense.png', color: '#00BFFF' }
-    };
-
-    let selectedTeam = null;
-    let hasVoted = localStorage.getItem('hasVoted') === 'true';
-    let votes = JSON.parse(localStorage.getItem('pollVotes')) || { total: 0 };
-
-    // Inicializar votos para cada equipo si no existen
-    Object.keys(teams).forEach(teamId => {
-        if (votes[teamId] === undefined) {
-            votes[teamId] = 0;
+    // Esperar a que los elementos estén disponibles
+    setTimeout(function() {
+        const pollOptions = document.getElementById('pollOptions');
+        const voteBtn = document.getElementById('voteBtn');
+        
+        if (!pollOptions || !voteBtn) {
+            console.error("❌ Elementos de votación no encontrados");
+            return;
         }
-    });
 
-    // Configurar eventos de opciones
-    const options = pollOptions.querySelectorAll('.poll-option');
-    options.forEach(option => {
-        option.addEventListener('click', function() {
+        const teams = {
+            'idv': { name: 'Independiente del Valle', logo: 'idv.png', color: '#FF1493' },
+            'bsc': { name: 'Barcelona SC', logo: 'barcelona.png', color: '#FFD700' },
+            'ldu': { name: 'Liga de Quito', logo: 'ldu.png', color: '#FFFFFF' },
+            'aucas': { name: 'Aucas', logo: 'aucas.png', color: '#000000' },
+            'cuenca': { name: 'Deportivo Cuenca', logo: 'cuenca.png', color: '#FF0000' },
+            'orense': { name: 'Orense', logo: 'orense.png', color: '#00BFFF' }
+        };
+
+        let selectedTeam = null;
+        let hasVoted = localStorage.getItem('hasVoted') === 'true';
+        let votes = JSON.parse(localStorage.getItem('pollVotes')) || { total: 0 };
+
+        // Inicializar votos para cada equipo
+        Object.keys(teams).forEach(teamId => {
+            if (votes[teamId] === undefined) {
+                votes[teamId] = 0;
+            }
+        });
+
+        // Configurar eventos de opciones
+        const options = pollOptions.querySelectorAll('.poll-option');
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                if (hasVoted) {
+                    alert('Ya has votado anteriormente. Solo puedes votar una vez.');
+                    return;
+                }
+                
+                options.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedTeam = this.dataset.team;
+            });
+        });
+
+        // Evento del botón de votar
+        voteBtn.addEventListener('click', function() {
             if (hasVoted) {
-                showMessage('Ya has votado. Solo puedes votar una vez.', 'error');
+                alert('Ya has votado anteriormente.');
                 return;
             }
             
-            options.forEach(opt => opt.classList.remove('selected'));
-            this.classList.add('selected');
-            selectedTeam = this.dataset.team;
-            clearMessage();
-        });
-    });
+            if (!selectedTeam) {
+                alert('Por favor selecciona un equipo para votar');
+                return;
+            }
 
-    // Evento del botón de votar
-    voteBtn.addEventListener('click', function() {
+            // Registrar voto
+            votes[selectedTeam]++;
+            votes.total++;
+            
+            // Guardar en localStorage
+            localStorage.setItem('pollVotes', JSON.stringify(votes));
+            localStorage.setItem('hasVoted', 'true');
+            hasVoted = true;
+            
+            // Actualizar UI
+            voteBtn.disabled = true;
+            voteBtn.textContent = 'Ya votaste';
+            
+            alert(`¡Gracias por tu voto! Has votado por ${teams[selectedTeam].name}.`);
+            mostrarResultados();
+        });
+
+        function mostrarResultados() {
+            const resultsContainer = document.getElementById('resultsContainer');
+            const totalVotes = document.getElementById('totalVotes');
+            const pollResults = document.getElementById('pollResults');
+            
+            if (!resultsContainer) return;
+            
+            resultsContainer.innerHTML = '';
+            
+            // Ordenar equipos por votos
+            const sortedTeams = Object.entries(teams)
+                .map(([id, data]) => ({ id, ...data, votes: votes[id] || 0 }))
+                .sort((a, b) => b.votes - a.votes);
+            
+            sortedTeams.forEach(team => {
+                const percent = votes.total > 0 ? ((team.votes / votes.total) * 100).toFixed(1) : 0;
+                
+                const resultBar = document.createElement('div');
+                resultBar.className = 'result-bar';
+                resultBar.innerHTML = `
+                    <div class="result-team">
+                        <img src="${team.logo}" alt="${team.name}" width="25" height="25">
+                        ${team.name}
+                    </div>
+                    <div class="result-progress">
+                        <div class="result-fill" style="width: ${percent}%; background-color: ${team.color};"></div>
+                    </div>
+                    <div class="result-percent">${percent}% (${team.votes})</div>
+                `;
+                
+                resultsContainer.appendChild(resultBar);
+            });
+            
+            if (totalVotes) {
+                totalVotes.textContent = `Total de votos: ${votes.total}`;
+            }
+            if (pollResults) {
+                pollResults.style.display = 'block';
+            }
+        }
+
+        // Mostrar resultados si ya votó
         if (hasVoted) {
-            showMessage('Ya has votado anteriormente.', 'error');
-            return;
+            voteBtn.disabled = true;
+            voteBtn.textContent = 'Ya votaste';
+            mostrarResultados();
         }
         
-        if (!selectedTeam) {
-            showMessage('Por favor selecciona un equipo', 'error');
-            return;
-        }
-
-        // Registrar voto
-        votes[selectedTeam]++;
-        votes.total++;
-        
-        // Guardar
-        localStorage.setItem('pollVotes', JSON.stringify(votes));
-        localStorage.setItem('hasVoted', 'true');
-        hasVoted = true;
-        
-        // Actualizar UI
-        voteBtn.disabled = true;
-        voteBtn.textContent = 'Ya votaste';
-        
-        showMessage(`¡Voto registrado para ${teams[selectedTeam].name}!`, 'success');
-        displayResults();
-    });
-
-    // Mostrar resultados
-    function displayResults() {
-        if (!resultsContainer) return;
-        
-        resultsContainer.innerHTML = '';
-        
-        // Ordenar equipos por votos
-        const sortedTeams = Object.entries(teams)
-            .map(([id, data]) => ({ id, ...data, votes: votes[id] || 0 }))
-            .sort((a, b) => b.votes - a.votes);
-        
-        sortedTeams.forEach(team => {
-            const percent = votes.total > 0 ? ((team.votes / votes.total) * 100).toFixed(1) : 0;
-            
-            const resultBar = document.createElement('div');
-            resultBar.className = 'result-bar';
-            resultBar.innerHTML = `
-                <div class="result-team">
-                    <img src="${team.logo}" alt="${team.name}" width="25" height="25">
-                    ${team.name}
-                </div>
-                <div class="result-progress">
-                    <div class="result-fill" style="width: ${percent}%; background-color: ${team.color};"></div>
-                </div>
-                <div class="result-percent">${percent}% (${team.votes})</div>
-            `;
-            
-            resultsContainer.appendChild(resultBar);
-        });
-        
-        if (totalVotes) {
-            totalVotes.textContent = `Total de votos: ${votes.total}`;
-        }
-        if (pollResults) {
-            pollResults.style.display = 'block';
-        }
-    }
-
-    function showMessage(message, type) {
-        if (pollMessage) {
-            pollMessage.textContent = message;
-            pollMessage.className = `poll-message ${type}-message`;
-            setTimeout(() => {
-                if (pollMessage) pollMessage.textContent = '';
-            }, 3000);
-        }
-    }
-
-    function clearMessage() {
-        if (pollMessage) pollMessage.textContent = '';
-    }
-
-    // Inicializar vista
-    if (hasVoted) {
-        voteBtn.disabled = true;
-        voteBtn.textContent = 'Ya votaste';
-        displayResults();
-    }
+        console.log("✅ Sistema de votación inicializado correctamente");
+    }, 500); // Esperar 500ms para asegurar que el DOM esté listo
 }
 
-// Asegurar que la navegación esté visible en desktop al cargar
+// INICIALIZACIÓN PRINCIPAL - VERSIÓN SIMPLIFICADA
 document.addEventListener("DOMContentLoaded", function() {
-  console.log("DOM completamente cargado");
-  
-  // Primero actualizar la tabla actual
-  actualizarTabla();
-  
-  // Luego otras inicializaciones
-  actualizarTopEstadisticas();
-  actualizarGrafico('LDU-Quito');
-  renderizarFechas();
-  openTab('actual');
-  
-  // Inicializar sistema de votación - CON RETRASO PARA ASEGURAR QUE EL DOM ESTÉ LISTO
-  setTimeout(inicializarSistemaVotacion, 100);
-  
-  // Finalmente actualizar datos históricos
-  if (typeof actualizarDatosHistoricos === 'function') {
-    actualizarDatosHistoricos();
-  }
-  
-  // Control de menú en desktop
-  if (window.innerWidth > 992) {
-    document.getElementById('main-nav').classList.add('active');
-    document.body.classList.add('nav-active');
-  }
-
-  // Manejo del menú hamburguesa
-  const menuToggle = document.querySelector('.menu-toggle');
-  if (menuToggle) {
-    menuToggle.addEventListener('click', function() {
-      document.getElementById('main-nav').classList.toggle('active');
-      document.body.classList.toggle('nav-active');
+    console.log("📋 Inicializando aplicación...");
+    
+    // Funciones básicas
+    actualizarTabla();
+    actualizarTopEstadisticas();
+    actualizarGrafico('LDU-Quito');
+    renderizarFechas();
+    openTab('actual');
+    
+    // Sistema de votación (lo iniciamos con retraso)
+    setTimeout(inicializarSistemaVotacion, 1000);
+    
+    // Menú hamburguesa
+    const menuToggle = document.querySelector('.menu-toggle');
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+            document.getElementById('main-nav').classList.toggle('active');
+            document.body.classList.toggle('nav-active');
+        });
+    }
+    
+    // Cerrar menú al hacer clic fuera
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 992 && 
+            !e.target.closest('#main-nav') && 
+            !e.target.closest('.menu-toggle') &&
+            document.getElementById('main-nav').classList.contains('active')) {
+            document.getElementById('main-nav').classList.remove('active');
+            document.body.classList.remove('nav-active');
+        }
     });
-  }
 });
 
-// CARRUSEL INTERACTIVO - Versión mejorada
-function inicializarCarrusel() {
-  const slider = document.querySelector('.slider-container');
-  const slides = document.querySelectorAll('.slide');
-  const dotsContainer = document.querySelector('.slider-dots');
-  const prevBtn = document.querySelector('#prevBtn');
-  const nextBtn = document.querySelector('#nextBtn');
-  
-  if (!slider || slides.length === 0) {
-    console.log("Elementos del carrusel no encontrados");
-    return;
-  }
-  
-  let currentIndex = 0;
-
-  // Crear puntos indicadores
-  if (dotsContainer) {
-    slides.forEach((slide, index) => {
-      const dot = document.createElement('span');
-      dot.classList.add('dot');
-      if(index === 0) dot.classList.add('active');
-      dot.addEventListener('click', () => goToSlide(index));
-      dotsContainer.appendChild(dot);
-    });
-  }
-
-  function goToSlide(index) {
-    currentIndex = index;
-    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+// CARRUSEL SIMPLIFICADO
+function initCarousel() {
+    const slider = document.querySelector('.slider-container');
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
     
-    // Actualizar puntos activos
-    document.querySelectorAll('.dot').forEach((dot, i) => {
-      dot.classList.toggle('active', i === currentIndex);
-    });
-  }
-
-  if (prevBtn) {
-    prevBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
-      goToSlide(currentIndex);
-    });
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
-      goToSlide(currentIndex);
-    });
-  }
-
-  // Auto avanzar
-  setInterval(() => {
-    currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
-    goToSlide(currentIndex);
-  }, 5000);
+    if (!slider || slides.length === 0) return;
+    
+    let currentIndex = 0;
+    
+    function goToSlide(index) {
+        currentIndex = index;
+        slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+    
+    if (prevBtn) prevBtn.addEventListener('click', () => goToSlide((currentIndex - 1 + slides.length) % slides.length));
+    if (nextBtn) nextBtn.addEventListener('click', () => goToSlide((currentIndex + 1) % slides.length));
+    
+    setInterval(() => goToSlide((currentIndex + 1) % slides.length), 5000);
 }
 
-// Inicializar carrusel cuando el DOM esté listo
-document.addEventListener("DOMContentLoaded", inicializarCarrusel);
+// Iniciar carrusel
+document.addEventListener("DOMContentLoaded", initCarousel);
 </script>
 </body>
 </html>
